@@ -1,0 +1,62 @@
+html,
+body,
+#app{
+    height:100%;
+    margin:0;
+    padding:0;
+}
+
+.el-breadcrumb{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 20px;
+    font-size: 18px;
+}
+
+.addCard {
+  margin-left: 20px;
+  margin-top: 35px;
+  margin-right: 20px;
+  background-color: #5b78a528;
+}
+
+a {
+    text-decoration: none;
+  }
+   
+  .router-link-active {
+    text-decoration: none;
+  }
+
+  .note {
+    margin-left: 10px;
+    margin-bottom: 20px;
+    color: #1d597c;
+    font-size: 20px;
+    font-weight: bold;
+  }
+  
+/*    
+  
+.el-breadcrumb{
+  margin-bottom: 7px;
+  font-size:12px;
+} */
+
+.el-card{
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15) !important;
+}
+
+.el-table{
+  margin-top: 15px;
+  font-size:12px;
+}
+
+.el-pagination{
+  margin-top:15px;
+}
+
+.confirm-card{
+  margin-top: 10px;
+  background-color: rgba(0, 81, 255, 0.068);
+}
