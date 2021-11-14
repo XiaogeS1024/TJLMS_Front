@@ -1,5 +1,5 @@
 <template>
-  <el-form :model="stuRegForm" status-icon :rules="rules" ref="stuRegForm" label-width="100px" class="demo-ruleForm">
+  <el-form :ref="stuRegForm" model="stuRegForm" slot-scope="" status-icon :rules="rules"  label-width="100px" class="demo-ruleForm">
     <el-form-item label="学号" prop="account" required>
       <el-input v-model.number="stuRegForm.account"></el-input>
     </el-form-item>
