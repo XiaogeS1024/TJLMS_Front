@@ -60,14 +60,14 @@ export default {
     },
     async handleAdminLogin () {
       const url = '/Login'
-      await axios.post(url, { id: this.user.id, password: this.user.password, userType: 'ADMIN' })
+      await axios.post(url, { id: this.user.id, password: this.user.password, userType: 0 })
         .then(
           (response) => {
             this.$message.success('登录成功！')
             sessionStorage.setItem('admId', this.user.id.toString())
             sessionStorage.setItem(this.user.id.toString(), response.data)
             sessionStorage.setItem('isLogin', true)
-            sessionStorage.setItem('userType', 'A')
+            sessionStorage.setItem('userType', 0)
             this.$router.push('/home')
           }
         ).catch(

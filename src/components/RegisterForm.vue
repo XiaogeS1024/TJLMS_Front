@@ -1,4 +1,5 @@
 <template>
+<div class="register">
   <el-form :ref="stuRegForm" model="stuRegForm" slot-scope="" status-icon :rules="rules"  label-width="100px" class="demo-ruleForm">
     <el-form-item label="学号" prop="account" required>
       <el-input v-model.number="stuRegForm.account"></el-input>
@@ -19,11 +20,11 @@
       <el-button style="text-align:center" type="primary" @click="submitForm('stuRegForm')">注册</el-button>
     </el-form-item>
   </el-form>
+</div>
 </template>
 
 <script>
 import axios from 'axios'
-
 export default {
   data () {
     var checkAccount = (rule, value, callback) => {
@@ -83,7 +84,7 @@ export default {
       })
     },
     async Register () {
-      const url = '/SignUp'
+      const url = '/register'
       await axios.post(url, { userName: this.stuRegForm.account, password: this.stuRegForm.pass, userType: 'CUSTOMER' })
         .then(
           (response) => {
@@ -102,5 +103,10 @@ export default {
 </script>
 
 <style scoped>
-
+.register {
+  width: 100vw;
+  height: 100vh;
+  box-sizing: border-box;
+  position: relative;
+}
 </style>

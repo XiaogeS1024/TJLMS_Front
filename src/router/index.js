@@ -1,16 +1,18 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '../components/LoginForm.vue'
-import adminLogin from '../views/adminLogin.vue'
-import stuReg from '../views/StuRegLogin/stuRegForm'
+import AdminLogin from '../components/AdminLogin.vue'
+import Reg from '../components/RegisterForm.vue'
+import PwdRecover from '../components/PasswordRecover.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
-  { path: '/', redirect: '/login' },
+  { path: '', redirect: '/login' },
   { path: '/login', component: Login },
-  { path: '/adminLogin', component: adminLogin },
-  { path: '/stuRegForm', component: stuReg }
+  { path: '/adminLogin', component: AdminLogin },
+  { path: '/reg', component: Reg },
+  { path: '/passwordRecover', component: PwdRecover }
 ]
 
 const router = new VueRouter({
