@@ -1,5 +1,22 @@
 <template>
-  <div class="login">
+  <div class="login" style="overflow-x: hidden">
+    <vue-particles
+     color="#409EFF"
+     :particleOpacity="0.7"
+     :particlesNumber="100"
+     shapeType="circle"
+     :particleSize="4"
+     linesColor="#409EFF"
+     :linesWidth="1"
+     :lineLinked="true"
+     :lineOpacity="0.4"
+     :linesDistance="150"
+     :moveSpeed="3"
+     :hoverEffect="true"
+     hoverMode="grab"
+     :clickEffect="true"
+     clickMode="push">
+    </vue-particles>
     <div class="contain">
       <div class="avatar_box">
         <img src="../assets/logo.png" alt="avatar">
@@ -121,13 +138,13 @@ export default {
       this.$router.push('/reg')
     },
     pwdRecover () {
-      this.$router.push('/passwordRecover')
+      this.$router.push('/pwdRecover')
     }
   }
 }
 </script>
 
-<style scoped="scoped">
+<style scoped>
 .login {
   width: 100vw;
   height: 100vh;
@@ -315,5 +332,11 @@ export default {
   color: #fff;
   font-size: 0.9em;
   cursor: pointer;
+}
+#particles-js {
+  width: 100%;
+  height: calc(100% - 100px);
+  position: absolute;
+  overflow: hidden;
 }
 </style>

@@ -1,38 +1,28 @@
 <template>
-
 <div class="AdminLogin" clearfix>
-
-    <el-container>
-  <el-header>
-    TJLMS后台管理
+  <el-container>
+  <el-header style="color:rgb(255, 255, 255);font-size:25px;font-weight:bold">
+    实验教学系统 后台管理
   </el-header>
-
   <div class="mainForm">
     <el-card>
       <el-form ref="AdminLogin" :model="user" label-width="80px">
-        <h3>后台登录</h3>
+        <h3>管理员登录</h3>
         <el-form-item prop="id" label="账号">
-          <el-input v-model="user.id" placeholder="请输入账号"></el-input>
+          <el-input v-model="user.account" placeholder="请输入账号"></el-input>
         </el-form-item>
-
         <el-form-item id="password" prop="password" label="密码">
            <el-input v-model="user.password" placeholder="请输入密码" show-password></el-input>
         </el-form-item>
-
-        <el-form-item>
-          <el-button type="primary" icon="el-icon-right" @click="adminLogin()">管理员登录</el-button>
-        </el-form-item>
       </el-form>
+      <button class="mbutton" @click="adminLogin">登 录</button>
     </el-card>
   </div>
   <el-footer>
     TJLMS Copyright 2021 SE Project
   </el-footer>
-
 </el-container>
-
 </div>
-
 </template>
 
 <script>
@@ -42,7 +32,7 @@ export default {
   data () {
     return {
       user: {
-        id: '',
+        account: '',
         password: ''
       }
     }
@@ -50,7 +40,7 @@ export default {
   methods:
   {
     adminLogin () {
-      if (!this.user.id) {
+      if (!this.user.account) {
         this.$message.error('请输入账号')
       } else if (!this.user.password) {
         this.$message.error('请输入密码')
@@ -59,16 +49,16 @@ export default {
       }
     },
     async handleAdminLogin () {
-      const url = '/Login'
-      await axios.post(url, { id: this.user.id, password: this.user.password, userType: 0 })
+      const url = '/adminLogin'
+      await axios.post(url, { account: this.user.account, password: this.user.password, userType: 0 })
         .then(
           (response) => {
             this.$message.success('登录成功！')
-            sessionStorage.setItem('admId', this.user.id.toString())
+            sessionStorage.setItem('account', this.user.account.toString())
             sessionStorage.setItem(this.user.id.toString(), response.data)
             sessionStorage.setItem('isLogin', true)
             sessionStorage.setItem('userType', 0)
-            this.$router.push('/home')
+            this.$router.push('/adminHome')
           }
         ).catch(
           (err) => {
@@ -85,11 +75,11 @@ export default {
 <style>
 
 .el-card{
-  background-color: rgba(255, 255, 255, 0.568);
+  background-color: rgba(156, 151, 151, 0.712);
+  height: 350px;
 }
 
-.BackendLogin {
-  /*background-image:url("https://i.loli.net/2021/07/14/e5qfCkh2gPQmGIu.jpg");*/
+.AdminLogin {
   width: 100%;
   height: 740px;
   overflow: hidden;
@@ -103,23 +93,23 @@ export default {
   line-height: 40px;
 }
  .el-header{
-    background-color: #263e57;
+    background-color: #479c91;
     color: #ffffff;
     text-align: center;
     line-height: 60px;
   }
   .el-footer{
-    background-color: #24405c;
+    background-color: #479c91;
     color: #ffffff;
     text-align: center;
     line-height: 60px;
-    font-size: 7px;
+    font-size: 10px;
   }
   .el-input{
     width: 250px;
   }
   h3 {
-  color: #409eff;
+  color: #2fa09a;
   font-size: 24px;
 }
 
@@ -127,4 +117,18 @@ export default {
   margin-bottom: 5px;
 }
 
+.mbutton {
+  width: 30%;
+  height: 40px;
+  margin-left: 120px;
+  margin-top: 20px;
+  border-radius: 24px;
+  border: none;
+  outline: none;
+  background-color: rgb(255, 204, 108);
+  font-weight:bold;
+  color: #fff;
+  font-size: 0.9em;
+  cursor: pointer;
+}
 </style>
