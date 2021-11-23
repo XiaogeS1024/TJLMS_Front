@@ -19,43 +19,55 @@
     </vue-particles>
 <div class="head">
   <el-steps :active="active" finish-status="success" align-center>
-    <el-step title="账号密码验证" description="请输入您的工号/学号与密码"></el-step>
+    <el-step title="账号验证" description="请选择您的身份并输入您的工号/学号"></el-step>
     <el-step title="电子邮件验证" description="请输入您的电子邮箱地址，验证码将稍后发至您的邮箱"></el-step>
     <el-step title="验证码激活" description="请输入您收到的邮件验证码完成激活"></el-step>
+    <el-step title="密码设置" description="请设置您的登录密码"></el-step>
     <el-step title="完成"></el-step>
   </el-steps>
 </div>
 
 <div v-if="active===1">
   <el-form :model="regForm" rules="rules" ref="regForm" label-width="100px" class="mainForm">
-  <el-form-item label="学号/工号" prop="account" required>
-    <el-input v-model="regForm.account"  prefix-icon="el-icon-user"></el-input>
+  <el-radio v-model="regForm.userType" :label=1 style="margin-left:120px;">我是学生</el-radio>
+  <el-radio v-model="regForm.userType" :label=2>我是教师</el-radio>
+  <el-form-item label="学号/工号" prop="id" style="margin-top:20px" required>
+    <el-input v-model="regForm.id"  prefix-icon="el-icon-user"></el-input>
   </el-form-item>
-  <el-form-item label="密码" prop="password" required>
-    <el-input v-model="regForm.password" prefix-icon="el-icon-lock" autocomplete="off" show-password></el-input>
-  </el-form-item>
-</el-form>
-<button class="btn1" @click="pwdCheck">下一步</button>
+  </el-form>
+<button class="btn1" @click="idCheck">下一步</button>
 </div>
 <div v-if="active===2">
 <el-form :model="regForm" rules="rules" ref="regForm" label-width="100px" key class="mainForm">
-  <el-form-item label="邮箱" prop="email" required>
-    <el-input v-model="regForm.email"></el-input>
+  <el-form-item label="邮箱" prop="emailAddress" required>
+    <el-input v-model="regForm.emailAddress"></el-input>
   </el-form-item>
 </el-form>
 <button class="btn1" @click="sendEmail">发送验证码</button>
 <button class="btn2" @click="pre">上一步</button>
 </div>
 <div v-if="active===3">
-<el-form :model="regForm" rules="rules" ref="regForm" label-width="100px" key class="mainForm">
-  <el-form-item label="验证码" prop="veriCode">
-    <el-input v-model="regForm.veriCode"></el-input>
+<el-form :model="regForm" ref="regForm" label-width="100px" key class="mainForm">
+  <el-form-item label="验证码" prop="verificationCode">
+    <el-input v-model="regForm.verificationCode"></el-input>
   </el-form-item>
 </el-form>
     <button class="btn1" @click="veriCodeCheck">确认</button>
     <button class="btn2" @click="pre">上一步</button>
 </div>
 <div v-if="active===4">
+<el-form :model="regForm" :rules="rules" ref="regForm" label-width="100px" key class="mainForm">
+  <el-form-item label="密码" prop="pass" required>
+    <el-input type="password" v-model="regForm.pass" autocomplete="off" show-password></el-input>
+  </el-form-item>
+  <el-form-item label="确认密码" prop="checkPass" required>
+    <el-input type="password" v-model="regForm.checkPass" autocomplete="off"></el-input>
+  </el-form-item>
+</el-form>
+    <button class="btn1" @click="setPwd('regForm')">确认设置</button>
+    <button class="btn2" @click="pre">上一步</button>
+</div>
+<div v-if="active===5">
   <p class="content">您已成功激活账户！现在可点击跳转至登录界面</p>
   <button class="btn3" @click="clickJump">立即登录</button>
 </div>
@@ -66,73 +78,118 @@
 import axios from 'axios'
 export default {
   data () {
+    var validatePass = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入密码'))
+      } else {
+        if (value.length < 6) {
+          callback(new Error('密码长度至少为6位'))
+        } else {
+          if (this.regForm.checkPass !== '') {
+            this.$refs.regForm.validateField('checkPass')
+          }
+          callback()
+        }
+      }
+    }
+
+    var validatePass2 = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请再次输入密码'))
+      } else if (value !== this.regForm.pass) {
+        callback(new Error('两次输入密码不一致!'))
+      } else {
+        callback()
+      }
+    }
+
     return {
       active: 1,
       regForm: {
-        account: '',
-        password: '',
-        email: '',
-        veriCode: ''
+        userType: 0,
+        id: '',
+        emailAddress: '',
+        verificationCode: '',
+        pass: '',
+        checkPass: ''
+      },
+      rules: {
+        pass: [
+          { validator: validatePass, trigger: 'blur' }
+        ],
+        checkPass: [
+          { validator: validatePass2, trigger: 'blur' }
+        ]
       }
     }
   },
 
   methods: {
-    pwdCheck () {
-      if (!this.regForm.account) {
+    idCheck () {
+      if (this.regForm.userType === 0) {
+        this.$message.error('请选择您的身份')
+      } else if (!this.regForm.id) {
         this.$message.error('请输入账号')
-      } else if (!this.regForm.password) {
-        this.$message.error('请输入密码')
       } else {
-        if (this.regForm.account === '123' && this.regForm.password === '123') {
-          this.$message.success('账号密码验证成功！')
-          this.active++
-        } else this.handleCheck()
+        this.handleCheck()
       }
     },
     async handleCheck () {
-      const url = '/reg'
-      await axios.post(url, { account: this.regForm.account, password: this.regForm.password })
+      const url = '/post/preVerify'
+      await axios.post(url, { userType: this.regForm.userType, id: this.regForm.id })
         .then(
           (response) => {
-            this.$message.success('账号密码验证成功！')
-            sessionStorage.setItem('account', this.regForm.account.toString())
-            sessionStorage.setItem(this.regForm.account.toString(), response.data)
+            this.$message.success('账号验证成功！')
+            sessionStorage.setItem('id', this.regForm.id.toString())
+            sessionStorage.setItem(this.regForm.id.toString(), response.data)
             this.active++
           }
         ).catch(
           (err) => {
-            this.$message.error('帐号或密码错误！')
+            this.$message.error('帐号错误！')
             console.log(err)
           }
         )
     },
 
     sendEmail () {
-      if (!this.regForm.email) {
+      if (!this.regForm.emailAddress) {
         this.$message.error('请输入电子邮件地址')
-      } else if (this.regForm.email.indexOf('@') === -1) {
+      } else if (/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/.test(this.regForm.emailAddress) === false) {
         this.$message.error('请输入正确的邮件格式')
       } else this.send()
     },
     async send () {
-      this.$message.success('验证码已发送')
-      this.active++
+      const url = '/post/verify'
+      await axios.post(url, { emailAddress: this.regForm.emailAddress, id: this.regForm.id, userType: this.regForm.userType })
+        .then(
+          (response) => {
+            this.$message.success('验证码已发送')
+            this.active++
+            sessionStorage.setItem('emailAddress', this.regForm.emailAddress.toString())
+            sessionStorage.setItem(this.regForm.emailAddress.toString(), response.data)
+          }
+        ).catch(
+          (err) => {
+            this.$message.error('产生未知错误，请重试！')
+            console.log(err)
+          }
+        )
     },
 
     veriCodeCheck () {
-      if (!this.regForm.veriCode) {
+      if (!this.regForm.verificationCode) {
         this.$message.error('请输入验证码')
       } else {
-        if (this.regForm.veriCode === 'qwerty') {
+        if (this.regForm.verificationCode === 'qwerty') {
           this.$message.success('验证成功！')
           this.active++
         } else this.handleVeriCodeCheck()
       }
     },
     async handleVeriCodeCheck () {
-      const url = '/reg'
-      await axios.post(url, { account: this.regForm.email, password: this.regForm.veriCode })
+      const url = '/post/check/code?code=' + this.regForm.verificationCode
+      await axios.post(url)
         .then(
           (response) => {
             this.$message.success('验证成功！')
@@ -141,6 +198,32 @@ export default {
         ).catch(
           (err) => {
             this.$message.error('验证码错误')
+            console.log(err)
+          }
+        )
+    },
+
+    setPwd (formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.$message.success('密码设置成功！')
+          this.sendPwd()
+          this.active++
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
+    },
+    async sendPwd () {
+      const url = '/post/sign/in'
+      await axios.post(url, { userType: this.regForm.userType, id: this.regForm.id, emailAddress: this.regForm.emailAddress, password: this.regForm.pass })
+        .then(
+          (response) => {
+          }
+        ).catch(
+          (err) => {
+            this.$message.error('未知错误')
             console.log(err)
           }
         )

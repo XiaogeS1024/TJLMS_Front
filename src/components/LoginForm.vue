@@ -25,9 +25,9 @@
         <div class="main-contain" v-if="isStudent">
           <div class="mtitle">学生登录</div>
           <div>
-              <el-form ref="loginformref" model="loginForm" label-width="60px" class="mform">
-                  <el-form-item label="学号" prop="account">
-                      <el-input v-model="loginForm.account" prefix-icon="el-icon-user" placeholder="请输入账号"></el-input>
+              <el-form ref="loginForm" model="loginForm" label-width="60px" class="mform">
+                  <el-form-item label="邮箱" prop="emailAddress">
+                      <el-input v-model="loginForm.emailAddress" prefix-icon="el-icon-user" placeholder="请输入邮箱"></el-input>
                   </el-form-item>
                   <el-form-item label="密码" prop="password">
                       <el-input v-model="loginForm.password" type="password" prefix-icon="el-icon-lock" placeholder="请输入密码" autocomplete="off" show-password></el-input>
@@ -47,8 +47,8 @@
           <div class="mtitle">教师登录</div>
           <div>
               <el-form ref="loginformref" model="loginForm" label-width="60px" class="mform">
-                  <el-form-item label="工号" prop="account">
-                      <el-input v-model="loginForm.account" prefix-icon="el-icon-user" placeholder="请输入账号"></el-input>
+                  <el-form-item label="邮箱" prop="emailAddress">
+                      <el-input v-model="loginForm.emailAddress" prefix-icon="el-icon-user" placeholder="请输入邮箱"></el-input>
                   </el-form-item>
                   <el-form-item label="密码" prop="password">
                       <el-input v-model="loginForm.password" type="password" prefix-icon="el-icon-lock" placeholder="请输入密码" autocomplete="off" show-password></el-input>
@@ -90,20 +90,21 @@ export default {
     return {
       isStudent: true,
       loginForm: {
-        account: '',
-        password: ''
+        emailAddress: '',
+        password: '',
+        userType: 0
       }
     }
   },
   methods: {
     changeType () {
       this.isStudent = !this.isStudent
-      this.$refs.loginformref.account = ''
-      this.$refs.loginformref.password = ''
+      this.$refs.loginForm.emailAddress = ''
+      this.$refs.loginForm.password = ''
     },
     login () {
-      if (!this.loginForm.account) {
-        this.$message.error('请输入学号')
+      if (!this.loginForm.emailAddress) {
+        this.$message.error('请输入邮箱')
       } else if (!this.loginForm.password) {
         this.$message.error('请输入密码')
       } else {
@@ -111,16 +112,16 @@ export default {
       }
     },
     async handleLogin () {
-      const url = '/login'
-      await axios.post(url, { account: this.loginForm.account, password: this.loginForm.password, userType: this.loginForm.isStudent + 1 })
+      const url = '/post/login'
+      await axios.post(url, { emailAddress: this.loginForm.emailAddress, password: this.loginForm.password, userType: this.isStudent ? 1 : 2 })
         .then(
           (response) => {
             this.$message.success('登录成功！')
-            sessionStorage.setItem('account', this.loginForm.account.toString())
-            sessionStorage.setItem(this.loginForm.account.toString(), response.data)
+            sessionStorage.setItem('emailAddress', this.loginForm.emailAddress.toString())
+            sessionStorage.setItem(this.loginForm.emailAddress.toString(), response.data)
             sessionStorage.setItem('isLogin', true)
             sessionStorage.setItem('userType', this.loginForm.isStudent + 1)
-            if (this.loginForm.isStudent === 0) {
+            if (this.loginForm.isStudent === false) {
               this.$router.push('/teacherHome')
             } else this.$router.push('/studentHome')
           }
