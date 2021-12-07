@@ -1,14 +1,18 @@
 <template>
-  <div id="app">
-    <router-view></router-view>
-  </div>
+  <v-app>
+    <router-view />
+  </v-app>
 </template>
-
 <script>
 export default {
-  name: 'app'
+  updated () {
+    const dom = document.getElementById('loading')
+    if (dom) {
+      dom.remove()
+    }
+  },
+  created () {
+    // console.log(process.env);
+  }
 }
 </script>
-
-<style>
-</style>

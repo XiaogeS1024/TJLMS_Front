@@ -20,9 +20,13 @@
     "sass": "^1.43.4",
     "vue": "^2.6.11",
     "vue-axios": "^3.4.0",
-    "vue-router": "^3.2.0"
+    "vue-router": "^3.2.0",
+    "vueperslides": "^2.15.2",
+    "vuetify": "^2.4.0"
   },
   "devDependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.4",
+    "@mdi/font": "^6.5.95",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-router": "~4.5.0",
@@ -37,9 +41,13 @@
     "eslint-plugin-vue": "^6.2.2",
     "less": "^4.1.2",
     "less-loader": "^7.3.0",
-    "sass-loader": "^8.0.2",
+    "material-design-icons-iconfont": "^6.1.1",
+    "sass": "~1.32.0",
+    "sass-loader": "^10.0.0",
     "vue-cli-plugin-element": "^1.0.1",
+    "vue-cli-plugin-vuetify": "~2.4.3",
     "vue-particles": "^1.0.9",
-    "vue-template-compiler": "^2.6.11"
+    "vue-template-compiler": "^2.6.11",
+    "vuetify-loader": "^1.7.0"
   }
 }
