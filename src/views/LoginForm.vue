@@ -123,7 +123,7 @@ export default {
             sessionStorage.setItem('userType', this.loginForm.isStudent + 1)
             if (this.loginForm.isStudent === false) {
               this.$router.push('/teacherHome')
-            } else this.$router.push('/studentHome')
+            } else this.$router.push('/stuHome')
           }
         ).catch(
           (err) => {
