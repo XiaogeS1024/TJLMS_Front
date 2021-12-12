@@ -32,7 +32,7 @@ export default {
   data () {
     return {
       user: {
-        account: '',
+        emailAddress: '',
         password: ''
       }
     }
@@ -49,15 +49,15 @@ export default {
       }
     },
     async handleAdminLogin () {
-      const url = '/adminLogin'
-      await axios.post(url, { account: this.user.account, password: this.user.password, userType: 0 })
+      const url = '/post/login'
+      await axios.post(url, { emailAddress: this.user.emailAddress, password: this.user.password, userType: 0 })
         .then(
           (response) => {
             this.$message.success('登录成功！')
-            sessionStorage.setItem('account', this.user.account.toString())
-            sessionStorage.setItem(this.user.id.toString(), response.data)
-            sessionStorage.setItem('isLogin', true)
-            sessionStorage.setItem('userType', 0)
+            sessionStorage.setItem('email', this.user.emailAddress)
+            sessionStorage.setItem('detail', JSON.stringify(response.data))
+            sessionStorage.setItem('isLogin', JSON.stringify(true))
+            sessionStorage.setItem('userType', JSON.stringify(0))
             this.$router.push('/adminHome')
           }
         ).catch(

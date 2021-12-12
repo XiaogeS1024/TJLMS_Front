@@ -66,6 +66,14 @@ const routes = [
           title: '个人中心'
         },
         component: () => import('../views/stu/stuInfo.vue')
+      },
+      {
+        path: '/pwdRecover',
+        name: 'PasswordRecover',
+        meta: {
+          title: '找回密码'
+        },
+        component: () => import('../views/PasswordRecover.vue')
       }
     ]
   }

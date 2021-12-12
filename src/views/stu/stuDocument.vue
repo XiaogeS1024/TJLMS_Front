@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <v-container class="container--fluid">
     <app-widget title="Complex Table" padding-hide>
       <div slot="widget-content">
@@ -50,10 +51,16 @@
       </div>
     </app-widget>
   </v-container>
+=======
+  <div class="document">
+    <h1>This is the document page</h1>
+  </div>
+>>>>>>> cf82a32861978709557e4c7281d60d1029c181c2
 </template>
 
 <script>
 export default {
+<<<<<<< HEAD
   name: 'Documents',
   data: () => ({
     search: '',
@@ -123,3 +130,12 @@ export default {
   })
 }
 </script>
+=======
+  name: 'stuNotice'
+}
+</script>
+
+<style scoped>
+
+</style>
+>>>>>>> cf82a32861978709557e4c7281d60d1029c181c2

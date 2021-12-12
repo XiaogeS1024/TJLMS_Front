@@ -117,13 +117,13 @@ export default {
         .then(
           (response) => {
             this.$message.success('登录成功！')
-            sessionStorage.setItem('emailAddress', this.loginForm.emailAddress.toString())
-            sessionStorage.setItem(this.loginForm.emailAddress.toString(), response.data)
-            sessionStorage.setItem('isLogin', true)
-            sessionStorage.setItem('userType', this.loginForm.isStudent + 1)
+            sessionStorage.setItem('email', this.loginForm.emailAddress)
+            sessionStorage.setItem(this.loginForm.emailAddress.toString(), JSON.stringify(response.data))
+            sessionStorage.setItem('isLogin', JSON.stringify(true))
+            sessionStorage.setItem('userType', JSON.stringify(this.loginForm.isStudent + 1))
             if (this.loginForm.isStudent === false) {
               this.$router.push('/teacherHome')
-            } else this.$router.push('/studentHome')
+            } else this.$router.push('/stuHome')
           }
         ).catch(
           (err) => {

@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <div class="messageForm">
     <div class="form" style="margin-top: 15px">
       <el-table
@@ -144,10 +145,20 @@ export default {
       this.currentPage = val
     }
   }
+=======
+  <div class="grade">
+    <h1>This is the grade page</h1>
+  </div>
+</template>
+<script>
+export default {
+  name: 'stuGrade'
+>>>>>>> cf82a32861978709557e4c7281d60d1029c181c2
 }
 </script>
 
 <style scoped>
+<<<<<<< HEAD
 .messageForm {
   width: 100%;
   display: flex;
@@ -170,4 +181,7 @@ export default {
   position: fixed;
   margin-top: 20px;
 }
+=======
+
+>>>>>>> cf82a32861978709557e4c7281d60d1029c181c2
 </style>
