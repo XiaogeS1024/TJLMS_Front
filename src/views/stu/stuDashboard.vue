@@ -131,6 +131,9 @@
              </v-card>
         </template>
       </v-card>
+      <v-card class="mx-4 rounded-xl pa-4" color="grey lighten-3" :elevation=10 style="margin-top:50px">
+        <v-card-title>New Release</v-card-title>
+      </v-card>
     </v-col>
   </v-row>
 </v-container>

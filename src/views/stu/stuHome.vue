@@ -8,9 +8,9 @@
       drawer
     >
       <div class="text-center mt-5">
-        <v-btn fab color="white" x-large>
-          <v-icon color="black">{{ "mdi-asymmetri" }}k</v-icon>
-        </v-btn>
+        <v-avatar :size="isCollapse ? '50' : '75'" class="badge">
+          <img src="@/assets/tongji.jpg">
+        </v-avatar>
       </div>
       <v-list flat class="mt-5">
         <v-list-item-group
@@ -70,10 +70,42 @@
           <v-icon large color="grey lighten-1">mdi-bell-outline</v-icon>
         </v-badge>
 
-        <v-badge color="red">
-          <span slot="badge">!</span>
-          <v-icon large color="grey">mdi-email-outline</v-icon>
-        </v-badge>
+        <v-btn text @click="toggleFullScreen">
+          <v-icon>{{ toggleFullScreenIcon }}</v-icon>
+        </v-btn>
+
+        <v-menu
+      v-model="value"
+      offset-y
+    origin="center center"
+    :nudge-bottom="10"
+    transition="scale-transition"
+    >
+      <template v-slot:activator="{ on }">
+        <v-avatar :size=50
+          v-on="on" class="avatar">
+          <img src="@/assets/2.jpg">
+        </v-avatar>
+      </template>
+      <v-list>
+        <v-list-item
+          :key="index"
+        ripple="ripple"
+        @click="goInfo"
+        >
+          <v-icon>mdi-account</v-icon>
+          <v-list-item-title style="margin-left:20px">{{ '个人资料' }}</v-list-item-title>
+        </v-list-item>
+        <v-list-item
+          :key="index"
+        ripple="ripple"
+        @click="logout"
+        >
+          <v-icon>mdi-exit-to-app</v-icon>
+          <v-list-item-title style="margin-left:20px">{{ '退出系统' }}</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
       </div>
 
       <template  v-slot:extension>
@@ -121,8 +153,22 @@ export default {
     ],
     right: null,
     tabs: [],
-    curTab: 0
+    curTab: 0,
+    disabled: false,
+    absolute: false,
+    openOnHover: false,
+    value: false,
+    closeOnClick: true,
+    closeOnContentClick: true,
+    offsetX: false,
+    offsetY: true,
+    isFullScreen: false
   }),
+  computed: {
+    toggleFullScreenIcon () {
+      return this.isFullScreen ? 'mdi-fullscreen-exit' : 'mdi-arrow-expand-all'
+    }
+  },
   watch: {
     $route (val) {
       // console.log(val);
@@ -157,6 +203,27 @@ export default {
       if (this.curTab !== i) return
       const { fullPath, path, name } = item
       this.$router.replace({ fullPath, path, name })
+    },
+    toggleFullScreen () {
+      const doc = window.document
+      const el = doc.documentElement
+      const rfs = el.requestFullScreen || el.webkitRequestFullScreen || el.mozRequestFullScreen || el.msRequestFullscreen
+      const crfs = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen
+      if (!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
+        rfs.call(el)
+        this.isFullScreen = true
+      } else {
+        crfs.call(doc)
+        this.isFullScreen = false
+      }
+    },
+    goInfo () {
+      this.$router.push('/stuInfo')
+    },
+    logout () {
+      sessionStorage.clear()
+      this.$router.push('/login')
+      location.reload()
     }
   }
 }
@@ -214,5 +281,13 @@ export default {
 .content{
     margin-top:-100px;
     margin-left:-100px;
+}
+.badge{
+    border:2px rgb(0, 0, 0);
+    box-shadow:3px 10px 10px 0 #636363;
+}
+.avatar {
+    border:3px solid rgb(147, 210, 218);
+    box-shadow:-3px 3px 3px 0 #636363;
 }
 </style>

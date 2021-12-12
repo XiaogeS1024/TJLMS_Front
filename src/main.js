@@ -7,10 +7,12 @@ import VueParticles from 'vue-particles'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import vuetify from './plugins/vuetify'
+import echarts from 'echarts'
 
 Vue.use(VueParticles)
 Vue.use(ElementUI)
 Vue.use(VueAxios, axios)
+Vue.prototype.$echarts = echarts
 axios.defaults.baseURL = 'http://114.55.35.220:8080/api'
 
 Vue.config.productionTip = false
