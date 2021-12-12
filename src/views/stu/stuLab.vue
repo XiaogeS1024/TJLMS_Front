@@ -106,7 +106,6 @@
 
 <script>
 export default {
-<<<<<<< HEAD
   name: 'Lab',
   data () {
     return {
@@ -114,14 +113,10 @@ export default {
       show: false
     }
   }
-=======
-  name: 'stuNotice'
->>>>>>> cf82a32861978709557e4c7281d60d1029c181c2
 }
 </script>
 
 <style scoped>
-<<<<<<< HEAD
 .img {
   margin-left: -75px;
   position: relative;
@@ -129,7 +124,4 @@ export default {
   height: 70%;
   box-shadow: 3px 10px 10px 0 #636363;
 }
-=======
-
->>>>>>> cf82a32861978709557e4c7281d60d1029c181c2
 </style>
