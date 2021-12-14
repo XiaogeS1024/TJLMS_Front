@@ -1,12 +1,12 @@
 <template>
-  <div class="info">
-    <h1>This is the info page</h1>
+  <div class="feedback">
+    <h1>This is the feedback page</h1>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'stuInfo'
+  name: 'stuFeedback'
 }
 </script>
 

@@ -7,7 +7,7 @@
           <v-hover v-slot="{ hover }">
           <v-card class="mx-4 rounded-xl pa-4 mt-12"  :elevation="hover ? 20 : 5" height="390px">
             <h3 style="margin-left:20px;margin-top:15px">公告板</h3>
-            <router-link to='/stuNoticeBoard'>
+            <router-link to='/teacherNoticeBoard'>
             <img src="@/assets/noticeboard.png" class="img1">
             </router-link>
         </v-card>
@@ -17,7 +17,7 @@
           <v-hover v-slot="{ hover }">
           <v-card class="mx-4 rounded-xl pa-4 mt-12"  :elevation="hover ? 20 : 5" height="390px">
             <h3 style="margin-left:20px;margin-top:15px">反馈中心</h3>
-            <router-link to='/stuFeedback'>
+            <router-link to='/teacherFeedback'>
             <img src="@/assets/feedback.png" class="img2">
             </router-link>
         </v-card>

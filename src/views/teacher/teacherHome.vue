@@ -84,11 +84,11 @@
       <template v-slot:activator="{ on }">
         <v-avatar :size=50
           v-on="on" class="avatar">
-          <img src="@/assets/2.jpg">
+          <img src="@/assets/teacher.png">
         </v-avatar>
       </template>
       <v-list>
-       <v-list-item
+        <v-list-item
           :key="index"
         ripple="ripple"
         @click="drawer1 = true"
@@ -150,11 +150,12 @@ export default {
     direction: 'rtl',
     isCollapse: false,
     items: [
-      { title: '控制面板', icon: 'mdi-view-dashboard', route: '/stuDashboard' },
-      { title: '实验中心', icon: 'mdi-school', route: '/stuLab' },
-      { title: '文件中心', icon: 'mdi-clipboard-check-multiple-outline', route: '/stuDocument' },
-      { title: '我的成绩', icon: 'mdi-chart-multiple', route: '/stuGrade' },
-      { title: '消息中心', icon: 'mdi-bell-ring', route: '/stuNotice' }
+      { title: '控制面板', icon: 'mdi-view-dashboard', route: '/teacherDashboard' },
+      { title: '实验管理', icon: 'mdi-school', route: '/teacherLab' },
+      { title: '文件中心', icon: 'mdi-clipboard-check-multiple-outline', route: '/teacherDocument' },
+      { title: '作业批改', icon: 'mdi-chart-multiple', route: '/assignment' },
+      { title: '班级管理', icon: 'mdi-account-multiple', route: '/teacherClass' },
+      { title: '消息中心', icon: 'mdi-bell-ring', route: '/teacherNotice' }
     ],
     right: null,
     tabs: [],

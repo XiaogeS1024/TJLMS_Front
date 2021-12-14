@@ -1,5 +1,4 @@
 <template>
-<!-- eslint-disable -->
   <v-container class="container--fluid">
     <v-row>
       <v-col cols="12">
@@ -12,58 +11,47 @@
         <v-divider></v-divider>
         <v-expansion-panels
           focusable
-          v-for="item in experiments"
-          :key="item.title"
+          :data="this.experiments"
           style="margin-top: 20px"
         >
           <v-expansion-panel>
-            <v-expansion-panel-header>{{item.title}}</v-expansion-panel-header>
+            <v-expansion-panel-header>实验1</v-expansion-panel-header>
             <v-expansion-panel-content>
               实验信息（发布时间、ddl...）
             </v-expansion-panel-content>
             <v-expansion-panel-content>
-              <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn class="px-3" color="green" dark style="margin-left: 300px" v-bind="attrs" v-on="on">进入实验</v-btn>
-                </template>
-      <v-card>
-        <v-toolbar dark color="primary">
-          <v-btn icon dark @click="dialog = false">
-            <v-icon>mdi-close</v-icon>
-          </v-btn>
-          <v-toolbar-title>EXPERIMENT{{ "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0" }}{{item.title}}</v-toolbar-title>
-          <v-spacer></v-spacer>
-          <v-toolbar-items>
-            <v-btn dark text @click="dialog = false">Save</v-btn>
-          </v-toolbar-items>
-        </v-toolbar>
-        <v-bottom-navigation
-    v-model="bottomNav"
-    dark
-    shift
-  >
-    <v-btn>
-      <span>Video</span>
-      <v-icon>mdi-television-play</v-icon>
-    </v-btn>
-
-    <v-btn>
-      <span>Music</span>
-      <v-icon>mdi-music-note</v-icon>
-    </v-btn>
-
-    <v-btn>
-      <span>Book</span>
-      <v-icon>mdi-book</v-icon>
-    </v-btn>
-
-    <v-btn>
-      <span>Image</span>
-      <v-icon>mdi-image</v-icon>
-    </v-btn>
-  </v-bottom-navigation>
-      </v-card>
-    </v-dialog>
+              <v-card-actions>
+                <router-link to="/exp1">
+                  <v-btn
+                    class="px-3"
+                    color="green"
+                    dark
+                    style="margin-left: 300px"
+                  >
+                    进入实验
+                  </v-btn>
+                </router-link>
+              </v-card-actions>
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+          <v-expansion-panel>
+            <v-expansion-panel-header>实验2</v-expansion-panel-header>
+            <v-expansion-panel-content>
+              实验信息（发布时间、ddl...）
+            </v-expansion-panel-content>
+            <v-expansion-panel-content>
+              <v-card-actions>
+                <router-link to="/exp2">
+                  <v-btn
+                    class="px-3"
+                    color="green"
+                    dark
+                    style="margin-left: 300px"
+                  >
+                    进入实验
+                  </v-btn>
+                </router-link>
+              </v-card-actions>
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
@@ -121,20 +109,9 @@ export default {
   name: 'Lab',
   data () {
     return {
-      experiments: [
-        { title: '实验一' },
-        { title: '实验二' }
-      ],
-      show: false,
-      dialog: false,
-      notifications: false,
-      sound: true,
-      widgets: false,
-      bottomNav: 3
+      experiments: [],
+      show: false
     }
-  },
-  computed: {
-
   }
 }
 </script>
