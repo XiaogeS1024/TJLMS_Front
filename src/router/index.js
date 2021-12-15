@@ -33,7 +33,41 @@ const routes = [
         meta: {
           title: '实验中心'
         },
-        component: () => import('../views/stu/stuLab.vue')
+        component: () => import('../views/stu/stuLab.vue'),
+        children: [
+          {
+            path: '/stuExpTutorial',
+            name: 'StudentExpTutorial',
+            meta: {
+              title: '实验教程'
+            },
+            component: () => import('../views/stu/stuExp/expTutorial.vue')
+          },
+          {
+            path: '/stuExpReport',
+            name: 'StudentExpReport',
+            meta: {
+              title: '报告填写'
+            },
+            component: () => import('../views/stu/stuExp/expReport.vue')
+          },
+          {
+            path: '/stuExpDocs',
+            name: 'StudentExpDocs',
+            meta: {
+              title: '文件中心'
+            },
+            component: () => import('../views/stu/stuExp/expDocs.vue')
+          },
+          {
+            path: '/stuExpGrade',
+            name: 'StudentExpGrade',
+            meta: {
+              title: '作业详情'
+            },
+            component: () => import('../views/stu/stuExp/expGrade.vue')
+          }
+        ]
       },
       {
         path: '/stuDocument',
