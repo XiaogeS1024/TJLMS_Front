@@ -121,7 +121,8 @@ export default {
             sessionStorage.setItem(this.loginForm.emailAddress.toString(), JSON.stringify(response.data))
             sessionStorage.setItem('isLogin', JSON.stringify(true))
             sessionStorage.setItem('userType', JSON.stringify(this.loginForm.isStudent + 1))
-            if (this.loginForm.isStudent === false) {
+            // console.log(this.isStudent)
+            if (!this.isStudent) {
               this.$router.push('/teacherHome')
             } else this.$router.push('/stuHome')
           }
