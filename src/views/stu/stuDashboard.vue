@@ -9,7 +9,7 @@
                 <v-list-item three-line>
                   <v-list-item-content>
                     <v-list-item-title class="text-h4 mb-1">
-                      你好，1953067 宋潇歌！
+                      {{ helloMsg }}
                     </v-list-item-title>
                     <v-divider></v-divider>
                     <v-list-item-subtitle
@@ -121,7 +121,7 @@
                   <v-col class="py-0">
                   <v-list-item color="black">
                     <v-list-item-content>
-                      <v-list-item-title class="title">宋潇歌</v-list-item-title>
+                      <v-list-item-title class="title">{{name}}</v-list-item-title>
                       <v-list-item-subtitle>2019级 软件学院 软件工程</v-list-item-subtitle>
                     </v-list-item-content>
                    </v-list-item>
@@ -145,6 +145,8 @@
 export default {
   name: 'Home',
   data: () => ({
+    helloMsg: '',
+    name: '',
     type: 'month',
     types: ['month', 'week', 'day', '4day'],
     mode: 'stack',
@@ -221,7 +223,16 @@ export default {
     },
     rnd (a, b) {
       return Math.floor((b - a + 1) * Math.random()) + a
+    },
+    getHelloMsg () {
+      const email = sessionStorage.getItem('email')
+      const obj = JSON.parse(sessionStorage.getItem(email))
+      this.helloMsg = '你好 ' + obj.id + obj.name
+      this.name = obj.name
     }
+  },
+  created () {
+    this.getHelloMsg()
   }
 }
 </script>

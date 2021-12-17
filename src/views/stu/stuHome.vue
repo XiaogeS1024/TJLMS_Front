@@ -9,7 +9,7 @@
     >
       <div class="text-center mt-5">
         <v-avatar :size="isCollapse ? '50' : '75'" class="badge">
-          <img src="@/assets/tongji.jpg">
+          <img src="@/assets/tongji.jpg" alt="image">
         </v-avatar>
       </div>
       <v-list flat class="mt-5">
@@ -52,7 +52,7 @@
         "
       >
         <v-app-bar-nav-icon @click="toggleCollapse" light>
-        <div v-if="this.isCollapse == true">
+        <div v-if="this.isCollapse === true">
           <v-icon >{{ "mdi-keyboard-tab" }}</v-icon>
         </div>
         <div v-else>
@@ -84,7 +84,7 @@
       <template v-slot:activator="{ on }">
         <v-avatar :size=50
           v-on="on" class="avatar">
-          <img src="@/assets/2.jpg">
+          <img src="@/assets/2.jpg" alt="image">
         </v-avatar>
       </template>
       <v-list>
