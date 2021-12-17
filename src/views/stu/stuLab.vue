@@ -27,7 +27,7 @@
                   <v-btn class="px-3" color="green" dark style="margin-left: 300px" v-bind="attrs" v-on="on">进入实验</v-btn>
                 </template>
       <v-card>
-        <v-toolbar dark color="primary">
+        <v-toolbar dark color="teal">
           <v-btn icon dark @click="dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -39,29 +39,29 @@
         </v-toolbar>
         <v-bottom-navigation
     v-model="bottomNav"
-    dark
-    shift
+    :value="activeBtn"
+    color="teal"
+    horizontal
+    height="70"
   >
-    <v-btn>
-      <span>Video</span>
-      <v-icon>mdi-television-play</v-icon>
+    <v-btn width="200px" @click="goTutorial">
+      <span style="font-size:15px;font-weight:bold">实验教程</span>
+      <v-icon>mdi-book-open-page-variant</v-icon>
     </v-btn>
-
-    <v-btn>
-      <span>Music</span>
-      <v-icon>mdi-music-note</v-icon>
+    <v-btn width="200px" @click="goReport">
+      <span style="font-size:15px;font-weight:bold">报告填写</span>
+      <v-icon>mdi-lead-pencil</v-icon>
     </v-btn>
-
-    <v-btn>
-      <span>Book</span>
-      <v-icon>mdi-book</v-icon>
+    <v-btn width="200px" @click="goDocs">
+      <span style="font-size:15px;font-weight:bold">文件中心</span>
+      <v-icon>mdi-folder-multiple</v-icon>
     </v-btn>
-
-    <v-btn>
-      <span>Image</span>
-      <v-icon>mdi-image</v-icon>
+    <v-btn width="200px" @click="goGrade">
+      <span style="font-size:15px;font-weight:bold">作业详情</span>
+      <v-icon>mdi-chart-areaspline</v-icon>
     </v-btn>
   </v-bottom-navigation>
+  <router-view></router-view>
       </v-card>
     </v-dialog>
             </v-expansion-panel-content>
@@ -113,28 +113,51 @@
         </v-card>
       </v-col>
     </v-row>
+    <btt></btt>
   </v-container>
 </template>
 
 <script>
+import btt from '@/components/backToTop.vue'
 export default {
   name: 'Lab',
+  components: {
+    btt
+  },
   data () {
     return {
       experiments: [
         { title: '实验一' },
-        { title: '实验二' }
+        { title: '实验二' },
+        { title: '实验三' },
+        { title: '实验四' },
+        { title: '实验5' },
+        { title: '实验6' },
+        { title: '实验7' },
+        { title: '实验8' }
       ],
       show: false,
       dialog: false,
       notifications: false,
       sound: true,
       widgets: false,
-      bottomNav: 3
+      bottomNav: 3,
+      activeBtn: 1
     }
   },
-  computed: {
-
+  methods: {
+    goTutorial () {
+      this.$router.push('/stuExpTutorial')
+    },
+    goReport () {
+      this.$router.push('/stuExpReport')
+    },
+    goDocs () {
+      this.$router.push('/stuExpDocs')
+    },
+    goGrade () {
+      this.$router.push('/stuExpGrade')
+    }
   }
 }
 </script>

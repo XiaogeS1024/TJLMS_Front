@@ -1,7 +1,60 @@
 <template>
 <div class="messageForm">
-    <div class="form" style="margin-top: 15px">
-    <el-table
+  <div class="text-center">
+    <v-container>
+      <v-row>
+        <v-col cols="12" sm="12">
+          <v-card class="mx-4 rounded-xl pa-4 mt-5" :elevation=10>
+            <h3 style="margin-left:20px;margin-top:15px">我的成绩{{ "\xa0\xa0\xa0\xa0" }}MY SCORE</h3>
+            <v-divider></v-divider>
+            <v-row>
+            <v-col cols="12" sm="3">
+            <v-progress-circular
+                :rotate="-90"
+                :size="120"
+                :width="15"
+                :value="value"
+                color="amber"
+            >
+            {{ value }}/100
+            </v-progress-circular><br />
+            <span>考勤成绩</span>
+            </v-col>
+            <v-col cols="12" sm="3">
+            <v-progress-circular
+                :rotate="-90"
+                :size="120"
+                :width="15"
+                :value="value"
+                color="cyan"
+            >
+            {{ value }}/100
+            </v-progress-circular><br />
+            <span>作业成绩</span>
+            </v-col>
+            <v-col cols="12" sm="6">
+            <v-progress-circular
+                :rotate="-90"
+                :size="120"
+                :width="15"
+                :value="value"
+                color="pink"
+            >
+            {{ value }}/100
+            </v-progress-circular><br />
+            <span>总成绩</span>
+            </v-col>
+            </v-row>
+          </v-card>
+        </v-col>
+        </v-row>
+
+        <v-row>
+        <v-col cols="12" sm="12">
+          <v-card class="mx-4 rounded-xl pa-4 mt-10" :elevation=10>
+            <h3 style="font-size:20px">成绩详情{{ "\xa0\xa0\xa0\xa0" }}SCORE DETAILS</h3>
+            <v-divider></v-divider>
+            <el-table
         ref="filterTable"
         :data="
           tableData.slice((currentPage - 1) * pageSize, currentPage * pageSize)
@@ -61,7 +114,6 @@
           width="100"
         ></el-table-column>
       </el-table>
-      <div class="block">
       <el-pagination
         align="center"
         @size-change="handleSizeChange"
@@ -71,10 +123,14 @@
         :page-size="pageSize"
         layout="total, sizes, prev, pager, next, jumper"
         :total="tableData.length"
+        style="margin-top: 20px;"
       >
       </el-pagination>
-    </div>
-    </div>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
+  </div>
   </div>
 </template>
 
@@ -118,8 +174,18 @@ export default {
         region: 0,
         delivery: false
       },
-      formLabelWidth: '120px'
+      formLabelWidth: '120px',
+      interval: {},
+      value: 0
     }
+  },
+  mounted () {
+    this.interval = setInterval(() => {
+      if (this.value === 80) {
+        return (this.value = 80)
+      }
+      this.value += 10
+    }, 1)
   },
   methods: {
     filterHandler (value, row, column) {
@@ -167,7 +233,6 @@ export default {
 .block {
   float: left;
   width: 100%;
-  position: fixed;
   margin-top: 20px;
 }
 </style>
