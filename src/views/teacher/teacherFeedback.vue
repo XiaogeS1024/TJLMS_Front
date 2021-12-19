@@ -71,11 +71,11 @@ export default {
         )
     },
     async getAllFeedback () {
-      const url = '/get/all/feedback'
+      const url = '/get/all/feedback?pageNum=' + this.pageNum + '&pageSize=' + this.pageSize
       await axios.get(url)
         .then(
           (response) => {
-            this.allFeedback = response.data.content
+            this.allFeedback = response.data
           }
         )
         .catch(
