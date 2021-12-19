@@ -3,6 +3,9 @@ import VueRouter from 'vue-router'
 import Login from '../views/LoginForm.vue'
 import AdminLogin from '../components/admin/AdminLogin.vue'
 import Reg from '../views/Register.vue'
+import AdminHome from '@/components/admin/AdminHome'
+import teachers from '@/components/admin/teachers'
+import students from '@/components/admin/students'
 // import PwdRecover from '../views/PasswordRecover.vue'
 
 Vue.use(VueRouter)
@@ -12,6 +15,15 @@ const routes = [
   { path: '/login', component: Login },
   { path: '/adminLogin', component: AdminLogin },
   { path: '/reg', component: Reg },
+  {
+    path: '/adminHome',
+    component: AdminHome,
+    // redirect:'login',
+    children: [
+      { path: '/teachers', component: teachers },
+      { path: '/students', component: students }
+    ]
+  },
   {
     path: '/stuHome',
     name: 'StudentHome',

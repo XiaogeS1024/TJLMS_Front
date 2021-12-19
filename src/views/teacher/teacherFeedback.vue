@@ -54,8 +54,7 @@ export default {
         )
     },
     async getMyReply () {
-      const email = sessionStorage.getItem('email')
-      const obj = JSON.parse(sessionStorage.getItem(email))
+      const obj = JSON.parse(sessionStorage.getItem('detail'))
       const url = '/get/my/reply?id=' + obj.id + '&pageNum=' + this.pageNum + '&pageSize=' + this.pageSize
       await axios.get(url)
         .then(

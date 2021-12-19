@@ -34,8 +34,7 @@ export default {
 
     async handleFeedback () {
       const url = '/post/feedback'
-      const email = sessionStorage.getItem('email')
-      const obj = JSON.parse(sessionStorage.getItem(email))
+      const obj = JSON.parse(sessionStorage.getItem('detail'))
       await axios.post(url, {
         content: this.feedbackForm.content,
         feedbacker: obj.id,
@@ -57,8 +56,7 @@ export default {
         )
     },
     async getMyFeedback () {
-      const email = sessionStorage.getItem('email')
-      const obj = JSON.parse(sessionStorage.getItem(email))
+      const obj = JSON.parse(sessionStorage.getItem('detail'))
       const url = '/get/my/reply?id=' + obj.id + '&pageNum=' + this.pageNum + '&pageSize=' + this.pageSize
       await axios.get(url)
         .then(
