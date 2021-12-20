@@ -7,6 +7,8 @@ import AdminHome from '@/components/admin/AdminHome'
 import teachers from '@/components/admin/teachers'
 import students from '@/components/admin/students'
 // import PwdRecover from '../views/PasswordRecover.vue'
+import batchteachers from '../components/admin/batchTeachers.vue'
+import batchstudents from '../components/admin/batchStudents.vue'
 
 Vue.use(VueRouter)
 
@@ -21,7 +23,9 @@ const routes = [
     // redirect:'login',
     children: [
       { path: '/teachers', component: teachers },
-      { path: '/students', component: students }
+      { path: '/students', component: students },
+      { path: '/batchteachers', component: batchteachers },
+      { path: '/batchstudents', component: batchstudents }
     ]
   },
   {

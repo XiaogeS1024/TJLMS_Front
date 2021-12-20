@@ -43,17 +43,16 @@
         <span slot="title">批量导入</span>
       </template>
 
-      <el-menu-item index="teachers" @click="saveNavState('/' + item.path)">
+      <el-menu-item index="batchteachers" @click="saveNavState('/' + item.path)">
         <template slot="title">
           <i class="el-icon-user-solid"></i>
           <span slot="title">教师批量导入</span>
         </template>
       </el-menu-item>
-      <el-menu-item index="students" @click="
-saveNavState('/' + item.path)">
+      <el-menu-item index="batchstudents" @click="saveNavState('/' + item.path)">
         <template slot="title">
           <i class="el-icon-user-solid"></i>
-          <span slot="title">教师批量导入</span>
+          <span slot="title">学生批量导入</span>
         </template>
       </el-menu-item>
     </el-submenu>
@@ -115,6 +114,7 @@ h3 {
 <script>
 export default {
   created () {
+    this.getMenuList()
     this.activePath = window.sessionStorage.getItem('activePath')
   },
   data () {
