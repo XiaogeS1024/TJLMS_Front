@@ -52,7 +52,7 @@
         "
       >
         <v-app-bar-nav-icon @click="toggleCollapse" light>
-        <div v-if="this.isCollapse == true">
+        <div v-if="this.isCollapse === true">
           <v-icon >{{ "mdi-keyboard-tab" }}</v-icon>
         </div>
         <div v-else>
@@ -235,7 +235,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .border {
   background: #fff;
   border-top-left-radius: 30px;

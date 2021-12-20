@@ -9,7 +9,7 @@
       <el-form ref="AdminLogin" :model="user" label-width="80px">
         <h3>管理员登录</h3>
         <el-form-item prop="id" label="账号">
-          <el-input v-model="user.account" placeholder="请输入账号"></el-input>
+          <el-input v-model="user.emailAddress" placeholder="请输入账号"></el-input>
         </el-form-item>
         <el-form-item id="password" prop="password" label="密码">
            <el-input v-model="user.password" placeholder="请输入密码" show-password></el-input>
@@ -40,7 +40,7 @@ export default {
   methods:
   {
     adminLogin () {
-      if (!this.user.account) {
+      if (!this.user.emailAddress) {
         this.$message.error('请输入账号')
       } else if (!this.user.password) {
         this.$message.error('请输入密码')
@@ -68,17 +68,14 @@ export default {
         )
     }
   }
-
 }
 </script>
 
-<style>
-
+<style scoped>
 .el-card{
   background-color: rgba(156, 151, 151, 0.712);
   height: 350px;
 }
-
 .AdminLogin {
   width: 100%;
   height: 740px;
@@ -112,11 +109,9 @@ export default {
   color: #2fa09a;
   font-size: 24px;
 }
-
 #password {
   margin-bottom: 5px;
 }
-
 .mbutton {
   width: 30%;
   height: 40px;

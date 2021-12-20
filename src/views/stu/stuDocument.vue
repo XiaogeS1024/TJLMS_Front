@@ -53,6 +53,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   name: 'Documents',
   data: () => ({
@@ -80,47 +81,48 @@ export default {
           text: '操作',
           value: 'action'
         }
-      ],
-      items: [
-        {
-          name: '这是一个电路实验2333',
-          experiment: '实验一',
-          time: '2021/12/09',
-          author: '宋xg'
-        },
-        {
-          name: '这是一个电路实验2333',
-          experiment: '实验一',
-          time: '2021/12/09',
-          author: '宋xg'
-        },
-        {
-          name: '这是一个电路实验2333',
-          experiment: '实验一',
-          time: '2021/12/09',
-          author: '宋xg'
-        },
-        {
-          name: '这是一个电路实验2333',
-          experiment: '实验一',
-          time: '2021/12/09',
-          author: '宋xg'
-        },
-        {
-          name: '这是一个电路实验2333',
-          experiment: '实验一',
-          time: '2021/12/09',
-          author: '宋xg'
-        },
-        {
-          name: '这是一个电路实验2333',
-          experiment: '实验一',
-          time: '2021/12/09',
-          author: '宋xg'
-        }
       ]
+    },
+    items: [],
+    pageNum: 1,
+    pageSize: 20,
+    errMsg: ''
+  }),
+  methods: {
+    async getAllMaterials () {
+      const url = '/get/all/material?pageNum=' + this.pageNum + '&pageSize=' + this.pageSize
+      await axios.get(url)
+        .then(
+          (response) => {
+            this.items = response.data
+          }
+        )
+        .catch(
+          (err) => {
+            this.errMsg = '暂无教学资料'
+            console.log(err)
+          }
+        )
+    },
+    async download (name) {
+      const url = 'http://114.55.35.220:8081/api/downLoadLab/' + name
+      await axios.get(url)
+        .then(
+          (response) => {
+            this.$message.success('文件下载成功')
+            console.log(response)
+          }
+        )
+        .catch(
+          (err) => {
+            this.$message.error('文件下载失败')
+            console.log(err)
+          }
+        )
     }
-  })
+
+  }
+
 }
 </script>
 

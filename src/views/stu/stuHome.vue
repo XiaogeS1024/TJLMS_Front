@@ -234,7 +234,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .border {
   background: #fff;
   border-top-left-radius: 30px;

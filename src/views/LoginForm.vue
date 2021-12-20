@@ -118,7 +118,7 @@ export default {
           (response) => {
             this.$message.success('登录成功！')
             sessionStorage.setItem('email', this.loginForm.emailAddress)
-            sessionStorage.setItem(this.loginForm.emailAddress.toString(), JSON.stringify(response.data))
+            sessionStorage.setItem('detail', JSON.stringify(response.data))
             sessionStorage.setItem('isLogin', JSON.stringify(true))
             sessionStorage.setItem('userType', JSON.stringify(this.loginForm.isStudent + 1))
             // console.log(this.isStudent)

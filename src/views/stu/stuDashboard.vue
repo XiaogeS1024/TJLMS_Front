@@ -225,8 +225,7 @@ export default {
       return Math.floor((b - a + 1) * Math.random()) + a
     },
     getHelloMsg () {
-      const email = sessionStorage.getItem('email')
-      const obj = JSON.parse(sessionStorage.getItem(email))
+      const obj = JSON.parse(sessionStorage.getItem('detail'))
       this.helloMsg = '你好 ' + obj.id + obj.name
       this.name = obj.name
     }
