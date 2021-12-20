@@ -12,14 +12,22 @@
         <v-divider></v-divider>
         <v-expansion-panels
           focusable
-          v-for="item in experiments"
-          :key="item.title"
+          v-for="(experiment,index) in experimentList.labs"
           style="margin-top: 20px"
         >
           <v-expansion-panel>
-            <v-expansion-panel-header>{{item.title}}</v-expansion-panel-header>
+            <v-expansion-panel-header style="font-weight:bold;font-size:20px">{{experiment.name}}</v-expansion-panel-header>
+            <v-expansion-panel-content style="margin-top:10px">
+              <span style="font-weight:bold">发布教师：</span>
+              {{experimentList.names[index]}}
+            </v-expansion-panel-content>
             <v-expansion-panel-content>
-              实验信息（发布时间、ddl...）
+              <span style="font-weight:bold">截止日期：</span>
+              {{experiment.deadline}}
+            </v-expansion-panel-content>
+            <v-expansion-panel-content>
+              <span style="font-weight:bold">实验介绍：</span>
+              {{experiment.intro}}
             </v-expansion-panel-content>
             <v-expansion-panel-content>
               <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
@@ -31,7 +39,7 @@
           <v-btn icon dark @click="dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
-          <v-toolbar-title>EXPERIMENT{{ "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0" }}{{item.title}}</v-toolbar-title>
+          <v-toolbar-title>EXPERIMENT{{ "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0" }}{{experiment.name}}</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-toolbar-items>
             <v-btn dark text @click="dialog = false">Save</v-btn>
@@ -48,7 +56,7 @@
       <span style="font-size:15px;font-weight:bold">实验教程</span>
       <v-icon>mdi-book-open-page-variant</v-icon>
     </v-btn>
-    <v-btn width="200px" @click="goReport">
+    <v-btn width="200px">
       <span style="font-size:15px;font-weight:bold">报告填写</span>
       <v-icon>mdi-lead-pencil</v-icon>
     </v-btn>
@@ -119,6 +127,7 @@
 
 <script>
 import btt from '@/components/backToTop.vue'
+import axios from 'axios'
 export default {
   name: 'Lab',
   components: {
@@ -126,16 +135,7 @@ export default {
   },
   data () {
     return {
-      experiments: [
-        { title: '实验一' },
-        { title: '实验二' },
-        { title: '实验三' },
-        { title: '实验四' },
-        { title: '实验5' },
-        { title: '实验6' },
-        { title: '实验7' },
-        { title: '实验8' }
-      ],
+      experimentList: {},
       show: false,
       dialog: false,
       notifications: false,
@@ -144,6 +144,18 @@ export default {
       bottomNav: 3,
       activeBtn: 1
     }
+  },
+  mounted () {
+    axios.get('/get/all/labs',
+      {
+        params: {
+        }
+      })
+      .then((response) => {
+        console.log(response.data)
+        this.experimentList = response.data
+        console.log(this.experimentList.names)
+      })
   },
   methods: {
     goTutorial () {

@@ -5,7 +5,7 @@
         >add</el-button
       >
     </div>
-      <el-form :model="formData" ref="form"  style="margin: auto；" width='60%'>
+      <el-form :model="formData" ref="formData"  style="margin: auto；" width='60%'>
         <el-form-item label="实验目的" prop="aim">
           <el-input v-model="formData.aim"></el-input>
         </el-form-item>
@@ -107,19 +107,25 @@
             </template>
           </el-table-column>
         </el-table>
+        <el-form-item label="实验结论" prop="result">
+          <el-input v-model="formData.result"></el-input>
+        </el-form-item>
       </el-form>
-      <el-button type="warning" @click="submit('form')">submit</el-button>
+      <el-button type="warning" @click="save('formData')">save</el-button>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   data () {
     return {
+      stuId: JSON.parse(sessionStorage.getItem(sessionStorage.getItem('email'))).id,
       formData: {
         aim: '',
         principle: '',
         step: '',
+        result: '',
         domains: undefined
       },
       formaDataRules: {
@@ -224,15 +230,34 @@ export default {
     init () {
       this.$set(this.formData, 'domains', this.domains)
     },
-    submit (formName) {
+    save (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert('submit!')
+          this.handleSave()
         } else {
-          console.log('error submit!!')
+          console.log('error!!')
           return false
         }
       })
+    },
+    async handleSave () {
+      const url = '/post/save/report'
+      await axios.post(url, { aim: this.formData.aim, labId: this.labId, principle: this.formData.principle, result: this.formData.result, step: this.formData.step, stuId: this.stuId })
+        .then(
+          (response) => {
+            this.$message.success('保存成功！')
+            sessionStorage.setItem('aim', this.formData.aim)
+            sessionStorage.setItem('principle', this.formData.principle)
+            sessionStorage.setItem('result', this.formData.result)
+            sessionStorage.setItem('step', this.formData.step)
+            // console.log(this.isStudent)
+          }
+        ).catch(
+          (err) => {
+            this.$message.error('保存失败！')
+            console.log(err)
+          }
+        )
     }
   }
 }

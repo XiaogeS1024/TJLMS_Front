@@ -3,6 +3,7 @@
     <v-container>
       <v-row>
         <v-col cols="12" sm="8">
+          <v-row>
           <v-card class="mx-4 rounded-xl pa-4"  :elevation=10>
             <v-row>
               <v-col cols="12" sm="4">
@@ -31,10 +32,67 @@
                     进入实验管理
                   </v-btn>
                   </router-link>
+                  <router-link to='/teacherClass'>
+                  <v-btn
+                    class="px-3"
+                    color="green"
+                    dark
+                    style="margin-left: 300px"
+                  >
+                    我的班级
+                  </v-btn>
+                  </router-link>
                 </v-card-actions>
               </v-col>
             </v-row>
           </v-card>
+          </v-row>
+          <v-row>
+            <v-col cols="12" sm="8">
+              <h3>课程信息</h3>
+        <v-card class="mx-auto" max-width="600">
+          <v-img
+            src="https://globbsecurity.com/wp-content/uploads/2019/05/wan.jpg"
+            height="200px"
+            class="white--text align-end"
+          >
+            <v-card-title style="font-size: 25px; font-weight: bold">
+              计算机组成原理实验
+            </v-card-title>
+            <v-card-subtitle> 国家级精品课程 </v-card-subtitle>
+          </v-img>
+
+          <v-card-text class="text--primary">
+            <div>主讲老师：黄杰</div>
+            <div>开课学期：2021-2022 秋季学期</div>
+            <div>学时：34{{ "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0" }}学分：2</div>
+          </v-card-text>
+
+          <v-card-actions>
+            <v-btn color="purple" text @click="show = !show">
+              查看详情 Explore more
+            </v-btn>
+
+            <v-spacer></v-spacer>
+
+            <v-btn icon @click="show = !show">
+              <v-icon>{{
+                show ? "mdi-chevron-up" : "mdi-chevron-down"
+              }}</v-icon>
+            </v-btn>
+          </v-card-actions>
+
+          <v-expand-transition>
+            <div v-show="show">
+              <v-divider></v-divider>
+              <v-card-text>
+                这里是对课程的详细描述，可以添加其他老师的信息blabla
+              </v-card-text>
+            </div>
+          </v-expand-transition>
+        </v-card>
+            </v-col>
+          </v-row>
         </v-col>
 
         <v-col cols="12" sm="4">
@@ -78,6 +136,7 @@
 export default {
   name: 'Home',
   data: () => ({
+    show: false
   }),
   methods: {
   }
