@@ -220,7 +220,7 @@
                       :on-exceed="handleExceed"
                       :http-request="uploadProjectFile"
                       drag
-                    >  
+                    >
                       <v-btn slot="trigger" color="blue-grey" class="ma-2 white--text"> 选择文件
                         <v-icon right dark>mdi-cloud-upload</v-icon>
                       </v-btn>
@@ -230,8 +230,8 @@
                     </el-upload> -->
       </v-col>
     </v-row>
-    
-                    
+
+
 
                 </v-form>
               </v-container>
@@ -246,7 +246,7 @@
                   >Save</v-btn
                 >
                 <v-btn
-                  color="blue darken-1" text 
+                  color="blue darken-1" text
                   @click="submitProject"
                   >Release</v-btn
                 >
@@ -265,7 +265,7 @@ export default {
   name: 'Lab',
   data () {
     return {
-      teacherId: JSON.parse(sessionStorage.getItem(sessionStorage.getItem('email'))).id,
+      teacherId: JSON.parse(sessionStorage.getItem('detail')).id,
       experimentList: {},
       show: false,
       dialog: false,
@@ -316,6 +316,7 @@ export default {
             this.$message.success('发布成功！')
             // 重置表单
             this.projectDialogVisible = false
+            console.log(response)
           }
         ).catch(
           (err) => {
