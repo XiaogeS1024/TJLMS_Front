@@ -72,6 +72,9 @@ export default {
 </script>
 
 <style scoped>
+.el-button{
+  color: #FFF;
+}
 .el-card{
   background-color: rgba(156, 151, 151, 0.712);
   height: 350px;

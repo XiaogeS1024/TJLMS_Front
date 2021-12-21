@@ -101,6 +101,9 @@
 </template>
 
 <style scoped>
+.el-button{
+  color: #FFF;
+}
 .el-radio-group {
   margin-top: 15px;
   margin-bottom: 20px;
