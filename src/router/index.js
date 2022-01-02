@@ -52,20 +52,20 @@ const routes = [
         component: () => import('../views/stu/stuLab.vue'),
         children: [
           {
-            path: '/stuExpTutorial',
-            name: 'StudentExpTutorial',
-            meta: {
-              title: '实验教程'
-            },
-            component: () => import('../views/stu/stuExp/expTutorial.vue')
-          },
-          {
-            path: '/stuExpReport',
-            name: 'StudentExpReport',
+            path: '/stuExpReportSummator',
+            name: 'StudentExpReportSummator',
             meta: {
               title: '报告填写'
             },
-            component: () => import('../views/stu/stuExp/expReport.vue')
+            component: () => import('../views/stu/stuExp/expReportSummator.vue')
+          },
+          {
+            path: '/stuExpReportGeneral',
+            name: 'StudentExpReportGeneral',
+            meta: {
+              title: '报告填写'
+            },
+            component: () => import('../views/stu/stuExp/expReportGeneral.vue')
           },
           {
             path: '/stuExpDocs',

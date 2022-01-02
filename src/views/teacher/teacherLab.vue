@@ -209,7 +209,7 @@
         <v-subheader class="font-weight-bold" style="font-size:1.1rem">实验指导书</v-subheader>
       </v-col>
       <v-col cols="8">
-                    <!-- <el-upload
+                    <el-upload
                       ref="projectUploadFile"
                       action="#"
                       multiple
@@ -227,7 +227,7 @@
                       <div slot="tip" class="el-upload__tip">
                         文件大小限制：10 MB
                       </div>
-                    </el-upload> -->
+                    </el-upload>
       </v-col>
     </v-row>
 

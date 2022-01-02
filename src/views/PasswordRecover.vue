@@ -119,7 +119,8 @@ export default {
         checkPass: [
           { validator: validatePass2, trigger: 'blur' }
         ]
-      }
+      },
+      flag: true
     }
   },
 
@@ -137,13 +138,13 @@ export default {
         .then(
           (response) => {
             console.log(response)
-            return true
           }
         )
         .catch(
           (err) => {
             console.log(err)
-            return false
+            this.flag = false
+            console.log(this.flag)
           }
         )
     },
@@ -170,12 +171,19 @@ export default {
 
     sendEmail () {
       if (!this.pwdRecoverForm.email) {
+        console.log(this.emailCheck())
         this.$message.error('请输入电子邮件地址')
       } else if (/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/.test(this.pwdRecoverForm.email) === false) {
         this.$message.error('请输入正确的邮件格式')
-      } else if (!this.emailCheck()) {
-        this.$message.error('邮箱错误,请重新输入')
-      } else this.send()
+      } else {
+        this.emailCheck()
+        if (this.flag === false) {
+          console.log(this.flag)
+          this.send()
+        } else {
+          this.$message.error('邮箱错误，请重新输入')
+        }
+      }
     },
     async send () {
       const url = '/post/verify'
@@ -238,7 +246,9 @@ export default {
           })
             .then(
               (res) => {
+                this.active++
                 this.$message.success('密码重置成功')
+                this.$router.push('/login')
                 console.log(res)
               }
             )

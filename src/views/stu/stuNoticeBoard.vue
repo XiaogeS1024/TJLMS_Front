@@ -4,7 +4,7 @@
 
     <v-list>
       <v-list-item-group multiple active-class="blue--text">
-        <template v-for="(item, index) in items">
+        <template v-for="(item,index) in this.items">
           <v-list-item>
             <template v-slot:default="{ active, toggle }">
               <v-list-item-content>
@@ -31,7 +31,7 @@
                     <v-btn color="green lighten-2" dark v-bind="attrs" v-on="on" @click="getConcreteNotice(item.id)" class="btn"> 点击查看详情 </v-btn>
                   </template>
                   <v-card>
-                    <v-card-title class="headline grey lighten-2" primary-title>{{item.title}}</v-card-title>
+                    <v-card-title class="headline grey lighten-2" primary-title>{{concreteNotice.title}}</v-card-title>
                     <v-card-text>{{concreteNotice.content}}</v-card-text>
                     <v-divider></v-divider>
                     <v-card-actions>
@@ -63,15 +63,7 @@ export default {
     items: [],
     hasNotice: true,
     dialog: false,
-    concreteNotice:
-      {
-        id: 0,
-        releaser: '',
-        title: '',
-        content: '',
-        time: ''
-
-      }
+    concreteNotice: {}
   }),
   methods: {
     async getAllTitles () {
@@ -80,7 +72,7 @@ export default {
         .then(
           (response) => {
             this.items = response.data
-            console.log(this.items)
+            // console.log(this.items)
           }
         )
         .catch(
@@ -95,11 +87,7 @@ export default {
       await axios.get(url)
         .then(
           (response) => {
-            this.concreteNotice.id = response.data.id
-            this.concreteNotice.releaser = response.data.releaser
-            this.concreteNotice.title = response.data.title
-            this.concreteNotice.content = response.data.content
-            this.concreteNotice.time = response.data.releaseTime
+            this.concreteNotice = response.data.notice
           }
         )
         .catch(
