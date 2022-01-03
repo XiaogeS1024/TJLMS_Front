@@ -6,8 +6,8 @@
         <v-col cols="12" sm="6">
           <v-hover v-slot="{ hover }">
           <v-card class="mx-4 rounded-xl pa-4 mt-12"  :elevation="hover ? 20 : 5" height="390px">
-            <h3 style="margin-left:20px;margin-top:15px">公告板</h3>
-            <router-link to='/teacherNoticeBoard'>
+            <h3 style="margin-left:20px;margin-top:15px">公告管理</h3>
+            <router-link to='/noticeManagement'>
             <img src="@/assets/noticeboard.png" class="img1">
             </router-link>
         </v-card>
