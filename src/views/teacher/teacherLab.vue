@@ -1,5 +1,5 @@
 <template>
-<!-- eslint-disable -->
+  <!-- eslint-disable -->
   <v-container class="container--fluid">
     <v-row>
       <v-col cols="12">
@@ -8,7 +8,7 @@
     </v-row>
     <v-row style="margin-top: -120px">
       <v-col cols="12" sm="8">
-        <h3>实验列表</h3>
+        <h2 class="font">实验列表</h2>
         <v-divider></v-divider>
         <v-expansion-panels
           focusable
@@ -100,60 +100,57 @@
       <v-col cols="8" sm="4">
         <v-dialog v-model="projectDialogVisible" persistent max-width="900px">
           <template v-slot:activator="{ on, attrs }">
-            <h3>发布实验</h3>
+            <h2 class="font">发布实验</h2>
+            <v-divider></v-divider>
             <v-card
               shadow="hover"
               v-bind="attrs"
               v-on="on"
-              style="cursor: pointer"
+              style="cursor: pointer;margin-top:20px;"
             >
-              <img src="@/assets/4.png" width="200px" />
+              <img src="@/assets/4.png" width="200px" style="margin-left:50px;"/>
             </v-card>
           </template>
           <v-card>
             <v-card-title>
-              <h3>发布实验项目</h3>
+              <h3 class="font">发布实验项目</h3>
             </v-card-title>
             <v-card-text>
               <v-container style="margin-top: 20px">
                 <!--填写实验项目信息-->
                 <!--实验信息表单-->
-                <v-form
-                  ref="ProjectInfo"
-                  :model="projectInfo"
-                >
+                <v-form ref="ProjectInfo" :model="projectInfo">
                   <v-row>
-      <v-col cols="3" >
-        <v-subheader class="font-weight-bold" style="font-size:1.1rem">实验项目名称</v-subheader>
-      </v-col>
-      <v-col cols="9">
-        <v-text-field
-          label=" Please enter the project's name"
-          prop="name"
-          v-model="projectInfo.name"
-          outlined
-        ></v-text-field>
-      </v-col>
-    </v-row>
+                    <v-col cols="3" >
+                      <v-subheader class="font-weight-bold" style="font-size:1.1rem">实验项目名称</v-subheader>
+                    </v-col>
+                    <v-col cols="9">
+                      <v-text-field
+                        label=" Please enter the project's name"
+                        prop="name"
+                        v-model="projectInfo.name"
+                        outlined
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
 
-    <v-row>
-      <v-col cols="3">
-        <v-subheader class="font-weight-bold" style="font-size:1.1rem">实验项目简介</v-subheader>
-      </v-col>
-      <v-col cols="9">
-        <v-textarea
-          v-model="projectInfo.intro"
-          clearable
-          clear-icon="mdi-close-circle"
-          label="Please enter the project's introduction"
-          outlined
-          rows="2"
-        ></v-textarea>
-      </v-col>
-    </v-row>
-
-
-    <v-row>
+                  <v-row>
+                    <v-col cols="3" >
+                      <v-subheader class="font-weight-bold" style="font-size:1.1rem">实验项目简介</v-subheader>
+                    </v-col>
+                    <v-col cols="9">
+                      <v-text-field
+                        v-model="projectInfo.intro"
+                        clearable
+                        clear-icon="mdi-close-circle"
+                        label="Please enter the project's introduction"
+                        outlined
+                        rows="2"
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
+        
+                  <v-row>
       <v-col cols="3">
         <v-subheader class="font-weight-bold" style="font-size:1.1rem">项目截止时间</v-subheader>
       </v-col>
@@ -203,46 +200,46 @@
       </v-col>
     </v-row>
 
-
-    <v-row>
+                  <v-row>
       <v-col cols="3">
         <v-subheader class="font-weight-bold" style="font-size:1.1rem">实验指导书</v-subheader>
       </v-col>
       <v-col cols="8">
-                    <!-- <el-upload
-                      ref="projectUploadFile"
-                      action="#"
-                      multiple
-                      :limit="3"
-                      :auto-upload="false"
-                      :file-list="projectInfo.fileList"
-                      :on-change="handleChange"
-                      :on-exceed="handleExceed"
-                      :http-request="uploadProjectFile"
-                      drag
-                    >  
-                      <v-btn slot="trigger" color="blue-grey" class="ma-2 white--text"> 选择文件
-                        <v-icon right dark>mdi-cloud-upload</v-icon>
-                      </v-btn>
-                      <div slot="tip" class="el-upload__tip">
-                        文件大小限制：10 MB
-                      </div>
-                    </el-upload> -->
+        <el-form label-width="80px">
+    <el-form-item >
+
+      <el-upload
+        :on-preview="handlePreview"
+        :on-remove="handleRemove"
+        action=""
+        :file-list="fileList"
+        :http-request="Upload"
+        :before-upload="BeforeUpload"
+        drag
+        multiple
+      >
+        <i class="el-icon-upload"></i>
+        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+        <div class="el-upload__tip" slot="tip">支持的文件格式有：doc/docx/ppt/pptx/xls/pdf等</div>
+      </el-upload>
+      </el-form-item>
+  </el-form>
+
       </v-col>
     </v-row>
-    
-                    
 
+
+                  
                 </v-form>
               </v-container>
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
               <div slot="footer" class="dialog-footer">
-                <v-btn color="blue darken-1" text @click="dialog = false"
+                <v-btn color="blue darken-1" text @click="projectDialogVisible = false"
                   >Close</v-btn
                 >
-                <v-btn color="blue darken-1" text @click="dialog = false"
+                <v-btn color="blue darken-1" text @click="projectDialogVisible = false"
                   >Save</v-btn
                 >
                 <v-btn
@@ -252,6 +249,8 @@
                 >
               </div>
             </v-card-actions>
+
+
           </v-card>
         </v-dialog>
       </v-col>
@@ -263,26 +262,24 @@
 import axios from 'axios'
 export default {
   name: 'Lab',
+  inject: ['reload'],
   data () {
     return {
-      teacherId: JSON.parse(sessionStorage.getItem(sessionStorage.getItem('email'))).id,
+      teacherId: JSON.parse(sessionStorage.getItem('detail')).id,
       experimentList: {},
       show: false,
       dialog: false,
       notifications: false,
-      sound: true,
-      widgets: false,
-      bottomNav: 3,
-      activeBtn: 1,
       projectDialogVisible: false,
       projectInfo: {
         name: '',
         intro: '',
         deadline: this.date
-        // fileList: []
       },
       date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
-      menu: false
+      menu: false,
+      newFile: new FormData(),
+      fileList: []
     }
   },
   mounted () {
@@ -297,6 +294,25 @@ export default {
       })
   },
   methods: {
+    handleRemove (file, fileList1) {
+      console.log(file, fileList1, this.fileList, '移除')
+      this.fileList = fileList1
+    },
+    handlePreview (file) {
+      console.log(file)
+    },
+    BeforeUpload (file) {
+      if (file) {
+        this.newFile.append('file', file) //  2. 上传之前，拿到file对象，并将它添加到刚刚定义的FormData对象中。
+        this.fileList.push({
+          name: file.name
+          // url: file.url
+        })
+        console.log(this.newFile.get('file'))
+      } else {
+        return false
+      }
+    },
 
     submitProject () {
       if (!this.projectInfo.name) {
@@ -311,18 +327,25 @@ export default {
     async submit () {
       const url = '/release/lab'
       await axios.post(url, { deadline: this.date, intro: this.projectInfo.intro, name: this.projectInfo.name, releaseTeacher: this.teacherId })
-        .then(
-          (response) => {
-            this.$message.success('发布成功！')
-            // 重置表单
-            this.projectDialogVisible = false
-          }
-        ).catch(
-          (err) => {
-            this.$message.error('帐号或密码错误！')
-            console.log(err)
-          }
-        )
+        .then((response) => {
+          const newData = this.newFile //  3. 拿到刚刚的数据，并将其传给后台
+          axios({
+            url: 'http://114.55.35.220:8081/api/uploadFileUser',
+            method: 'post',
+            data: newData,
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          })
+            .then((response) => {
+              this.$message.success('发布成功！')
+              this.projectDialogVisible = false
+              this.reload()
+            })
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     },
 
     goTutorial () {
@@ -332,7 +355,7 @@ export default {
       this.$router.push('/stuExpDocs')
     },
     goGrade () {
-      this.$router.push('/assignment')
+      this.$router.push('/stuExpGrade')
     }
   }
 }
@@ -345,5 +368,8 @@ export default {
   width: 117%;
   height: 70%;
   box-shadow: 3px 10px 10px 0 #636363;
+}
+.font {
+  color: rgb(2, 160, 160) ;
 }
 </style>

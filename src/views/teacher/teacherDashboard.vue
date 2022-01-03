@@ -2,7 +2,7 @@
   <v-app id="inspire">
     <v-container>
       <v-row>
-        <v-col cols="12" sm="8">
+        <v-col cols="12" sm="7">
           <v-row>
           <v-card class="mx-4 rounded-xl pa-4"  :elevation=10>
             <v-row>
@@ -27,7 +27,7 @@
                     class="px-3"
                     color="green"
                     dark
-                    style="margin-left: 300px"
+                    style="margin-left: 30px"
                   >
                     进入实验管理
                   </v-btn>
@@ -37,7 +37,7 @@
                     class="px-3"
                     color="green"
                     dark
-                    style="margin-left: 300px"
+                    style="margin-left: 30px"
                   >
                     我的班级
                   </v-btn>
@@ -49,7 +49,7 @@
           </v-row>
           <v-row>
             <v-col cols="12" sm="8">
-              <h3>课程信息</h3>
+              <h2 class="font">课程信息</h2>
         <v-card class="mx-auto" max-width="600">
           <v-img
             src="https://globbsecurity.com/wp-content/uploads/2019/05/wan.jpg"
@@ -144,5 +144,7 @@ export default {
 </script>
 
 <style scoped>
-
+.font {
+  color: rgb(2, 160, 160) ;
+}
 </style>

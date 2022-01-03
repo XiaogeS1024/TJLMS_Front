@@ -6,7 +6,7 @@ import Reg from '../views/Register.vue'
 import AdminHome from '@/components/admin/AdminHome'
 import teachers from '@/components/admin/teachers'
 import students from '@/components/admin/students'
-// import PwdRecover from '../views/PasswordRecover.vue'
+import PwdRecover from '../views/PasswordRecover.vue'
 import batchteachers from '../components/admin/batchTeachers.vue'
 import batchstudents from '../components/admin/batchStudents.vue'
 
@@ -17,6 +17,7 @@ const routes = [
   { path: '/login', component: Login },
   { path: '/adminLogin', component: AdminLogin },
   { path: '/reg', component: Reg },
+  { path: '/pwdRecover', component: PwdRecover },
   {
     path: '/adminHome',
     component: AdminHome,
@@ -188,15 +189,15 @@ const routes = [
         meta: {
           title: '消息中心'
         },
-        component: () => import('../views/teacher/teacherNotice.vue')
+        component: () => import('../views/teacher/Notices/noticeHome.vue')
       },
       {
-        path: '/teacherNoticeBoard',
+        path: '/noticeManagement',
         name: 'TeacherNoticeBoard',
         meta: {
-          title: '公告板'
+          title: '公告管理'
         },
-        component: () => import('../views/teacher/teacherNoticeBoard.vue')
+        component: () => import('../views/teacher/Notices/noticeManagement.vue')
       },
       {
         path: '/teacherFeedback',
@@ -204,7 +205,7 @@ const routes = [
         meta: {
           title: '反馈列表'
         },
-        component: () => import('../views/teacher/teacherFeedback.vue')
+        component: () => import('../views/teacher/Notices/feedback.vue')
       }
     ]
   }
