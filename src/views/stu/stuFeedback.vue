@@ -276,6 +276,7 @@ export default {
           this.$message.success('反馈提交成功')
           this.feedbackForm = this.feedbackFormNull
           console.log(response)
+          location.reload()
         })
         .catch((err) => {
           this.$message.error('反馈提交失败')
