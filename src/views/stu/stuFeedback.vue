@@ -11,7 +11,7 @@
       <el-form
         :model="feedbackForm"
         ref="formData"
-        style="margin: auto;"
+        style="margin: auto；"
         width="60%"
       >
         <el-form-item label="反馈标题" prop="title" required>
@@ -71,25 +71,14 @@
       </el-table-column>
       <el-table-column label="操作" width="150">
         <template slot-scope="scope">
-          <!-- <div v-if="scope.row.isReplied === false"></div>
-          <div v-else-if="scope.row.isReplied === true"> -->
           <el-button
             type="primary"
             @click="(replyVisible = true), (reply = scope.row)"
             size="small"
             >查看详情</el-button
           >
-          <!-- </div> -->
         </template>
       </el-table-column>
-      <!-- <el-table-column prop="replier" label="回复者" width="320">
-          <template slot-scope="scope">
-            <div v-if="scope.row.emailAddr === null">暂未设定</div>
-            <div v-else>
-              {{ scope.row.emailAddr }}
-            </div>
-          </template>
-        </el-table-column> -->
     </el-table>
     <el-dialog title="反馈与回复详情" :visible.sync="replyVisible" width="50%">
       <el-descriptions
@@ -100,7 +89,7 @@
       >
         <el-descriptions-item>
           <template slot="label">
-            <i class="el-icon-user"></i>
+            <i class="el-icon-tickets"></i>
             反馈标题
           </template>
           {{ reply.fbTitle }}
@@ -111,10 +100,13 @@
             反馈者
           </template>
           {{ reply.feedbacker }}
+          <span v-if="reply.anonymous===true">
+              （已匿名）
+            </span>
         </el-descriptions-item>
         <el-descriptions-item>
           <template slot="label">
-            <i class="el-icon-mobile-phone"></i>
+            <i class="el-icon-time"></i>
             反馈时间
           </template>
           {{ reply.fbTime }}
@@ -142,7 +134,7 @@
 
           <el-descriptions-item>
             <template slot="label">
-              <i class="el-icon-user"></i>
+            <i class="el-icon-tickets"></i>
               回复标题
             </template>
             {{ reply.rpTitle }}
@@ -158,7 +150,7 @@
 
           <el-descriptions-item>
             <template slot="label">
-              <i class="el-icon-mobile-phone"></i>
+               <i class="el-icon-time"></i>
               回复时间
             </template>
             {{ reply.rpTime }}
@@ -171,7 +163,7 @@
         border
         class="thebottom"
       >
-        <el-descriptions-item label="回复内容">{{
+        <el-descriptions-item label="回复内容：">{{
           reply.rpContent
         }}</el-descriptions-item>
       </el-descriptions>
