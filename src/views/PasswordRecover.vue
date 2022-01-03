@@ -30,15 +30,17 @@
 
 <div v-if="active===1">
   <el-form :model="pwdRecoverForm" ref="pwdRecoverForm" label-width="100px" class="mainForm">
+    <el-radio v-model="pwdRecoverForm.userType" :label=1 style="margin-left:120px;">我是学生</el-radio>
+    <el-radio v-model="pwdRecoverForm.userType" :label=2>我是教师</el-radio>
   <el-form-item label="学号/工号" prop="account" required>
     <el-input v-model="pwdRecoverForm.account"  prefix-icon="el-icon-user"></el-input>
   </el-form-item>
 </el-form>
 <button class="btn1" @click="accountCheck">下一步</button>
-<div class="btn">
-  <p style="color:rgb(65, 65, 65);font-size:12px;">还未身份认证？请先点击</p>
-  <el-link type="danger" href="#/reg" style="margin-left:10px;font-size:20px;font-weight: bold;color:rgb(238, 73, 114)">注册</el-link>
-</div>
+  <div class="btn">
+    <p style="color:rgb(65, 65, 65);font-size:12px;">还未身份认证？请先点击</p>
+    <el-link type="danger" href="#/reg" style="margin-left:10px;font-size:20px;font-weight: bold;color:rgb(238, 73, 114)">注册</el-link>
+  </div>
 </div>
 <div v-if="active===2">
 <el-form :model="pwdRecoverForm" ref="pwdRecoverForm" label-width="100px" key class="mainForm">
@@ -104,6 +106,7 @@ export default {
       active: 1,
       pwdRecoverForm: {
         account: '',
+        userType: 0,
         email: '',
         veriCode: '',
         pass: '',
@@ -116,7 +119,8 @@ export default {
         checkPass: [
           { validator: validatePass2, trigger: 'blur' }
         ]
-      }
+      },
+      flag: true
     }
   },
 
@@ -125,19 +129,32 @@ export default {
       if (!this.pwdRecoverForm.account) {
         this.$message.error('请输入账号')
       } else {
-        if (this.pwdRecoverForm.account === '123') {
-          this.active++
-        } else this.handleCheck()
+        this.handleIdCheck()
       }
     },
-    async handleCheck () {
-      const url = '/pwdRecover'
-      await axios.post(url, { account: this.pwdRecoverForm.account })
+    async emailCheck () {
+      const url = '/post/checkEmail'
+      await axios.post(url, { email: this.pwdRecoverForm.email, id: this.pwdRecoverForm.account, userType: this.pwdRecoverForm.userType })
         .then(
           (response) => {
-            this.$message.success('账号验证成功！')
-            sessionStorage.setItem('account', this.pwdRecoverForm.account.toString())
-            sessionStorage.setItem(this.pwdRecoverForm.account.toString(), response.data)
+            console.log(response)
+          }
+        )
+        .catch(
+          (err) => {
+            console.log(err)
+            this.flag = false
+            console.log(this.flag)
+          }
+        )
+    },
+    async handleIdCheck () {
+      const url = '/post/exists'
+      await axios.post(url, { id: this.pwdRecoverForm.account, userType: this.pwdRecoverForm.userType })
+        .then(
+          (response) => {
+            this.$message.success('账号验证成功')
+            console.log(response)
             this.active++
           }
         ).catch(
@@ -154,31 +171,55 @@ export default {
 
     sendEmail () {
       if (!this.pwdRecoverForm.email) {
+        console.log(this.emailCheck())
         this.$message.error('请输入电子邮件地址')
-      } else if (this.pwdRecoverForm.email.indexOf('@') === -1) {
+      } else if (/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/.test(this.pwdRecoverForm.email) === false) {
         this.$message.error('请输入正确的邮件格式')
-      } else this.send()
+      } else {
+        this.emailCheck()
+        if (this.flag === false) {
+          console.log(this.flag)
+          this.send()
+        } else {
+          this.$message.error('邮箱错误，请重新输入')
+        }
+      }
     },
     async send () {
-      this.$message.success('验证码已发送')
-      this.active++
+      const url = '/post/verify'
+      await axios.post(url, {
+        emailAddress: this.pwdRecoverForm.email,
+        id: this.pwdRecoverForm.account,
+        userType: this.pwdRecoverForm.userType
+      })
+        .then(
+          (response) => {
+            console.log(response)
+            this.$message.success('验证码发送成功')
+            this.active++
+          }
+        )
+        .catch(
+          (err) => {
+            console.log(err)
+            this.$message.error('验证码发送失败')
+          }
+        )
     },
 
     veriCodeCheck () {
       if (!this.pwdRecoverForm.veriCode) {
         this.$message.error('请输入验证码')
       } else {
-        if (this.pwdRecoverForm.veriCode === 'qwerty') {
-          this.$message.success('验证成功！')
-          this.active++
-        } else this.handleVeriCodeCheck()
+        this.handleVeriCodeCheck()
       }
     },
     async handleVeriCodeCheck () {
-      const url = '/reg'
-      await axios.post(url, { account: this.pwdRecoverForm.email, password: this.pwdRecoverForm.veriCode })
+      const url = '/post/check/code?code=' + this.pwdRecoverForm.veriCode
+      await axios.post(url)
         .then(
           (response) => {
+            console.log(response)
             this.$message.success('验证成功！')
             this.active++
           }
@@ -195,10 +236,28 @@ export default {
     },
 
     submit (formName) {
-      this.$refs[formName].validate((valid) => {
+      this.$refs[formName].validate(async (valid) => {
         if (valid) {
-          this.$message.success('验证成功！')
-          this.active++
+          const url = '/find/pwd'
+          await axios.post(url, {
+            id: this.pwdRecoverForm.account,
+            newPwd: this.pwdRecoverForm.pass,
+            userType: this.pwdRecoverForm.userType
+          })
+            .then(
+              (res) => {
+                this.active++
+                this.$message.success('密码重置成功')
+                this.$router.push('/login')
+                console.log(res)
+              }
+            )
+            .catch(
+              (err) => {
+                this.$message.error('密码重置失败')
+                console.log(err)
+              }
+            )
         } else {
           console.log('error submit!!')
           return false

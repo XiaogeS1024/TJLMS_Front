@@ -15,7 +15,9 @@
 </template>
 
 <style lang="scss" scoped>
-
+.el-button{
+  color: #FFF;
+}
 .el-container {
 height: 100vh;
 }

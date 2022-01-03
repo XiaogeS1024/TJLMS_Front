@@ -32,7 +32,7 @@
             <v-expansion-panel-content>
               <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
                 <template v-slot:activator="{ on, attrs }">
-                  <v-btn class="px-3" color="green" dark style="margin-left: 300px" v-bind="attrs" v-on="on">进入实验</v-btn>
+                  <v-btn class="px-3" color="green" dark style="margin-left: 300px" v-bind="attrs" v-on="on" @click="storeSomething(experiment.id,experiment.deadline)">进入实验</v-btn>
                 </template>
       <v-card>
         <v-toolbar dark color="teal">
@@ -41,9 +41,9 @@
           </v-btn>
           <v-toolbar-title>EXPERIMENT{{ "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0" }}{{experiment.name}}</v-toolbar-title>
           <v-spacer></v-spacer>
-          <v-toolbar-items>
-            <v-btn dark text @click="dialog = false">Save</v-btn>
-          </v-toolbar-items>
+<!--          <v-toolbar-items>-->
+<!--            <v-btn dark text @click="dialog = false">{{this.Msg}}</v-btn>-->
+<!--          </v-toolbar-items>-->
         </v-toolbar>
         <v-bottom-navigation
     v-model="bottomNav"
@@ -52,11 +52,7 @@
     horizontal
     height="70"
   >
-    <v-btn width="200px" @click="goTutorial">
-      <span style="font-size:15px;font-weight:bold">实验教程</span>
-      <v-icon>mdi-book-open-page-variant</v-icon>
-    </v-btn>
-    <v-btn width="200px">
+    <v-btn width="200px" @click="goReport(experiment.id)">
       <span style="font-size:15px;font-weight:bold">报告填写</span>
       <v-icon>mdi-lead-pencil</v-icon>
     </v-btn>
@@ -91,7 +87,7 @@
           </v-img>
 
           <v-card-text class="text--primary">
-            <div>主讲老师：黄杰</div>
+            <div>主讲老师：张晶</div>
             <div>开课学期：2021-2022 秋季学期</div>
             <div>学时：34{{ "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0" }}学分：2</div>
           </v-card-text>
@@ -114,7 +110,7 @@
             <div v-show="show">
               <v-divider></v-divider>
               <v-card-text>
-                这里是对课程的详细描述，可以添加其他老师的信息blabla
+                同济大学软件学院计算机组成原理课程配套实验
               </v-card-text>
             </div>
           </v-expand-transition>
@@ -158,11 +154,22 @@ export default {
       })
   },
   methods: {
-    goTutorial () {
-      this.$router.push('/stuExpTutorial')
+    storeSomething (id, ddl) {
+      if (sessionStorage.getItem('labId') !== null) {
+        sessionStorage.removeItem('labId')
+      }
+      sessionStorage.setItem('labId', id)
+      if (sessionStorage.getItem('ddl') !== null) {
+        sessionStorage.removeItem('ddl')
+      }
+      sessionStorage.setItem('ddl', ddl)
     },
-    goReport () {
-      this.$router.push('/stuExpReport')
+    goReport (id) {
+      if (id === 1) {
+        this.$router.push('/stuExpReportSummator')
+      } else {
+        this.$router.push('/stuExpReportGeneral')
+      }
     },
     goDocs () {
       this.$router.push('/stuExpDocs')

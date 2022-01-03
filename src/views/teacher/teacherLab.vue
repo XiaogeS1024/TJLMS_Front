@@ -243,7 +243,7 @@
                   >Save</v-btn
                 >
                 <v-btn
-                  color="blue darken-1" text 
+                  color="blue darken-1" text
                   @click="submitProject"
                   >Release</v-btn
                 >
@@ -346,16 +346,6 @@ export default {
         .catch((err) => {
           console.log(err)
         })
-    },
-
-    goTutorial () {
-      this.$router.push('/stuExpTutorial')
-    },
-    goDocs () {
-      this.$router.push('/stuExpDocs')
-    },
-    goGrade () {
-      this.$router.push('/stuExpGrade')
     }
   }
 }

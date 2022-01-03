@@ -1,5 +1,7 @@
-<template>
-  <el-form ref="form" :model="form" label-width="80px">
+<template >
+  <div class="abc">
+    <div class="biaoti">批量导入教师列表：</div>
+  <el-form ref="form" :model="form" >
     <el-form-item label="文件" required>
       <el-upload
         class="upload-demo"
@@ -17,7 +19,24 @@
       </el-upload>
     </el-form-item>
   </el-form>
+  </div>
 </template>
+
+<style scoped>
+.biaoti{
+  font-size: 25px;
+margin-bottom: 100px;
+  margin-top: 120px;
+  margin-left: 70px;
+}
+.abc{
+  position: absolute;
+  left: 50%;
+  top: 30%;
+  transform: translate(-50%,-50%);
+}
+
+</style>
 
 <script>
 import axios from 'axios'

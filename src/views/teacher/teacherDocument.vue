@@ -81,44 +81,7 @@ export default {
           value: 'action'
         }
       ],
-      items: [
-        {
-          name: '这是一个电路实验2333',
-          experiment: '实验一',
-          time: '2021/12/09',
-          author: '宋xg'
-        },
-        {
-          name: '这是一个电路实验2333',
-          experiment: '实验一',
-          time: '2021/12/09',
-          author: '宋xg'
-        },
-        {
-          name: '这是一个电路实验2333',
-          experiment: '实验一',
-          time: '2021/12/09',
-          author: '宋xg'
-        },
-        {
-          name: '这是一个电路实验2333',
-          experiment: '实验一',
-          time: '2021/12/09',
-          author: '宋xg'
-        },
-        {
-          name: '这是一个电路实验2333',
-          experiment: '实验一',
-          time: '2021/12/09',
-          author: '宋xg'
-        },
-        {
-          name: '这是一个电路实验2333',
-          experiment: '实验一',
-          time: '2021/12/09',
-          author: '宋xg'
-        }
-      ]
+      items: []
     }
   })
 }

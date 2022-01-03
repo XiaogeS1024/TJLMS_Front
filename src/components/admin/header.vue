@@ -20,6 +20,7 @@
   </header>
 </template>
 <style lang="scss" scoped>
+
 header {
   width: 100%;
   display: flex;
