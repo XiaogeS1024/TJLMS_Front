@@ -12,7 +12,7 @@
           v-model="formData.aim"
           type="textarea"
           :autosize="{ minRows: 5, maxRows: 15 }"
-
+          :disabled="readonly"
         ></el-input>
       </el-form-item>
       <el-form-item label="实验原理" prop="principle" :rules="formaDataRules.principle">
@@ -20,6 +20,7 @@
           v-model="formData.principle"
           type="textarea"
           :autosize="{ minRows: 10, maxRows: 20 }"
+          :disabled="readonly"
         ></el-input>
       </el-form-item>
       <el-form-item label="实验步骤" prop="step" :rules="formaDataRules.step">
@@ -27,6 +28,7 @@
           v-model="formData.step"
           type="textarea"
           :autosize="{ minRows: 10, maxRows: 20 }"
+          :disabled="readonly"
         ></el-input>
       </el-form-item>
       <el-button type="primary" @click="init()" icon="el-icon-circle-plus"
@@ -39,7 +41,7 @@
               :prop="'domains.' + scope.$index + '.b1'"
               :rules="formaDataRules.b1"
             >
-              <el-input v-model="scope.row.b1"></el-input>
+              <el-input v-model="scope.row.b1" :disabled="readonly"></el-input>
             </el-form-item>
           </template>
         </el-table-column>
@@ -49,7 +51,7 @@
               :prop="'domains.' + scope.$index + '.b2'"
               :rules="formaDataRules.b2"
             >
-              <el-input v-model="scope.row.b2"></el-input>
+              <el-input v-model="scope.row.b2" :disabled="readonly"></el-input>
             </el-form-item>
           </template>
         </el-table-column>
@@ -59,7 +61,7 @@
               :prop="'domains.' + scope.$index + '.b3'"
               :rules="formaDataRules.b3"
             >
-              <el-input v-model="scope.row.b3"></el-input>
+              <el-input v-model="scope.row.b3" :disabled="readonly"></el-input>
             </el-form-item>
           </template>
         </el-table-column>
@@ -69,7 +71,7 @@
               :prop="'domains.' + scope.$index + '.b4'"
               :rules="formaDataRules.b4"
             >
-              <el-input v-model="scope.row.b2"></el-input>
+              <el-input v-model="scope.row.b4" :disabled="readonly"></el-input>
             </el-form-item>
           </template>
         </el-table-column>
@@ -79,7 +81,7 @@
               :prop="'domains.' + scope.$index + '.s1'"
               :rules="formaDataRules.s1"
             >
-              <el-input v-model="scope.row.s1"></el-input>
+              <el-input v-model="scope.row.s1" :disabled="readonly"></el-input>
             </el-form-item>
           </template>
         </el-table-column>
@@ -89,7 +91,7 @@
               :prop="'domains.' + scope.$index + '.s2'"
               :rules="formaDataRules.s2"
             >
-              <el-input v-model="scope.row.s2"></el-input>
+              <el-input v-model="scope.row.s2" :disabled="readonly"></el-input>
             </el-form-item>
           </template>
         </el-table-column>
@@ -99,7 +101,7 @@
               :prop="'domains.' + scope.$index + '.s3'"
               :rules="formaDataRules.s3"
             >
-              <el-input v-model="scope.row.s3"></el-input>
+              <el-input v-model="scope.row.s3" :disabled="readonly"></el-input>
             </el-form-item>
           </template>
         </el-table-column>
@@ -109,7 +111,7 @@
               :prop="'domains.' + scope.$index + '.s4'"
               :rules="formaDataRules.s4"
             >
-              <el-input v-model="scope.row.s4"></el-input>
+              <el-input v-model="scope.row.s4" :disabled="readonly"></el-input>
             </el-form-item>
           </template>
         </el-table-column>
@@ -119,7 +121,7 @@
               :prop="'domains.' + scope.$index + '.c'"
               :rules="formaDataRules.c"
             >
-              <el-input v-model="scope.row.c"></el-input>
+              <el-input v-model="scope.row.c" :disabled="readonly"></el-input>
             </el-form-item>
           </template>
         </el-table-column>
@@ -129,13 +131,14 @@
           v-model="formData.result"
           type="textarea"
           :autosize="{ minRows: 5, maxRows: 15 }"
+          :disabled="readonly"
         ></el-input>
       </el-form-item>
     </el-form>
     <div class="upload">
       <div class="uploadtitle">附件上传</div>
       <div class="el-upload__tip" slot="tip">
-        在这里上传实验报告需要上传的附件
+        在这里上传实验报告附件
       </div>
       <el-upload
         class="upload-demo"
@@ -143,10 +146,11 @@
         :on-remove="handleRemove"
         action=""
         :file-list="fileList"
-        :http-request="UploadAndAdd"
+        :http-request="saveFile"
         :before-upload="BeforeUpload"
         drag
         multiple
+        :disabled="readonly"
       >
         <i class="el-icon-upload"></i>
         <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
@@ -155,7 +159,7 @@
     <!-- 这里需要后面加一下暂存和提交调用的方法 -->
 
     <el-button type="warning" @click="save('formData')">暂存</el-button>
-    <el-button type="warning" @click="save('formData')">提交</el-button>
+    <el-button type="warning" @click="submit('formData')">提交</el-button>
   </div>
 </template>
 
@@ -208,11 +212,11 @@ export default {
         s4: [{ required: true, message: '请输入内容', trigger: 'blur' }],
         c: [{ required: true, message: '请输入内容', trigger: 'blur' }]
       },
-      domains: []
+      domains: [],
+      readonly: false,
+      newFile: new FormData(),
+      fileInfo: {}
     }
-  },
-  mounted () {
-    this.initDomains()
   },
   methods: {
     initDomains () {
@@ -299,6 +303,50 @@ export default {
     init () {
       this.$set(this.formData, 'domains', this.domains)
     },
+    async getReport () {
+      const url = '/get/summator/content?id=' + this.stuId
+      await axios.get(url)
+        .then(
+          (res) => {
+            console.log(res.data.result)
+            this.formData.aim = res.data.basic === null ? '' : res.data.basic.aim
+            this.formData.principle = res.data.basic === null ? '' : res.data.basic.principle
+            this.formData.step = res.data.basic === null ? '' : res.data.basic.step
+            this.formData.result = res.data.basic === null ? '' : res.data.basic.conclusion
+            for (let i = 0; i < res.data.result.length; i++) {
+              this.domains.push({
+                b1: res.data.result[i].b1,
+                b2: res.data.result[i].b2,
+                b3: res.data.result[i].b3,
+                b4: res.data.result[i].b4,
+                s1: res.data.result[i].s1,
+                s2: res.data.result[i].s2,
+                s3: res.data.result[i].s3,
+                s4: res.data.result[i].s4,
+                c: res.data.result[i].c
+              })
+            }
+            console.log(this.domains)
+            const now = new Date()
+            const stringNow = now.getFullYear().toString() + '-' + now.getMonth().toString() + '-' + now.getDate()
+            if (res.data.basic.mutable === false) {
+              this.$message.info('报告已提交，不可修改')
+              this.readonly = true
+            }
+            if (stringNow > sessionStorage.getItem('ddl')) {
+              if (res.data.basic.mutable !== false) {
+                this.$message.info('逾期未交，不可修改')
+                this.readonly = true
+              }
+            }
+          }
+        )
+        .catch(
+          (err) => {
+            console.log(err)
+          }
+        )
+    },
     save (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
@@ -310,24 +358,102 @@ export default {
       })
     },
     async handleSave () {
-      const url = '/post/save/report'
+      const url = '/save/summator'
       await axios
         .post(url, {
-          aim: this.formData.aim,
-          labId: this.labId,
-          principle: this.formData.principle,
-          result: this.formData.result,
-          step: this.formData.step,
-          stuId: this.stuId
+          summatorBasicDto: {
+            aim: this.formData.aim,
+            principle: this.formData.principle,
+            conclusion: this.formData.result,
+            step: this.formData.step,
+            stuId: this.stuId
+          },
+          resultList: this.formData.domains
         })
         .then((response) => {
-          this.$message.success('保存成功！')
-          // console.log(this.isStudent)
+          this.$message.success('暂存成功！')
         })
         .catch((err) => {
-          this.$message.error('保存失败！')
+          this.$message.error('暂存失败！')
           console.log(err)
         })
+    },
+    submit (formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.handleSubmit()
+        } else {
+          console.log('error!!')
+          return false
+        }
+      })
+    },
+    async handleSubmit () {
+      const url = '/submit/summator?id=' + this.stuId
+      await axios.post(url)
+        .then(
+          (res) => {
+            this.$message.success('提交成功')
+          }
+        )
+        .catch(
+          (err) => {
+            this.$message.error('提交失败')
+            console.log(err)
+          }
+        )
+    },
+    handleRemove (file, fileList) {
+      console.log(file, fileList)
+    },
+    handlePreview (file) {
+      console.log(file)
+    },
+    BeforeUpload (file) {
+      if (file) {
+        this.newFile.append('file', file) //  2. 上传之前，拿到file对象，并将它添加到刚刚定义的FormData对象中。
+        console.log(this.newFile.get('file'))
+      } else {
+        return false
+      }
+    },
+    async saveFile () {
+      const newData = this.newFile //  3. 拿到刚刚的数据，并将其传给后台
+      await axios({
+        url: 'http://114.55.35.220:8081/api/uploadFileReport',
+        method: 'post',
+        data: newData,
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+        .then((res) => {
+          this.$message.success('上传成功')
+          this.fileInfo = res.data
+          // console.log('res:', res)
+        })
+        .catch((err) => {
+          this.$message.error('上传失败')
+          console.log(err)
+        })
+      const url = '/save/report/file'
+      await axios.post(url, {
+        labId: 1,
+        location: this.fileInfo.path,
+        name: this.fileInfo.fileName,
+        stuId: this.stuId
+      }).catch(
+        (err) => {
+          this.$message.error('存储数据库失败')
+          console.log(err)
+        }
+      )
+    }
+  },
+  async created () {
+    await this.getReport()
+    if (this.domains.length === 0) {
+      this.initDomains()
     }
   }
 }
