@@ -142,10 +142,13 @@
 
 <script>
 // import { VueperSlides, VueperSlide } from 'vueperslides'
+import axios from 'axios'
 export default {
   name: 'Home',
   data: () => ({
     helloMsg: '',
+    schedule: [],
+    latestFive: [],
     name: '',
     type: 'month',
     types: ['month', 'week', 'day', '4day'],
@@ -228,10 +231,30 @@ export default {
       const obj = JSON.parse(sessionStorage.getItem('detail'))
       this.helloMsg = '你好 ' + obj.id + obj.name
       this.name = obj.name
+    },
+    async getSchedule () {
+      const url = '/get/schedule'
+      await axios.get(url)
+        .then(
+          (res) => {
+            this.schedule = res.data
+          }
+        )
+    },
+    async getLatestMaterial () {
+      const url = '/get/latest/material'
+      await axios.get(url)
+        .then(
+          (res) => {
+            this.latestFive = res.data
+          }
+        )
     }
   },
-  created () {
-    this.getHelloMsg()
+  async created () {
+    await this.getHelloMsg()
+    await this.getSchedule()
+    await this.getLatestMaterial()
   }
 }
 </script>
