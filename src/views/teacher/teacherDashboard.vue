@@ -86,7 +86,7 @@
             <div v-show="show">
               <v-divider></v-divider>
               <v-card-text>
-                这里是对课程的详细描述，可以添加其他老师的信息blabla
+                同济大学软件学院计算机组成原理课程配套实验
               </v-card-text>
             </div>
           </v-expand-transition>

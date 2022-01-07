@@ -158,8 +158,8 @@
     </div>
     <!-- 这里需要后面加一下暂存和提交调用的方法 -->
 
-    <el-button type="warning" @click="save('formData')">暂存</el-button>
-    <el-button type="warning" @click="submit('formData')">提交</el-button>
+    <el-button type="warning" @click="save('formData')" :disabled="readonly">暂存</el-button>
+    <el-button type="warning" @click="submit('formData')" :disabled="readonly">提交</el-button>
   </div>
 </template>
 

@@ -1,4 +1,4 @@
-<template>
+<template >
 <!-- eslint-disable -->
   <v-container class="container--fluid">
     <v-row>
@@ -32,14 +32,14 @@
             <v-expansion-panel-content>
               <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
                 <template v-slot:activator="{ on, attrs }">
-                  <v-btn class="px-3" color="green" dark style="margin-left: 300px" v-bind="attrs" v-on="on" @click="storeSomething(experiment.id,experiment.deadline)">进入实验</v-btn>
+                  <v-btn class="px-3" color="green" dark style="margin-left: 300px" v-bind="attrs" v-on="on" @click="storeSomething(experiment.id,experiment.deadline,experiment.name)">进入实验</v-btn>
                 </template>
       <v-card>
         <v-toolbar dark color="teal">
-          <v-btn icon dark @click="dialog = false">
+          <v-btn icon dark @click="clickQuit">
             <v-icon>mdi-close</v-icon>
           </v-btn>
-          <v-toolbar-title>EXPERIMENT{{ "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0" }}{{experiment.name}}</v-toolbar-title>
+          <v-toolbar-title>EXPERIMENT{{ '\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0' }}{{thisSessionStorage.getItem('labName')}}</v-toolbar-title>
           <v-spacer></v-spacer>
 <!--          <v-toolbar-items>-->
 <!--            <v-btn dark text @click="dialog = false">{{this.Msg}}</v-btn>-->
@@ -52,7 +52,7 @@
     horizontal
     height="70"
   >
-    <v-btn width="200px" @click="goReport(experiment.id)">
+    <v-btn width="200px" @click="goReport()">
       <span style="font-size:15px;font-weight:bold">报告填写</span>
       <v-icon>mdi-lead-pencil</v-icon>
     </v-btn>
@@ -89,7 +89,7 @@
           <v-card-text class="text--primary">
             <div>主讲老师：张晶</div>
             <div>开课学期：2021-2022 秋季学期</div>
-            <div>学时：34{{ "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0" }}学分：2</div>
+            <div>学时：34{{ '\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0' }}学分：2</div>
           </v-card-text>
 
           <v-card-actions>
@@ -101,7 +101,7 @@
 
             <v-btn icon @click="show = !show">
               <v-icon>{{
-                show ? "mdi-chevron-up" : "mdi-chevron-down"
+                show ? 'mdi-chevron-up' : 'mdi-chevron-down'
               }}</v-icon>
             </v-btn>
           </v-card-actions>
@@ -138,7 +138,8 @@ export default {
       sound: true,
       widgets: false,
       bottomNav: 3,
-      activeBtn: 1
+      activeBtn: 1,
+      thisSessionStorage: sessionStorage
     }
   },
   mounted () {
@@ -154,7 +155,7 @@ export default {
       })
   },
   methods: {
-    storeSomething (id, ddl) {
+    storeSomething (id, ddl, name) {
       if (sessionStorage.getItem('labId') !== null) {
         sessionStorage.removeItem('labId')
       }
@@ -163,9 +164,14 @@ export default {
         sessionStorage.removeItem('ddl')
       }
       sessionStorage.setItem('ddl', ddl)
+      if (sessionStorage.getItem('labName') !== null) {
+        sessionStorage.removeItem('labName')
+      }
+      sessionStorage.setItem('labName', name)
+      console.log('STORED')
     },
-    goReport (id) {
-      if (id === 1) {
+    goReport () {
+      if (sessionStorage.getItem('labId') === '1') {
         this.$router.push('/stuExpReportSummator')
       } else {
         this.$router.push('/stuExpReportGeneral')
@@ -176,6 +182,10 @@ export default {
     },
     goGrade () {
       this.$router.push('/stuExpGrade')
+    },
+    clickQuit () {
+      this.dialog = false
+      this.$router.push('/stuLab')
     }
   }
 }

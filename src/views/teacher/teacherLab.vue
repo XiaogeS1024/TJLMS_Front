@@ -149,7 +149,7 @@
                       ></v-text-field>
                     </v-col>
                   </v-row>
-        
+
                   <v-row>
       <v-col cols="3">
         <v-subheader class="font-weight-bold" style="font-size:1.1rem">项目截止时间</v-subheader>
@@ -229,7 +229,7 @@
     </v-row>
 
 
-                  
+
                 </v-form>
               </v-container>
             </v-card-text>
@@ -330,7 +330,7 @@ export default {
         .then((response) => {
           const newData = this.newFile //  3. 拿到刚刚的数据，并将其传给后台
           axios({
-            url: 'http://114.55.35.220:8081/api/uploadFileUser',
+            url: 'http://114.55.35.220:8081/api/uploadFileLab',
             method: 'post',
             data: newData,
             headers: {

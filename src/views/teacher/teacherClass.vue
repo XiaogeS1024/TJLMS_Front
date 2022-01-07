@@ -719,6 +719,23 @@ export default {
           })
             .then((response) => {
               this.$message.success('发布成功！')
+              const url = '/post/students/class'
+              axios.post(url, {
+                classId: this.classInfo.classId,
+                filePath: response.data.path
+              })
+                .then(
+                  (res) => {
+                    this.$message.success('学生添加成功')
+                    console.log(res)
+                  }
+                )
+                .catch(
+                  (err) => {
+                    this.$message.error('学生添加失败')
+                    console.log(err)
+                  }
+                )
               this.classDialogVisible = false
               this.reload()
             })
