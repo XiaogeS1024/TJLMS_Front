@@ -389,8 +389,17 @@ export default {
       })
     },
     async handleSubmit () {
-      const url = '/submit/summator?id=' + this.stuId
-      await axios.post(url)
+      const url = '/submit/summator'
+      await axios.post(url, {
+        summatorBasicDto: {
+          aim: this.formData.aim,
+          principle: this.formData.principle,
+          conclusion: this.formData.result,
+          step: this.formData.step,
+          stuId: this.stuId
+        },
+        resultList: this.formData.domains
+      })
         .then(
           (res) => {
             this.$message.success('提交成功')
