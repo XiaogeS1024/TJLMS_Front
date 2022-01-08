@@ -62,34 +62,34 @@
         style="width: 100%"
       >
         <el-table-column
-          prop="date"
+          prop="queryGradeEntity.updateDate"
           label="批改日期"
           sortable
           width="250"
           column-key="date"
         >
         </el-table-column>
-        <el-table-column
-          prop="status"
-          label="批阅状态"
-          width="250"
-          :filters="[
-            { text: '未批阅', value: '未批阅' },
-            { text: '已批阅', value: '已批阅' },
-          ]"
-          :filter-method="filterStatus"
-          filter-placement="bottom-end"
-        >
-          <template slot-scope="scope">
-            <el-tag
-              :type="scope.row.status === '未批阅' ? 'primary' : 'success'"
-              disable-transitions
-            >
-              {{ scope.row.status }}
-            </el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column prop="module" label="实验模块" width="250"></el-table-column>
+<!--        <el-table-column-->
+<!--          prop="status"-->
+<!--          label="批阅状态"-->
+<!--          width="250"-->
+<!--          :filters="[-->
+<!--            { text: '未批阅', value: '未批阅' },-->
+<!--            { text: '已批阅', value: '已批阅' },-->
+<!--          ]"-->
+<!--          :filter-method="filterStatus"-->
+<!--          filter-placement="bottom-end"-->
+<!--        >-->
+<!--          <template slot-scope="scope">-->
+<!--            <el-tag-->
+<!--              :type="scope.row.status === '未批阅' ? 'primary' : 'success'"-->
+<!--              disable-transitions-->
+<!--            >-->
+<!--              {{ scope.row.status }}-->
+<!--            </el-tag>-->
+<!--          </template>-->
+<!--        </el-table-column>-->
+        <el-table-column prop="queryGradeEntity.name" label="实验模块" width="250"></el-table-column>
 <!--        <el-table-column label="操作">-->
 <!--          <el-button size="mini" @click="dialogTableVisible = true"-->
 <!--            >查看详情</el-button-->
@@ -109,10 +109,15 @@
 <!--          </el-dialog>-->
 <!--        </el-table-column>-->
         <el-table-column
-          prop="score"
+          prop="queryGradeEntity.score"
           label="得分"
           width="250"
         ></el-table-column>
+              <el-table-column
+                prop="grade"
+                label="成绩"
+                width="250"
+              ></el-table-column>
       </el-table>
       <el-pagination
         align="center"
@@ -192,14 +197,14 @@ export default {
       if (this.valueAttend === this.attendance) {
         return (this.valueAttend = this.attendance)
       }
-      this.valueAttend += 0.1
-    }, 0.1)
+      this.valueAttend += 10.0
+    }, 1)
     this.intervalFinal = setInterval(() => {
       if (this.valueFinal === this.final) {
         return (this.valueFinal = this.final)
       }
-      this.valueFinal += 0.1
-    }, 0.1)
+      this.valueFinal += 10.0
+    }, 1)
   },
   methods: {
     filterHandler (value, row, column) {
@@ -230,7 +235,7 @@ export default {
           (res) => {
             this.tableData = res.data.eachGrades
             this.attendance = res.data.attendance
-            this.final = res.data.finalGrade
+            this.final = res.data.finalScore
           }
         )
         .catch(

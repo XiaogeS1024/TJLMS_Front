@@ -87,30 +87,33 @@ export default {
       note: ''
     }
   },
+  methods: {
+    async queryParticular () {
+      const url = '/get/particular/grade?labId=' + this.labId + '&stuId=' + this.stuId
+      await axios.get(url)
+        .then(
+          (res) => {
+            this.note = res.data.note
+            this.final = res.data.score
+          }
+        )
+        .catch(
+          (err) => {
+            console.log(err)
+          }
+        )
+    }
+  },
   async mounted () {
     await this.queryParticular()
     this.intervalFinal = setInterval(() => {
       if (this.valueFinal === this.final) {
         return (this.valueFinal = this.final)
       }
-      this.valueFinal += 0.1
-    }, 0.1)
-  },
-  async queryParticular () {
-    const url = '/get/particular/grade?labId=' + this.labId + '&stuId=' + this.stuId
-    await axios.get(url)
-      .then(
-        (res) => {
-          this.note = res.data.note
-          this.final = res.data.score
-        }
-      )
-      .catch(
-        (err) => {
-          console.log(err)
-        }
-      )
+      this.valueFinal += 10
+    }, 1)
   }
+
 }
 </script>
 
