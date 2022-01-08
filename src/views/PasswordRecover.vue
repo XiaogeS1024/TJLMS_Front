@@ -177,7 +177,7 @@ export default {
         this.$message.error('请输入正确的邮件格式')
       } else {
         this.emailCheck()
-        if (this.flag === false) {
+        if (this.flag === true) {
           console.log(this.flag)
           this.send()
         } else {
@@ -248,7 +248,6 @@ export default {
               (res) => {
                 this.active++
                 this.$message.success('密码重置成功')
-                this.$router.push('/login')
                 console.log(res)
               }
             )

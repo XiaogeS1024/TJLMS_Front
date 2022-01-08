@@ -569,9 +569,9 @@ export default {
     },
 
     // 调用api，加载列表
-    async loadData () {
+    loadData () {
       this.studentList.length = 0
-      await axios
+      axios
         .get('/get/classes', {
           params: {}
         })
@@ -583,7 +583,11 @@ export default {
             }
           }
           axios
-            .get('/get/students/' + this.classId)
+            .get('/get/students/' + this.classId, {
+              params: {
+                classId: this.classId
+              }
+            })
             .then((response) => {
               console.log(response.data)
               for (let i = 0; i < response.data.length; i++) {
@@ -715,6 +719,23 @@ export default {
           })
             .then((response) => {
               this.$message.success('发布成功！')
+              const url = '/post/students/class'
+              axios.post(url, {
+                classId: this.classInfo.classId,
+                filePath: response.data.path
+              })
+                .then(
+                  (res) => {
+                    this.$message.success('学生添加成功')
+                    console.log(res)
+                  }
+                )
+                .catch(
+                  (err) => {
+                    this.$message.error('学生添加失败')
+                    console.log(err)
+                  }
+                )
               this.classDialogVisible = false
               this.reload()
             })

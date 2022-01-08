@@ -61,12 +61,22 @@
             </el-table-column>
             <el-table-column prop="uploader" label="发布人" width="180">
             </el-table-column>
-            <el-table-column label="操作">
+            <el-table-column label="下载">
               <template slot-scope="scope">
                 <el-button
                   type="primary"
                   icon="el-icon-bottom"
                   @click="download(scope.row.name)"
+                  circle
+                ></el-button>
+              </template>
+            </el-table-column>
+            <el-table-column label="删除">
+              <template slot-scope="scope">
+                <el-button
+                  type="danger"
+                  icon="el-icon-delete"
+                  @click="confirm(scope.row)"
                   circle
                 ></el-button>
               </template>
@@ -116,23 +126,68 @@ export default {
       const url =
         '/get/uploader/material/' +
         JSON.parse(sessionStorage.getItem('detail')).id +
-        'pageNum=1&pageSize=20'
+        '?pageNum=1&pageSize=20'
       await axios
         .get(url)
         .then((response) => {
-          this.complex.items = response.data.content
+          this.complex.items = response.data.data.content
+          console.log(this.complex.items)
         })
         .catch((err) => {
           this.errMsg = '暂无教学资料'
           console.log(err)
+        })
+    },
+    download (name) {
+      window.location.href =
+        'http://114.55.35.220:8081/api/downloadFileLab/' + name
+    },
+    async del (id) {
+      const url = '/delete/material/' + id
+      await axios.post(url)
+        .then(
+          (res) => {
+            this.$message.success('删除成功')
+            console.log(res)
+          }
+        )
+        .catch(
+          (err) => {
+            this.$message.error('删除失败')
+            console.log(err)
+          }
+        )
+    },
+    confirm (row) {
+      this.$confirm(
+        '你确定要删除此文件吗？',
+        '提示',
+        {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }
+      )
+        .then(() => {
+          this.del(row.id)
+        })
+        .catch(() => {
+          this.$message({
+            type: 'info',
+            message: '操作取消'
+          })
         })
     }
   },
   mounted () {
     this.getUploaderMaterials()
   }
+
 }
 </script>
 
 <style scoped>
+.el-button{
+  color: #FFFFFF;
+}
 </style>

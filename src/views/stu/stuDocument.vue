@@ -70,7 +70,7 @@
               </el-table-column>
               <el-table-column prop="uploader" label="发布人" width="180">
               </el-table-column>
-              <el-table-column label="操作">
+              <el-table-column label="下载">
                 <template slot-scope="scope">
                   <el-button
                     type="primary"

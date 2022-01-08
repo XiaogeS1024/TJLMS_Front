@@ -11,7 +11,7 @@
         :header-cell-style="{background:'#eef1f6',color:'#606266'}"
       >
         <el-table-column
-          prop="time"
+          prop="releaseTime"
           label="发布时间"
           sortable
           width="200"
@@ -87,9 +87,7 @@ export default {
 
   mounted () {
     axios
-      .get('/get/titles', {
-        params: {}
-      })
+      .get('/get/notice/releaser/' + JSON.parse(sessionStorage.getItem('detail')).id)
       .then((response) => {
         console.log(response.data)
         this.tableData = response.data
