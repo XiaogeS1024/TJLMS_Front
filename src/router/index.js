@@ -103,6 +103,14 @@ const routes = [
         component: () => import('../views/stu/stuGrade.vue')
       },
       {
+        path: '/stuSignIN',
+        name: 'StudentSignIN',
+        meta: {
+          title: '我的签到'
+        },
+        component: () => import('../views/stu/stuSignIN.vue')
+      },
+      {
         path: '/stuNotice',
         name: 'StudentNotice',
         meta: {
@@ -151,14 +159,42 @@ const routes = [
         },
         component: () => import('../views/teacher/teacherDashboard.vue')
       },
+
       {
         path: '/teacherLab',
         name: 'TeacherLab',
         meta: {
           title: '实验管理'
         },
-        component: () => import('../views/teacher/teacherLab.vue')
+        component: () => import('../views/teacher/teacherLab.vue'),
+        children: [
+          {
+            path: '/teacherAssignmentList',
+            name: 'TeacherAssignmentList',
+            meta: {
+              title: '报告列表'
+            },
+            component: () => import('../views/teacher/assignmentList.vue')
+          },
+          {
+            path: '/teacherAssignmentCheck',
+            name: 'teacherAssignmentCheck',
+            meta: {
+              title: '批改报告'
+            },
+            component: () => import('../views/teacher/assignmentCheck.vue')
+          },
+          {
+            path: '/teacherAssignmentSummatorCheck',
+            name: 'teacherAssignmentSummatorCheck',
+            meta: {
+              title: '批改报告'
+            },
+            component: () => import('../views/teacher/asgSumerCheck.vue')
+          }
+        ]
       },
+
       {
         path: '/teacherDocument',
         name: 'TeacherDocument',

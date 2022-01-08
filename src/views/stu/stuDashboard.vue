@@ -101,28 +101,34 @@
         </v-col>
 
         <v-col cols="12" sm="4">
-          <v-card class="mx-4 rounded-xl pa-4" color="grey lighten-3" :elevation=10>
+          <v-card class="mx-4 rounded-xl pa-3 " color="grey lighten-3" :elevation=10>
             <template>
-              <v-card class="mx-auto" max-width="434" tile >
+              <v-card class="mx-1 rounded-xl pa-0" max-width="434" tile >
                 <v-img >
                   <v-row
                    align="end"
-                   class="mt-2"
+                   class="pa-3"
+                   sm="4"
                   >
                     <v-col
                      align-self="start"
-                     class="pa-5"
+                     class="px-3"
                      cols="12"
+                     sm="4"
                     >
-                      <v-avatar class="profile" color="grey" size="100" :elevation=20 >
-                        <v-img src="@/assets/2.jpg"></v-img>
+                      <v-avatar class="profile" style="box-shadow: 0px 2px 12px #A3A3A3;" color="grey" size="80" :elevation=20 >
+                        <v-img src="@/assets/2.jpg" ></v-img>
                       </v-avatar>
                   </v-col>
-                  <v-col class="py-0">
-                  <v-list-item color="black">
-                    <v-list-item-content>
-                      <v-list-item-title class="title">{{name}}</v-list-item-title>
-                      <v-list-item-subtitle>2019级 软件学院 软件工程</v-list-item-subtitle>
+
+                  <v-col class="pb-3 pl-0" sm="8" style="padding-right:0px;">
+                  <v-list-item color="black" class="py-0">
+                    <v-list-item-content >
+                      <v-list-item-title class="title" ><span style="font-size:18px;"> {{name}} </span></v-list-item-title>
+                       <div style="font-size:6px;">&nbsp;</div>
+                      <v-list-item-subtitle style="font-size:13px;">
+                        2019级 软件学院 软件工程
+                        </v-list-item-subtitle>
                     </v-list-item-content>
                    </v-list-item>
                   </v-col>
@@ -142,13 +148,10 @@
 
 <script>
 // import { VueperSlides, VueperSlide } from 'vueperslides'
-import axios from 'axios'
 export default {
   name: 'Home',
   data: () => ({
     helloMsg: '',
-    schedule: [],
-    latestFive: [],
     name: '',
     type: 'month',
     types: ['month', 'week', 'day', '4day'],
@@ -195,24 +198,27 @@ export default {
   //     VueperSlide
   //   },
   methods: {
-    getEvents () {
+    getEvents ({ start, end }) {
       const events = []
 
-      // const min = new Date(`${start.date}T00:00:00`)
-      // const max = new Date(`${end.date}T23:59:59`)
-      // const days = (max.getTime() - min.getTime()) / 86400000
-      // this.rnd(days, days + 20)
-      console.log(this.schedule)
-      for (let i = 0; i < this.schedule.length; i++) {
-        const first = new Date()
-        const second = new Date(Date.parse(this.schedule[i].deadline))
+      const min = new Date(`${start.date}T00:00:00`)
+      const max = new Date(`${end.date}T23:59:59`)
+      const days = (max.getTime() - min.getTime()) / 86400000
+      const eventCount = this.rnd(days, days + 20)
+
+      for (let i = 0; i < eventCount; i++) {
+        const allDay = this.rnd(0, 3) === 0
+        const firstTimestamp = this.rnd(min.getTime(), max.getTime())
+        const first = new Date(firstTimestamp - (firstTimestamp % 900000))
+        const secondTimestamp = this.rnd(2, allDay ? 288 : 8) * 900000
+        const second = new Date(first.getTime() + secondTimestamp)
 
         events.push({
-          name: this.schedule[i].labName,
+          name: this.names[this.rnd(0, this.names.length - 1)],
           start: first,
           end: second,
           color: this.colors[this.rnd(0, this.colors.length - 1)],
-          timed: false
+          timed: !allDay
         })
       }
 
@@ -228,33 +234,14 @@ export default {
       const obj = JSON.parse(sessionStorage.getItem('detail'))
       this.helloMsg = '你好 ' + obj.id + obj.name
       this.name = obj.name
-    },
-    async getSchedule () {
-      const url = '/get/schedule'
-      await axios.get(url)
-        .then(
-          (res) => {
-            this.schedule = res.data
-          }
-        )
-    },
-    async getLatestMaterial () {
-      const url = '/get/latest/material'
-      await axios.get(url)
-        .then(
-          (res) => {
-            this.latestFive = res.data
-          }
-        )
     }
   },
-  async created () {
-    await this.getHelloMsg()
-    await this.getSchedule()
-    await this.getLatestMaterial()
-    await this.getEvents()
+  created () {
+    this.getHelloMsg()
   }
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+
+</style>

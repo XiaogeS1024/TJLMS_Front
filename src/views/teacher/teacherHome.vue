@@ -153,7 +153,7 @@ export default {
       { title: '控制面板', icon: 'mdi-view-dashboard', route: '/teacherDashboard' },
       { title: '实验管理', icon: 'mdi-school', route: '/teacherLab' },
       { title: '文件中心', icon: 'mdi-clipboard-check-multiple-outline', route: '/teacherDocument' },
-      { title: '作业批改', icon: 'mdi-chart-multiple', route: '/assignment' },
+      { title: '签到发布', icon: 'mdi-map-marker-outline', route: '/assignment' },
       { title: '班级管理', icon: 'mdi-account-multiple', route: '/teacherClass' },
       { title: '消息中心', icon: 'mdi-bell-ring', route: '/teacherNotice' }
     ],

@@ -158,8 +158,8 @@
     </div>
     <!-- 这里需要后面加一下暂存和提交调用的方法 -->
 
-    <el-button type="warning" @click="save('formData')" :disabled="readonly">暂存</el-button>
-    <el-button type="warning" @click="submit('formData')" :disabled="readonly">提交</el-button>
+    <el-button type="warning" @click="save('formData')">暂存</el-button>
+    <el-button type="warning" @click="submit('formData')">提交</el-button>
   </div>
 </template>
 
@@ -389,17 +389,8 @@ export default {
       })
     },
     async handleSubmit () {
-      const url = '/submit/summator'
-      await axios.post(url, {
-        summatorBasicDto: {
-          aim: this.formData.aim,
-          principle: this.formData.principle,
-          conclusion: this.formData.result,
-          step: this.formData.step,
-          stuId: this.stuId
-        },
-        resultList: this.formData.domains
-      })
+      const url = '/submit/summator?id=' + this.stuId
+      await axios.post(url)
         .then(
           (res) => {
             this.$message.success('提交成功')

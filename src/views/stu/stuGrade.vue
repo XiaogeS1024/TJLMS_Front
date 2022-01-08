@@ -13,34 +13,34 @@
                 :rotate="-90"
                 :size="120"
                 :width="15"
-                :value="valueAttend"
+                :value="value"
                 color="amber"
             >
-            {{ valueAttend }}/100
+            {{ value }}/100
             </v-progress-circular><br />
             <span>考勤成绩</span>
             </v-col>
-<!--            <v-col cols="12" sm="3">-->
-<!--            <v-progress-circular-->
-<!--                :rotate="-90"-->
-<!--                :size="120"-->
-<!--                :width="15"-->
-<!--                :value="final"-->
-<!--                color="cyan"-->
-<!--            >-->
-<!--            {{ final }}/100-->
-<!--            </v-progress-circular><br />-->
-<!--            <span>总成绩</span>-->
-<!--            </v-col>-->
+            <v-col cols="12" sm="3">
+            <v-progress-circular
+                :rotate="-90"
+                :size="120"
+                :width="15"
+                :value="value"
+                color="cyan"
+            >
+            {{ value }}/100
+            </v-progress-circular><br />
+            <span>作业成绩</span>
+            </v-col>
             <v-col cols="12" sm="6">
             <v-progress-circular
                 :rotate="-90"
                 :size="120"
                 :width="15"
-                :value="valueFinal"
+                :value="value"
                 color="pink"
             >
-            {{ valueFinal }}/100
+            {{ value }}/100
             </v-progress-circular><br />
             <span>总成绩</span>
             </v-col>
@@ -62,62 +62,57 @@
         style="width: 100%"
       >
         <el-table-column
-          prop="queryGradeEntity.updateDate"
-          label="批改日期"
+          prop="date"
+          label="提交日期"
           sortable
-          width="250"
+          width="150"
           column-key="date"
         >
         </el-table-column>
-<!--        <el-table-column-->
-<!--          prop="status"-->
-<!--          label="批阅状态"-->
-<!--          width="250"-->
-<!--          :filters="[-->
-<!--            { text: '未批阅', value: '未批阅' },-->
-<!--            { text: '已批阅', value: '已批阅' },-->
-<!--          ]"-->
-<!--          :filter-method="filterStatus"-->
-<!--          filter-placement="bottom-end"-->
-<!--        >-->
-<!--          <template slot-scope="scope">-->
-<!--            <el-tag-->
-<!--              :type="scope.row.status === '未批阅' ? 'primary' : 'success'"-->
-<!--              disable-transitions-->
-<!--            >-->
-<!--              {{ scope.row.status }}-->
-<!--            </el-tag>-->
-<!--          </template>-->
-<!--        </el-table-column>-->
-        <el-table-column prop="queryGradeEntity.name" label="实验模块" width="250"></el-table-column>
-<!--        <el-table-column label="操作">-->
-<!--          <el-button size="mini" @click="dialogTableVisible = true"-->
-<!--            >查看详情</el-button-->
-<!--          >-->
-<!--          <el-dialog title="作业详情" :visible.sync="dialogTableVisible">-->
-<!--            <el-descriptions direction="vertical" :column="4" border>-->
-<!--              <el-descriptions-item label="提交日期">AAA</el-descriptions-item>-->
-<!--              <el-descriptions-item label="提交时间">AAA</el-descriptions-item>-->
-<!--              <el-descriptions-item label="所属实验模块">AAA</el-descriptions-item>-->
-<!--              <el-descriptions-item label="内容">-->
-<!--                <el-link type="primary">查看文件</el-link>-->
-<!--              </el-descriptions-item>-->
-<!--              <el-descriptions-item label="评分">AAA</el-descriptions-item>-->
-<!--              <el-descriptions-item label="批阅人">AAA</el-descriptions-item>-->
-<!--              <el-descriptions-item label="评语">AAA</el-descriptions-item>-->
-<!--            </el-descriptions>-->
-<!--          </el-dialog>-->
-<!--        </el-table-column>-->
         <el-table-column
-          prop="queryGradeEntity.score"
+          prop="status"
+          label="批阅状态"
+          width="100"
+          :filters="[
+            { text: '未批阅', value: '未批阅' },
+            { text: '已批阅', value: '已批阅' },
+          ]"
+          :filter-method="filterStatus"
+          filter-placement="bottom-end"
+        >
+          <template slot-scope="scope">
+            <el-tag
+              :type="scope.row.status === '未批阅' ? 'primary' : 'success'"
+              disable-transitions
+            >
+              {{ scope.row.status }}
+            </el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column prop="module" label="实验模块" width="150"></el-table-column>
+        <el-table-column label="操作">
+          <el-button size="mini" @click="dialogTableVisible = true"
+            >查看详情</el-button
+          >
+          <el-dialog title="作业详情" :visible.sync="dialogTableVisible">
+            <el-descriptions direction="vertical" :column="4" border>
+              <el-descriptions-item label="提交日期">AAA</el-descriptions-item>
+              <el-descriptions-item label="提交时间">AAA</el-descriptions-item>
+              <el-descriptions-item label="所属实验模块">AAA</el-descriptions-item>
+              <el-descriptions-item label="内容">
+                <el-link type="primary">查看文件</el-link>
+              </el-descriptions-item>
+              <el-descriptions-item label="评分">AAA</el-descriptions-item>
+              <el-descriptions-item label="批阅人">AAA</el-descriptions-item>
+              <el-descriptions-item label="评语">AAA</el-descriptions-item>
+            </el-descriptions>
+          </el-dialog>
+        </el-table-column>
+        <el-table-column
+          prop="score"
           label="得分"
-          width="250"
+          width="100"
         ></el-table-column>
-              <el-table-column
-                prop="grade"
-                label="成绩"
-                width="250"
-              ></el-table-column>
       </el-table>
       <el-pagination
         align="center"
@@ -140,37 +135,34 @@
 </template>
 
 <script>
-import axios from 'axios'
-
 export default {
   data () {
     return {
-      stuId: JSON.parse(sessionStorage.getItem('detail')).id,
       tableData: [
-        // {
-        //   date: '2016-05-02',
-        //   status: '未批阅',
-        //   module: '',
-        //   score: '89'
-        // },
-        // {
-        //   date: '2016-05-02',
-        //   status: '未批阅',
-        //   module: '实验一',
-        //   score: '89'
-        // },
-        // {
-        //   date: '2016-05-02',
-        //   status: '未批阅',
-        //   module: '实验一',
-        //   score: '89'
-        // },
-        // {
-        //   date: '2016-05-02',
-        //   status: '未批阅',
-        //   module: '实验一',
-        //   score: '89'
-        // }
+        {
+          date: '2016-05-02',
+          status: '未批阅',
+          module: '实验一',
+          score: '89'
+        },
+        {
+          date: '2016-05-02',
+          status: '未批阅',
+          module: '实验一',
+          score: '89'
+        },
+        {
+          date: '2016-05-02',
+          status: '未批阅',
+          module: '实验一',
+          score: '89'
+        },
+        {
+          date: '2016-05-02',
+          status: '未批阅',
+          module: '实验一',
+          score: '89'
+        }
       ],
       dialogTableVisible: false,
       dialogFormVisible: false,
@@ -183,27 +175,16 @@ export default {
         delivery: false
       },
       formLabelWidth: '120px',
-      intervalAttend: {},
-      intervalFinal: {},
-      attendance: 0.0,
-      final: 0.0,
-      valueAttend: 0.0,
-      valueFinal: 0.0
+      interval: {},
+      value: 0
     }
   },
-  async mounted () {
-    await this.queryGrade()
-    this.intervalAttend = setInterval(() => {
-      if (this.valueAttend === this.attendance) {
-        return (this.valueAttend = this.attendance)
+  mounted () {
+    this.interval = setInterval(() => {
+      if (this.value === 80) {
+        return (this.value = 80)
       }
-      this.valueAttend += 10.0
-    }, 1)
-    this.intervalFinal = setInterval(() => {
-      if (this.valueFinal === this.final) {
-        return (this.valueFinal = this.final)
-      }
-      this.valueFinal += 10.0
+      this.value += 10
     }, 1)
   },
   methods: {
@@ -227,22 +208,6 @@ export default {
     handleCurrentChange (val) {
       console.log(`当前页: ${val}`)
       this.currentPage = val
-    },
-    async queryGrade () {
-      const url = '/get/grade/' + this.stuId
-      await axios.get(url)
-        .then(
-          (res) => {
-            this.tableData = res.data.eachGrades
-            this.attendance = res.data.attendance
-            this.final = res.data.finalScore
-          }
-        )
-        .catch(
-          (err) => {
-            console.log(err)
-          }
-        )
     }
   }
 }

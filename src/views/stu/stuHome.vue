@@ -153,6 +153,7 @@ export default {
       { title: '控制面板', icon: 'mdi-view-dashboard', route: '/stuDashboard' },
       { title: '实验中心', icon: 'mdi-school', route: '/stuLab' },
       { title: '文件中心', icon: 'mdi-clipboard-check-multiple-outline', route: '/stuDocument' },
+      { title: '我的签到', icon: 'mdi-map-marker-outline', route: '/stuSignIN' },
       { title: '我的成绩', icon: 'mdi-chart-multiple', route: '/stuGrade' },
       { title: '消息中心', icon: 'mdi-bell-ring', route: '/stuNotice' }
     ],

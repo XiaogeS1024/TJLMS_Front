@@ -86,7 +86,7 @@
             <div v-show="show">
               <v-divider></v-divider>
               <v-card-text>
-                同济大学软件学院计算机组成原理课程配套实验
+                这里是对课程的详细描述，可以添加其他老师的信息blabla
               </v-card-text>
             </div>
           </v-expand-transition>
@@ -95,33 +95,40 @@
           </v-row>
         </v-col>
 
-        <v-col cols="12" sm="4">
+        <v-col cols="12" sm="4" style="margin-left:30px">
           <v-card class="mx-4 rounded-xl pa-4" color="grey lighten-3" :elevation=10>
             <template>
-              <v-card class="mx-auto" max-width="434" tile >
+              <v-card class="mx-auto rounded-xl" max-width="434" tile >
                 <v-img >
-                  <v-row
+                      <v-row
                    align="end"
-                   class="mt-2"
+                   class="pa-3"
+                   sm="4"
                   >
                     <v-col
                      align-self="start"
-                     class="pa-5"
+                     class="px-3"
                      cols="12"
+                     sm="4"
                     >
-                      <v-avatar class="profile" color="grey" size="100" :elevation=20 >
-                        <v-img src="@/assets/teacher.png"></v-img>
+                      <v-avatar class="profile" style="box-shadow: 0px 2px 12px #A3A3A3;" color="grey" size="90" :elevation=20 >
+                        <v-img src="@/assets/teacher.png" ></v-img>
                       </v-avatar>
                   </v-col>
-                  <v-col class="py-0">
-                  <v-list-item color="black">
-                    <v-list-item-content>
-                      <v-list-item-title class="title">黄杰</v-list-item-title>
-                      <v-list-item-subtitle>软件学院</v-list-item-subtitle>
+
+                  <v-col class="pb-4 pl-3" sm="8" style="padding-right:0px;">
+                  <v-list-item color="black" class="py-0">
+                    <v-list-item-content >
+                      <v-list-item-title class="title" ><span style="font-size:18px;"> 黄杰 </span></v-list-item-title>
+                       <div style="font-size:6px;">&nbsp;</div>
+                      <v-list-item-subtitle style="font-size:13px;">
+                        软件学院
+                        </v-list-item-subtitle>
                     </v-list-item-content>
                    </v-list-item>
                   </v-col>
                  </v-row>
+
                </v-img>
              </v-card>
         </template>

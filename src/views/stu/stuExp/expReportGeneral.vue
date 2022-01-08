@@ -162,10 +162,6 @@ export default {
     async handleSubmit () {
       const url = '/post/submit/report'
       await axios.post(url, {
-        aim: this.formData.aim,
-        principle: this.formData.principle,
-        result: this.formData.result,
-        step: this.formData.step,
         stuId: this.stuId,
         labId: this.labId
       })
