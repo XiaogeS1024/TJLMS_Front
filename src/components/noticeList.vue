@@ -79,7 +79,6 @@
 }
 
 .button {
-  padding: 5;
   float: left;
 }
 

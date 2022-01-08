@@ -11,7 +11,7 @@
       <el-form
         :model="feedbackForm"
         ref="formData"
-        style="margin: auto；"
+        style="margin: auto;"
         width="60%"
       >
         <el-form-item label="反馈标题" prop="title" required>
