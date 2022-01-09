@@ -101,57 +101,74 @@
         </v-col>
 
         <v-col cols="12" sm="4">
-          <v-card class="mx-4 rounded-xl pa-4" color="grey lighten-3" :elevation=10>
+          <v-card
+            class="mx-4 rounded-xl pa-3"
+            color="grey lighten-3"
+            :elevation="10"
+          >
             <template>
-              <v-card class="mx-auto" max-width="434" tile >
-                <v-img >
-                  <v-row
-                   align="end"
-                   class="mt-2"
-                  >
-                    <v-col
-                     align-self="start"
-                     class="pa-5"
-                     cols="12"
-                    >
-                      <v-avatar class="profile" color="grey" size="100" :elevation=20 >
+              <v-card class="mx-1 rounded-xl pa-0" max-width="434" tile>
+                <v-img>
+                  <v-row align="end" class="pa-3" sm="4">
+                    <v-col align-self="start" class="px-3" cols="12" sm="4">
+                      <v-avatar
+                        class="profile"
+                        style="box-shadow: 0px 2px 12px #a3a3a3"
+                        color="grey"
+                        size="80"
+                        :elevation="20"
+                      >
                         <v-img src="@/assets/2.jpg"></v-img>
                       </v-avatar>
-                  </v-col>
-                  <v-col class="py-0">
-                  <v-list-item color="black">
-                    <v-list-item-content>
-                      <v-list-item-title class="title">{{name}}</v-list-item-title>
-                      <v-list-item-subtitle>2019级 软件学院 软件工程</v-list-item-subtitle>
-                    </v-list-item-content>
-                   </v-list-item>
-                  </v-col>
-                 </v-row>
-               </v-img>
-             </v-card>
-        </template>
-      </v-card>
-      <v-card class="mx-4 rounded-xl pa-4" color="grey lighten-3" :elevation=10 style="margin-top:50px">
-        <v-card-title>最新发布</v-card-title>
-        <v-divider></v-divider>
-        <el-table :data="latestmaterial" style="width: 100%">
-          <el-table-column prop="name" label="文件名称" width="180">
-          </el-table-column>
-          <el-table-column label="下载" width="auto">
-            <template slot-scope="scope">
-              <el-button
-                type="primary"
-                icon="el-icon-download"
-                circle
-                style="color: #fff"
-                @click="download(scope.row.name)"
-              >
-              </el-button>
+                    </v-col>
+
+                    <v-col class="pb-3 pl-0" sm="8" style="padding-right: 0px">
+                      <v-list-item color="black" class="py-0">
+                        <v-list-item-content>
+                          <v-list-item-title class="title"
+                          ><span style="font-size: 18px">
+                              {{ name }}
+                            </span></v-list-item-title
+                          >
+                          <div style="font-size: 6px">&nbsp;</div>
+                          <v-list-item-subtitle style="font-size: 13px">
+                            2019级 软件学院 软件工程
+                          </v-list-item-subtitle>
+                        </v-list-item-content>
+                      </v-list-item>
+                    </v-col>
+                  </v-row>
+                </v-img>
+              </v-card>
             </template>
-          </el-table-column>
-        </el-table>
-      </v-card>
-    </v-col>
+          </v-card>
+
+          <v-card
+            class="mx-4 rounded-xl pa-4"
+            color="grey lighten-3"
+            :elevation="10"
+            style="margin-top: 50px"
+          >
+            <v-card-title>最新发布</v-card-title>
+            <v-divider></v-divider>
+            <el-table :data="latestmaterial" style="width: 100%">
+              <el-table-column prop="name" label="文件名称" width="180">
+              </el-table-column>
+              <el-table-column label="下载" width="auto">
+                <template slot-scope="scope">
+                  <el-button
+                    type="primary"
+                    icon="el-icon-download"
+                    circle
+                    style="color: #fff"
+                    @click="download(scope.row.name)"
+                  >
+                  </el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+          </v-card>
+        </v-col>
   </v-row>
 </v-container>
 </v-app>

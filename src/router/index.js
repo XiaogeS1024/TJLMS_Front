@@ -204,12 +204,12 @@ const routes = [
         component: () => import('../views/teacher/teacherDocument.vue')
       },
       {
-        path: '/assignment',
-        name: 'Assignment',
+        path: '/teacherSignIN',
+        name: 'TeacherSignIN',
         meta: {
-          title: '作业批改'
+          title: '签到管理'
         },
-        component: () => import('../views/teacher/assignment.vue')
+        component: () => import('../views/teacher/teacherSignIN.vue')
       },
       {
         path: '/teacherClass',

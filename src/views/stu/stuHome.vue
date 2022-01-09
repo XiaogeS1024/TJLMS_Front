@@ -65,10 +65,10 @@
     <v-app-bar app elevation="1">
       <v-spacer></v-spacer>
       <div class="text-xs-center pr-3 mt-2">
-        <v-badge left="">
-          <span slot="badge">6</span>
-          <v-icon large color="grey lighten-1">mdi-bell-outline</v-icon>
-        </v-badge>
+<!--        <v-badge left="">-->
+<!--          <span slot="badge">6</span>-->
+<!--          <v-icon large color="grey lighten-1">mdi-bell-outline</v-icon>-->
+<!--        </v-badge>-->
 
         <v-btn text @click="toggleFullScreen">
           <v-icon>{{ toggleFullScreenIcon }}</v-icon>
