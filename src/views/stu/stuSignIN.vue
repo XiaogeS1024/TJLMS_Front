@@ -1,45 +1,48 @@
 <template>
   <v-container class="container--fluid">
-                                 <h3 style="margin-bottom:10px; text-align: center;">我的签到{{ "\xa0\xa0\xa0\xa0" }}STUDENT SIGNIN</h3>
-
+    <h3 style="margin-bottom: 10px; text-align: center">
+      我的签到{{ "\xa0\xa0\xa0\xa0" }}STUDENT SIGNIN
+    </h3>
+    <el-divider></el-divider>
     <app-widget title="Complex Table" padding-hide>
       <div slot="widget-content">
         <v-card-text class="pa-0">
           <template>
             <el-table
-              :data="
-                complex.items.filter(
-                  (data) =>
-                    !search ||
-                    data.name.toLowerCase().includes(search.toLowerCase()) ||
-                    data.uploader.toLowerCase().includes(search.toLowerCase())
-                )
-              "
+              :data="checkInTable"
               v-loading="loading"
               element-loading-text="拼命加载中"
               style="width: 100%"
             >
-              <el-table-column prop="name" label="文件名称" width="180">
+              <el-table-column label="ID" type="index" width="150">
               </el-table-column>
-              <el-table-column prop="labId" label="所属实验" width="180">
+              <el-table-column prop="startTime" label="开始时间" width="180">
               </el-table-column>
-              <el-table-column prop="uploadTime" label="上传时间" width="180">
+              <el-table-column prop="endTime" label="结束时间" width="180">
               </el-table-column>
-              <el-table-column prop="uploader" label="发布人" width="180">
+              <el-table-column prop="hasChecked" label="状态" width="180">
+                <template slot-scope="scope">
+                  <el-tag
+                    size="medium"
+                    :type="scope.row.hasChecked === true ? 'success' : 'danger'"
+                    disable-transitions
+                    plain
+                    >{{ scope.row.hasChecked ? "已签到" : "未签到" }}</el-tag
+                  >
+                </template>
               </el-table-column>
               <el-table-column label="操作">
                 <template slot-scope="scope">
                   <el-button
                     type="primary"
-                    icon="el-icon-bottom"
-                    @click="download(scope.row.name)"
-                    circle
-                  ></el-button>
+                    @click="SignIn(scope.row.id, scope.row.hasChecked)"
+                  >
+                    点击签到<i class="el-icon-location el-icon--right"></i>
+                  </el-button>
                 </template>
               </el-table-column>
             </el-table>
           </template>
-          <!--          </v-data-table>-->
         </v-card-text>
       </div>
     </app-widget>
@@ -47,6 +50,9 @@
 </template>
 
 <style scoped>
+.el-divider {
+  margin: 10px 0px;
+}
 .el-button {
   color: #ffffff;
 }
@@ -69,31 +75,13 @@ import axios from 'axios'
 export default {
   name: 'Documents',
   data: () => ({
+    checkId: '',
+
+    checkInTable: [],
+
     search: '',
     complex: {
       selected: [],
-      headers: [
-        {
-          text: '文件名称',
-          value: 'name'
-        },
-        {
-          text: '所属模块',
-          value: 'labId'
-        },
-        {
-          text: '上传时间',
-          value: 'uploadTime'
-        },
-        {
-          text: '发布人',
-          value: 'name'
-        },
-        {
-          text: '操作',
-          value: 'action'
-        }
-      ],
       items: []
     },
 
@@ -102,29 +90,46 @@ export default {
     errMsg: ''
   }),
   methods: {
-    async getAllMaterials () {
+    async SignIn (id, hasChecked) {
+      if (hasChecked) {
+        this.$message.warning('无需重复签到')
+      } else {
+        const url =
+          '/check/in?checkId=' +
+          id +
+          '&stuId=' +
+          JSON.parse(sessionStorage.getItem('detail')).id
+        await axios
+          .post(url)
+          .then((response) => {
+            this.$message.success('签到成功！')
+            location.reload()
+          })
+          .catch((err) => {
+            this.$message.error('签到失败，不在签到时间内')
+            console.log(err)
+          })
+      }
+    },
+
+    async getAllSignInInto () {
       const url =
-        '/get/all/material?pageNum=' +
-        this.pageNum +
-        '&pageSize=' +
-        this.pageSize
+        '/stu/get/check?stuId=' +
+        JSON.parse(sessionStorage.getItem('detail')).id
       await axios
         .get(url)
         .then((response) => {
-          this.complex.items = response.data.materials
+          this.checkInTable = response.data
+          console.log(response.data)
         })
         .catch((err) => {
-          this.errMsg = '暂无教学资料'
+          this.errMsg = '暂无签到信息'
           console.log(err)
         })
-    },
-    download (name) {
-      window.location.href =
-        'http://114.55.35.220:8081/api/downloadFileLab/' + name
     }
   },
   created () {
-    this.getAllMaterials()
+    this.getAllSignInInto()
   }
 }
 </script>

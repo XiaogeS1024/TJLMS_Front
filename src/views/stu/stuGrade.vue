@@ -194,16 +194,16 @@ export default {
   async mounted () {
     await this.queryGrade()
     this.intervalAttend = setInterval(() => {
-      if (this.valueAttend === this.attendance) {
+      if (this.valueAttend - this.attendance <= 1) {
         return (this.valueAttend = this.attendance)
       }
-      this.valueAttend += 10.0
+      this.valueAttend += 1
     }, 1)
     this.intervalFinal = setInterval(() => {
-      if (this.valueFinal === this.final) {
+      if (this.valueFinal - this.final <= 1) {
         return (this.valueFinal = this.final)
       }
-      this.valueFinal += 10.0
+      this.valueFinal += 1
     }, 1)
   },
   methods: {

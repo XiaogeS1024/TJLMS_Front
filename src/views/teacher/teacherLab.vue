@@ -57,6 +57,7 @@
                   dark
                   style="margin-left: 300px"
                   @click="clickmethod2(experiment.id, experiment.name)"
+                  disabled="canGrade"
                   >批改实验</v-btn
                 >
               </template>
@@ -73,7 +74,8 @@
               shadow="hover"
               v-bind="attrs"
               v-on="on"
-              style="cursor: pointer; margin-top: 20px"
+              style="cursor:pointer; margin-top: 20px"
+              @click="checkRelease"
             >
               <img
                 src="@/assets/4.png"
@@ -101,7 +103,7 @@
                     </v-col>
                     <v-col cols="9">
                       <v-text-field
-                        label=" Please enter the project's name"
+                        label=" 请输入实验名称"
                         prop="name"
                         v-model="projectInfo.name"
                         outlined
@@ -122,7 +124,7 @@
                         v-model="projectInfo.intro"
                         clearable
                         clear-icon="mdi-close-circle"
-                        label="Please enter the project's introduction"
+                        label="请输入实验简介"
                         outlined
                         rows="2"
                       ></v-text-field>
@@ -217,16 +219,10 @@
                   color="blue darken-1"
                   text
                   @click="projectDialogVisible = false"
-                  >Close</v-btn
-                >
-                <v-btn
-                  color="blue darken-1"
-                  text
-                  @click="projectDialogVisible = false"
-                  >Save</v-btn
+                  >关闭</v-btn
                 >
                 <v-btn color="blue darken-1" text @click="submitProject"
-                  >Release</v-btn
+                  >发布</v-btn
                 >
               </div>
             </v-card-actions>
@@ -373,7 +369,9 @@ export default {
       newFile: new FormData(),
       fileList: [],
       fileInfo: {},
-      thisId: 0
+      thisId: 0,
+      canGrade: true,
+      canRelease: false
     }
   },
   async mounted () {
@@ -388,16 +386,31 @@ export default {
       })
   },
   methods: {
-    clickmethod2 (id, name) {
-      if (sessionStorage.getItem('labId_to_getlist') !== null) {
-        sessionStorage.removeItem('labId_to_getlist')
-        sessionStorage.removeItem('labname')
+    async clickmethod2 (id, name) {
+      const url = '/check/grade/' + JSON.parse(sessionStorage.getItem('detail')).id
+      await axios.get(url)
+        .then(
+          (res) => {
+            this.canGrade = res.data
+          }
+        )
+        .catch(
+          (err) => {
+            this.canGrade = false
+            console.log(err)
+          }
+        )
+      if (this.canGrade === true) {
+        if (sessionStorage.getItem('labId_to_getlist') !== null) {
+          sessionStorage.removeItem('labId_to_getlist')
+          sessionStorage.removeItem('labname')
+        }
+        sessionStorage.setItem('labId_to_getlist', id)
+        sessionStorage.setItem('labname', name)
+        this.Checkdialog = true
+        this.labname = sessionStorage.getItem('labname')
+        this.$router.push('/teacherAssignmentList')
       }
-      sessionStorage.setItem('labId_to_getlist', id)
-      sessionStorage.setItem('labname', name)
-      this.Checkdialog = true
-      this.labname = sessionStorage.getItem('labname')
-      this.$router.push('/teacherAssignmentList')
     },
 
     clickmethod () {
@@ -496,6 +509,22 @@ export default {
         ).catch(
           (err) => {
             this.$message.error('指导书上传失败')
+            console.log(err)
+          }
+        )
+    },
+    async checkRelease () {
+      const url = '/check/release/' + JSON.parse(sessionStorage.getItem('detail')).id
+      await axios.get(url)
+        .then(
+          (res) => {
+            this.projectDialogVisible = true
+          }
+        )
+        .catch(
+          (err) => {
+            this.projectDialogVisible = false
+            this.$message.error('您无权访问该页面')
             console.log(err)
           }
         )

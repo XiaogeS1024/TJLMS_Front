@@ -28,6 +28,7 @@
                     color="green"
                     dark
                     style="margin-left: 30px"
+
                   >
                     进入实验管理
                   </v-btn>
@@ -86,7 +87,7 @@
             <div v-show="show">
               <v-divider></v-divider>
               <v-card-text>
-                这里是对课程的详细描述，可以添加其他老师的信息blabla
+                同济大学计算机组成原理配套实验
               </v-card-text>
             </div>
           </v-expand-transition>
@@ -119,10 +120,10 @@
                   <v-col class="pb-4 pl-3" sm="8" style="padding-right:0px;">
                   <v-list-item color="black" class="py-0">
                     <v-list-item-content >
-                      <v-list-item-title class="title" ><span style="font-size:18px;"> 黄杰 </span></v-list-item-title>
+                      <v-list-item-title class="title" ><span style="font-size:18px;"> {{name}} </span></v-list-item-title>
                        <div style="font-size:6px;">&nbsp;</div>
                       <v-list-item-subtitle style="font-size:13px;">
-                        软件学院
+                        {{role}}
                         </v-list-item-subtitle>
                     </v-list-item-content>
                    </v-list-item>
@@ -140,12 +141,38 @@
 </template>
 
 <script>
+
 export default {
   name: 'Home',
   data: () => ({
-    show: false
+    show: false,
+    name: JSON.parse(sessionStorage.getItem('detail')).name,
+    role: ''
   }),
   methods: {
+    getRole () {
+      const type = JSON.parse(sessionStorage.getItem('detail')).type
+      switch (type) {
+        case 0:
+        {
+          this.role = '责任教师 软件学院'
+          break
+        }
+        case 1:
+        {
+          this.role = '普通教师 软件学院'
+          break
+        }
+        case 2:
+        {
+          this.role = '助教 软件学院'
+          break
+        }
+      }
+    }
+  },
+  created () {
+    this.getRole()
   }
 }
 </script>

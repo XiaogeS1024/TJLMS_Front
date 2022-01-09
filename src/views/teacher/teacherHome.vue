@@ -25,7 +25,7 @@
           active-class="border"
           class="ml-2 my-3"
           :ripple="false"
-          router :to="item.route"
+          :to="item.route"
         >
           <b></b>
           <b></b>
@@ -65,10 +65,7 @@
     <v-app-bar app elevation="1">
       <v-spacer></v-spacer>
       <div class="text-xs-center pr-3 mt-2">
-<!--        <v-badge left="">-->
-<!--          <span slot="badge">6</span>-->
-<!--          <v-icon large color="grey lighten-1">mdi-bell-outline</v-icon>-->
-<!--        </v-badge>-->
+<!--      zz-->
 
         <v-btn text @click="toggleFullScreen">
           <v-icon>{{ toggleFullScreenIcon }}</v-icon>
@@ -151,6 +148,7 @@
 </template>
 
 <script>
+
 export default {
   data: () => ({
     information: {
@@ -166,7 +164,7 @@ export default {
       { title: '控制面板', icon: 'mdi-view-dashboard', route: '/teacherDashboard' },
       { title: '实验管理', icon: 'mdi-school', route: '/teacherLab' },
       { title: '文件中心', icon: 'mdi-clipboard-check-multiple-outline', route: '/teacherDocument' },
-      { title: '签到管理', icon: 'mdi-map-marker-outline', route: '/assignment' },
+      { title: '签到管理', icon: 'mdi-map-marker-outline', route: '/teacherSignIN' },
       { title: '班级管理', icon: 'mdi-account-multiple', route: '/teacherClass' },
       { title: '消息中心', icon: 'mdi-bell-ring', route: '/teacherNotice' }
     ],

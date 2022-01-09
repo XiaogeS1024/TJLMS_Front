@@ -43,15 +43,16 @@
       </v-tab>
       <v-tab
       >
-        助教信息
+        可选助教
       </v-tab>
       <v-tab
       >
         成绩管理
       </v-tab>
       <v-tab
+        disabled="isResp"
       >
-        班级管理(责任教师)
+        班级管理
       </v-tab>
     </v-tabs>
 
@@ -61,7 +62,7 @@
               class="memberTable"
               stripe
               highlight-current-row
-              :data="studentList.filter(data => !search || data.studentName.toLowerCase().includes(search.toLowerCase())||data.studentId.includes(search))"
+              :data="studentList.filter(data => search || data.studentName.includes(search)||data.studentId.includes(search))"
               height="470px"
               :row-style="{ height: '50px' }"
               :cell-style="{ padding: '0' }"
@@ -74,14 +75,6 @@
               </el-table-column>
               <el-table-column prop="studentId" label="学号" width="100px">
               </el-table-column>
-              <el-table-column prop="email" label="邮箱" width="200px">
-              </el-table-column>
-              <el-table-column prop="attendance" label="出勤率(%)" width="100px">
-              </el-table-column>
-              <el-table-column prop="labGrade" label="实验成绩(%)" width="100px">
-              </el-table-column>
-              <el-table-column prop="grade" label="总成绩(%)" width="100px">
-              </el-table-column>
               <el-table-column
       >
        <!-- eslint-disable-next-line vue/no-unused-vars -->
@@ -91,12 +84,14 @@
           size="mini"
           placeholder="输入姓名/学号进行搜索"/>
       </template>
-                <template slot-scope="scope">
+                  <template slot-scope="scope">
+
                     <v-btn color="error" fab x-small depressed dark style="margin-left: 50px"
-              @click="open(scope.row)">
-              <v-icon>mdi-delete</v-icon>
-            </v-btn>
-                </template>
+                           @click="open(scope.row)">
+                      <v-icon>mdi-delete</v-icon>
+                    </v-btn>
+                  </template>
+
               </el-table-column>
             </el-table>
             <!-- <div class="block">
@@ -148,6 +143,7 @@
       style="margin-right:400px;"
         outlined
         @click="changeWeight"
+      disabled="isResp"
       >
       <v-icon left dark>mdi-pencil</v-icon> 修改成绩权重
       </v-btn>
@@ -197,45 +193,45 @@
             </v-row>
 
             <v-divider></v-divider>
-            <h3 style="margin-left:20px;margin-top:15px">课程成绩概览{{ "\xa0\xa0\xa0\xa0" }}CLASS SCORE</h3>
-            <v-row style="margin-top:20px">
-            <v-col  style="margin-left:100px" cols="12" sm="3">
-            <v-progress-circular
-                :rotate="-90"
-                :size="120"
-                :width="15"
-                :value="value1"
-                color="amber"
-            >
-            {{ value1 }}/100(%)
-            </v-progress-circular><br />
-            <span>出勤率</span>
-            </v-col>
-            <v-col cols="12" sm="3">
-            <v-progress-circular
-                :rotate="-90"
-                :size="120"
-                :width="15"
-                :value="value2"
-                color="cyan"
-            >
-            {{ value2 }}/100(%)
-            </v-progress-circular><br />
-            <span>平均实验成绩</span>
-            </v-col>
-            <v-col cols="12" sm="4">
-            <v-progress-circular
-                :rotate="-90"
-                :size="120"
-                :width="15"
-                :value="value3"
-                color="pink"
-            >
-            {{ value3 }}/100(%)
-            </v-progress-circular><br />
-            <span>平均总成绩</span>
-            </v-col>
-            </v-row>
+<!--            <h3 style="margin-left:20px;margin-top:15px">课程成绩概览{{ "\xa0\xa0\xa0\xa0" }}CLASS SCORE</h3>-->
+<!--            <v-row style="margin-top:20px">-->
+<!--            <v-col  style="margin-left:100px" cols="12" sm="3">-->
+<!--            <v-progress-circular-->
+<!--                :rotate="-90"-->
+<!--                :size="120"-->
+<!--                :width="15"-->
+<!--                :value="value1"-->
+<!--                color="amber"-->
+<!--            >-->
+<!--            {{ value1 }}/100(%)-->
+<!--            </v-progress-circular><br />-->
+<!--            <span>出勤率</span>-->
+<!--            </v-col>-->
+<!--            <v-col cols="12" sm="3">-->
+<!--            <v-progress-circular-->
+<!--                :rotate="-90"-->
+<!--                :size="120"-->
+<!--                :width="15"-->
+<!--                :value="value2"-->
+<!--                color="cyan"-->
+<!--            >-->
+<!--            {{ value2 }}/100(%)-->
+<!--            </v-progress-circular><br />-->
+<!--            <span>平均实验成绩</span>-->
+<!--            </v-col>-->
+<!--            <v-col cols="12" sm="4">-->
+<!--            <v-progress-circular-->
+<!--                :rotate="-90"-->
+<!--                :size="120"-->
+<!--                :width="15"-->
+<!--                :value="value3"-->
+<!--                color="pink"-->
+<!--            >-->
+<!--            {{ value3 }}/100(%)-->
+<!--            </v-progress-circular><br />-->
+<!--            <span>平均总成绩</span>-->
+<!--            </v-col>-->
+<!--            </v-row>-->
           </v-card>
           </v-tab-item>
 
@@ -362,17 +358,11 @@
             >
             <el-table-column prop="classId" label="班级编号" width="120px">
               </el-table-column>
-              <el-table-column prop="respTeacherName" label="责任教师姓名" width="120px">
+              <el-table-column prop="respName" label="责任教师" width="120px">
               </el-table-column>
-              <el-table-column prop="teacherName" label="教师姓名" width="100px">
+              <el-table-column prop="teacherName" label="教师" width="100px">
               </el-table-column>
               <el-table-column prop="stuNum" label="学生数量" width="100px">
-              </el-table-column>
-              <el-table-column prop="attendance" label="出勤率(%)" width="120px">
-              </el-table-column>
-              <el-table-column prop="labGrade" label="平均实验成绩(%)" width="150px">
-              </el-table-column>
-              <el-table-column prop="grade" label="平均总成绩(%)" width="120px">
               </el-table-column>
               <el-table-column label="操作"
       >
@@ -406,8 +396,10 @@ export default {
       dialogVisible: false,
       addStudentID: '',
       search: '',
-      interval: {},
-      value1: 0,
+      interval1: {},
+      interval2: {},
+      interval3: {},
+      value1: 0.0,
       value2: 0,
       value3: 0,
       classDialogVisible: false,
@@ -417,7 +409,8 @@ export default {
       },
       newFile: new FormData(),
       fileList: [],
-      classList: []
+      classList: [],
+      isResp: false
     //   currentPage: 1, // 当前页码
     //   total: 20, // 总条数
     //   pageSize: 20 // 每页的数据条数
@@ -572,13 +565,13 @@ export default {
     loadData () {
       this.studentList.length = 0
       axios
-        .get('/get/classes', {
+        .get('/get/my/classes?teacherId=' + this.teacherId, {
           params: {}
         })
         .then((response) => {
           console.log(response.data)
           for (let i = 0; i < response.data.length; i++) {
-            if (response.data[i].teacherId === this.teacherId) {
+            if (response.data[i].teacherId === this.teacherId || response.data[i].respId === this.teacherId || response.data[i].assistId === this.teacherId) {
               this.classId = response.data[i].id
             }
           }
@@ -781,21 +774,46 @@ export default {
             message: '删除失败! 请稍后再试'
           })
         })
+    },
+    async checkResp () {
+      const url = '/check/notice/' + this.teacherId
+      await axios.get(url)
+        .then((res) => {
+          this.isResp = true
+        })
     }
   },
   mounted () {
+    this.checkResp()
     this.loadData()
-    this.interval = setInterval(() => {
-      if (this.value1 === 80) {
-        return (this.value1 = 80)
+    this.interval1 = setInterval(() => {
+      if (66.7 - this.value1 <= 1) {
+        return (this.value1 = 66.7)
       }
-      this.value1 += 10
+      this.value1 += 1
+    }, 1)
+
+    this.interval2 = setInterval(() => {
+      if (80 - this.value2 <= 1) {
+        return (this.value2 = 80)
+      }
+      this.value2 += 1
+    }, 1)
+
+    this.interval3 = setInterval(() => {
+      if (75.5 - this.value3 <= 1) {
+        return (this.value3 = 75.5)
+      }
+      this.value3 += 1
     }, 1)
   }
 }
 </script>
 
 <style scoped>
+.el-button{
+  color: #FFFFFF;
+}
 .studentTab {
   height: 100%;
   margin-top: 20px;

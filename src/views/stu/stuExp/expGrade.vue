@@ -107,10 +107,10 @@ export default {
   async mounted () {
     await this.queryParticular()
     this.intervalFinal = setInterval(() => {
-      if (this.valueFinal === this.final) {
+      if (this.valueFinal - this.final <= 1) {
         return (this.valueFinal = this.final)
       }
-      this.valueFinal += 10
+      this.valueFinal += 1
     }, 1)
   }
 
