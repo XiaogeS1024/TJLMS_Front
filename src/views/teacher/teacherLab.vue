@@ -191,7 +191,6 @@
                             :on-remove="handleRemove"
                             action=""
                             :file-list="fileList"
-                            :http-request="Upload"
                             :before-upload="BeforeUpload"
                             drag
                             multiple
@@ -253,9 +252,9 @@
             }}{{ labname }}</v-toolbar-title
           >
           <v-spacer></v-spacer>
-          <v-toolbar-items>
-            <v-btn dark text @click="dialog = false">Save</v-btn>
-          </v-toolbar-items>
+<!--          <v-toolbar-items>-->
+<!--            <v-btn dark text @click="dialog = false">Save</v-btn>-->
+<!--          </v-toolbar-items>-->
         </v-toolbar>
         <v-bottom-navigation
           v-model="bottomNav"
@@ -372,11 +371,13 @@ export default {
         .substr(0, 10),
       menu: false,
       newFile: new FormData(),
-      fileList: []
+      fileList: [],
+      fileInfo: {},
+      thisId: 0
     }
   },
-  mounted () {
-    axios
+  async mounted () {
+    await axios
       .get('/get/all/labs', {
         params: {}
       })
@@ -385,6 +386,7 @@ export default {
         this.experimentList = response.data
         console.log(this.experimentList.names)
       })
+    console.log(this.maxId)
   },
   methods: {
     clickmethod2 (id, name) {
@@ -450,25 +452,57 @@ export default {
           releaseTeacher: this.teacherId
         })
         .then((response) => {
-          const newData = this.newFile //  3. 拿到刚刚的数据，并将其传给后台
-          axios({
-            url: 'http://114.55.35.220:8081/api/uploadFileUser',
-            method: 'post',
-            data: newData,
-            headers: {
-              'Content-Type': 'multipart/form-data'
-            }
-          }).then((response) => {
-            this.$message.success('发布成功！')
-            this.projectDialogVisible = false
-            this.reload()
-          })
+          this.$message.success('实验发布成功')
+          this.projectDialogVisible = false
+          this.thisId = response.data
+          this.reload()
         })
         .catch((err) => {
           console.log(err)
         })
+      if (this.newFile.get('file') !== null) {
+        await this.upload()
+      }
+    },
+    async upload () {
+      const newData = this.newFile //  3. 拿到刚刚的数据，并将其传给后台
+      await axios({
+        url: 'http://114.55.35.220:8081/api/uploadFileLab',
+        method: 'post',
+        data: newData,
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then((response) => {
+        this.fileInfo = response.data
+      })
+        .catch((err) => {
+          this.$message.error('指导书上传失败')
+          console.log(err)
+        })
+      const url = '/post/material'
+      await axios.post(url, {
+        labId: this.thisId,
+        location: this.fileInfo.path,
+        name: this.fileInfo.fileName,
+        uploader: this.teacherId
+
+      })
+        .then(
+          (res) => {
+            this.$message.success('指导书上传成功')
+            this.projectDialogVisible = false
+            this.reload()
+          }
+        ).catch(
+          (err) => {
+            this.$message.error('指导书上传失败')
+            console.log(err)
+          }
+        )
     }
   }
+
 }
 </script>
 

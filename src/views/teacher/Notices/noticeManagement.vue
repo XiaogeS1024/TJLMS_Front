@@ -1,73 +1,139 @@
 <template>
-  <div class="messageForm">
-    <div class="form1" style="margin-top: 15px">
-      <el-table
-        :data="
-          tableData.slice((currentPage - 1) * pageSize, currentPage * pageSize)
-        "
-        style="width: 100%;"
-        :row-style="{height: '80px'}"
-        highlight-current-row
-        :header-cell-style="{background:'#eef1f6',color:'#606266'}"
-      >
-        <el-table-column
-          prop="releaseTime"
-          label="发布时间"
-          sortable
-          width="200"
-          column-key="time"
+  <el-content>
+    <h3 style="display: inline">
+      公告管理{{ "\xa0\xa0\xa0\xa0" }}NOTICE MANAGEMENT
+    </h3>
+    <v-btn
+      color="green"
+      dark
+      @click="dialogReleaseNoticeVisible = true"
+      style="margin-bottom: 10px; float: right; display: inline"
+      >发布公告</v-btn
+    >
+
+    <el-dialog
+      title="公告编辑"
+      :visible.sync="dialogReleaseNoticeVisible"
+      width="750px"
+    >
+      <el-form :model="noticeform" ref="noticeform">
+        <el-form-item label="公告标题：" prop="title">
+          <el-input v-model="noticeform.title"></el-input>
+        </el-form-item>
+
+        <el-form-item label="公告内容：" prop="content">
+          <el-input
+            v-model="noticeform.content"
+            type="textarea"
+            :autosize="{ minRows: 5, maxRows: 15 }"
+          ></el-input>
+        </el-form-item>
+      </el-form>
+
+      <span slot="footer" class="dialog-footer">
+        <v-btn
+          color="green"
+          dark
+          @click="releaseNotice"
+          style="margin-right: 20px"
+          >发布</v-btn
         >
-        </el-table-column>
+      </span>
+    </el-dialog>
 
-<el-table-column
-          prop="releaser"
-          label="发布人"
-          width="100"
-        ></el-table-column>
-        <el-table-column
-          prop="title"
-          label="标题"
-          width="300"
-        ></el-table-column>
+    <div class="messageForm">
+      <div class="form1" style="margin-top: 15px">
+        <el-table
+          :data="
+            tableData.slice(
+              (currentPage - 1) * pageSize,
+              currentPage * pageSize
+            )
+          "
+          style="width: 100%"
+          :row-style="{ height: '80px' }"
+          highlight-current-row
+          :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
+        >
+          <el-table-column
+            prop="time"
+            label="发布时间"
+            sortable
+            width="200"
+            column-key="time"
+          >
+          </el-table-column>
 
-        <el-table-column label="">
-          <template slot-scope="scope">
-            <v-btn small color="light-green" dark @click="loadNoticeInfo(scope.row)"
-              >查看详情</v-btn
-            >
-            <el-dialog title="公告内容" :visible.sync="dialogTableVisible" width="750px">
-              <span>{{noticeInfo}}</span>
-<span slot="footer" class="dialog-footer">
-    <v-btn color="green" dark @click="dialogTableVisible = false" style="margin-right:20px">我已知晓</v-btn>
-  </span>
-            </el-dialog>
-          </template>
-        </el-table-column>
+          <el-table-column
+            prop="releaser"
+            label="发布人"
+            width="100"
+          ></el-table-column>
+          <el-table-column
+            prop="title"
+            label="标题"
+            width="300"
+          ></el-table-column>
 
-        <el-table-column label="操作">
-          <template slot-scope="scope">
-            <v-btn color="error" fab small dark style="margin-left: 20px"
-              @click="del(scope.row)">
-              <v-icon>mdi-delete</v-icon>
-            </v-btn>
-          </template>
-        </el-table-column>
-      </el-table>
+          <el-table-column label="">
+            <template slot-scope="scope">
+              <v-btn
+                small
+                color="light-green"
+                dark
+                @click="loadNoticeInfo(scope.row)"
+                >查看详情</v-btn
+              >
+              <el-dialog
+                title="公告内容"
+                :visible.sync="dialogTableVisible"
+                width="750px"
+              >
+                <span>{{ noticeInfo }}</span>
+                <span slot="footer" class="dialog-footer">
+                  <v-btn
+                    color="green"
+                    dark
+                    @click="dialogTableVisible = false"
+                    style="margin-right: 20px"
+                    >我已知晓</v-btn
+                  >
+                </span>
+              </el-dialog>
+            </template>
+          </el-table-column>
+
+          <el-table-column label="操作">
+            <template slot-scope="scope">
+              <v-btn
+                color="error"
+                fab
+                small
+                dark
+                style="margin-left: 20px"
+                @click="del(scope.row)"
+              >
+                <v-icon>mdi-delete</v-icon>
+              </v-btn>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+      <div class="block">
+        <el-pagination
+          align="center"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="currentPage"
+          :page-sizes="[1, 5, 10, 20]"
+          :page-size="pageSize"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="tableData.length"
+        >
+        </el-pagination>
+      </div>
     </div>
-    <div class="block">
-      <el-pagination
-        align="center"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page="currentPage"
-        :page-sizes="[1, 5, 10, 20]"
-        :page-size="pageSize"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="tableData.length"
-      >
-      </el-pagination>
-    </div>
-  </div>
+  </el-content>
 </template>
 
 <script>
@@ -75,8 +141,14 @@ import axios from 'axios'
 export default {
   data () {
     return {
-
       tableData: [],
+      dialogReleaseNoticeVisible: false,
+
+      noticeform: {
+        content: '',
+        title: ''
+      },
+
       dialogTableVisible: false,
       currentPage: 1, // 当前页码
       total: 20, // 总条数
@@ -87,7 +159,9 @@ export default {
 
   mounted () {
     axios
-      .get('/get/notice/releaser/' + JSON.parse(sessionStorage.getItem('detail')).id)
+      .get('/get/titles', {
+        params: {}
+      })
       .then((response) => {
         console.log(response.data)
         this.tableData = response.data
@@ -95,6 +169,32 @@ export default {
   },
 
   methods: {
+
+    async releaseNotice () {
+      const url = '/post/notice'
+
+      await axios
+        .post(url, {
+          content: this.noticeform.content,
+          releaser: JSON.parse(sessionStorage.getItem('detail')).id,
+          title: this.noticeform.title
+        })
+        .then((res) => {
+          this.dialogReleaseNoticeVisible = false
+          this.$message({
+            type: 'success',
+            message: '公告发布成功!'
+          })
+          location.reload()
+        })
+        .catch(() => {
+          this.$message({
+            type: 'error',
+            message: '公告发布失败'
+          })
+        })
+    },
+
     filterHandler (value, row, column) {
       const property = column.property
       return row[property] === value
@@ -154,7 +254,8 @@ export default {
     },
 
     deleteTweet (data) {
-      axios.post('/delete/notice/' + data.id, { noticeId: data.id })
+      axios
+        .post('/delete/notice/' + data.id, { noticeId: data.id })
         .then(() => {
           this.tableData.splice(data, 1)
           this.$message({
