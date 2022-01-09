@@ -90,7 +90,7 @@
                   :type="type"
                   :events="events"
                   :event-overlap-mode="mode"
-                  :event-overlap-threshold="30"
+                  :event-overlap-threshold="100"
                   :event-color="getEventColor"
                   @change="getEvents"
                 ></v-calendar>
@@ -132,7 +132,24 @@
         </template>
       </v-card>
       <v-card class="mx-4 rounded-xl pa-4" color="grey lighten-3" :elevation=10 style="margin-top:50px">
-        <v-card-title>New Release</v-card-title>
+        <v-card-title>最新发布</v-card-title>
+        <v-divider></v-divider>
+        <el-table :data="latestmaterial" style="width: 100%">
+          <el-table-column prop="name" label="文件名称" width="180">
+          </el-table-column>
+          <el-table-column label="下载" width="auto">
+            <template slot-scope="scope">
+              <el-button
+                type="primary"
+                icon="el-icon-download"
+                circle
+                style="color: #fff"
+                @click="download(scope.row.name)"
+              >
+              </el-button>
+            </template>
+          </el-table-column>
+        </el-table>
       </v-card>
     </v-col>
   </v-row>
@@ -148,7 +165,7 @@ export default {
   data: () => ({
     helloMsg: '',
     schedule: [],
-    latestFive: [],
+    latestmaterial: [],
     name: '',
     type: 'month',
     types: ['month', 'week', 'day', '4day'],
@@ -195,6 +212,18 @@ export default {
   //     VueperSlide
   //   },
   methods: {
+    async getNewRelease () {
+      const url = '/get/latest/material'
+      await axios
+        .get(url)
+        .then((res) => {
+          this.latestmaterial = res.data
+          console.log(res.data)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
     getEvents () {
       const events = []
 
@@ -238,20 +267,15 @@ export default {
           }
         )
     },
-    async getLatestMaterial () {
-      const url = '/get/latest/material'
-      await axios.get(url)
-        .then(
-          (res) => {
-            this.latestFive = res.data
-          }
-        )
+    download (name) {
+      window.location.href =
+        'http://114.55.35.220:8081/api/downloadFileLab/' + name
     }
   },
   async created () {
     await this.getHelloMsg()
     await this.getSchedule()
-    await this.getLatestMaterial()
+    await this.getNewRelease()
     await this.getEvents()
   }
 }

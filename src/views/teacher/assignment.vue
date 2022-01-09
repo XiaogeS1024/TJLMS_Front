@@ -9,8 +9,25 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
+  data: () => ({
+    postForm: {
+      classId: sessionStorage.getItem('classId'),
+      start: '',
+      end: ''
+    },
+    classId: ''
 
+  }),
+  methods: {
+    async postSignIn () {
+      const url = '/post/check'
+      await axios.post(url, {
+
+      })
+    }
+  }
 }
 </script>
 

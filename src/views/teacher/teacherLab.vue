@@ -37,15 +37,15 @@
 
               <!-- v-bind="attrs"
                     v-on="on" -->
-              <template>
-                <v-btn
-                  class="px-3"
-                  color="green"
-                  dark
-                  style="margin-left: 240px"
-                  >进入实验</v-btn
-                >
-              </template>
+<!--              <template>-->
+<!--                <v-btn-->
+<!--                  class="px-3"-->
+<!--                  color="green"-->
+<!--                  dark-->
+<!--                  style="margin-left: 240px"-->
+<!--                  >进入实验</v-btn-->
+<!--                >-->
+<!--              </template>-->
               <!-- <template v-slot:activator="{ on, attrs }"> -->
 
               <!-- v-bind="attrs"
@@ -55,7 +55,7 @@
                   class="px-3"
                   color="indigo"
                   dark
-                  style="margin-left: 40px"
+                  style="margin-left: 300px"
                   @click="clickmethod2(experiment.id, experiment.name)"
                   >批改实验</v-btn
                 >
@@ -236,49 +236,49 @@
     </v-row>
 
     <!-- 第一个dialog -->
-    <v-dialog
-      v-model="dialog"
-      fullscreen
-      hide-overlay
-      transition="dialog-bottom-transition"
-    >
-      <v-card>
-        <v-toolbar dark color="teal">
-          <v-btn icon dark @click="dialog = false">
-            <v-icon>mdi-close</v-icon>
-          </v-btn>
-          <v-toolbar-title
-            >EXPERIMENT{{ "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0"
-            }}{{ labname }}</v-toolbar-title
-          >
-          <v-spacer></v-spacer>
-<!--          <v-toolbar-items>-->
-<!--            <v-btn dark text @click="dialog = false">Save</v-btn>-->
-<!--          </v-toolbar-items>-->
-        </v-toolbar>
-        <v-bottom-navigation
-          v-model="bottomNav"
-          :value="activeBtn"
-          color="teal"
-          horizontal
-          height="70"
-        >
-          <v-btn width="200px" @click="goTutorial">
-            <span style="font-size: 15px; font-weight: bold">实验教程</span>
-            <v-icon>mdi-book-open-page-variant</v-icon>
-          </v-btn>
-          <v-btn width="200px" @click="goDocs">
-            <span style="font-size: 15px; font-weight: bold">文件中心</span>
-            <v-icon>mdi-folder-multiple</v-icon>
-          </v-btn>
-          <v-btn width="200px" @click="goGrade">
-            <span style="font-size: 15px; font-weight: bold">作业详情</span>
-            <v-icon>mdi-chart-areaspline</v-icon>
-          </v-btn>
-        </v-bottom-navigation>
-        <router-view></router-view>
-      </v-card>
-    </v-dialog>
+<!--    <v-dialog-->
+<!--      v-model="dialog"-->
+<!--      fullscreen-->
+<!--      hide-overlay-->
+<!--      transition="dialog-bottom-transition"-->
+<!--    >-->
+<!--      <v-card>-->
+<!--        <v-toolbar dark color="teal">-->
+<!--          <v-btn icon dark @click="dialog = false">-->
+<!--            <v-icon>mdi-close</v-icon>-->
+<!--          </v-btn>-->
+<!--          <v-toolbar-title-->
+<!--            >EXPERIMENT{{ "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0"-->
+<!--            }}{{ labname }}</v-toolbar-title-->
+<!--          >-->
+<!--          <v-spacer></v-spacer>-->
+<!--&lt;!&ndash;          <v-toolbar-items>&ndash;&gt;-->
+<!--&lt;!&ndash;            <v-btn dark text @click="dialog = false">Save</v-btn>&ndash;&gt;-->
+<!--&lt;!&ndash;          </v-toolbar-items>&ndash;&gt;-->
+<!--        </v-toolbar>-->
+<!--        <v-bottom-navigation-->
+<!--          v-model="bottomNav"-->
+<!--          :value="activeBtn"-->
+<!--          color="teal"-->
+<!--          horizontal-->
+<!--          height="70"-->
+<!--        >-->
+<!--          <v-btn width="200px" @click="goTutorial">-->
+<!--            <span style="font-size: 15px; font-weight: bold">实验教程</span>-->
+<!--            <v-icon>mdi-book-open-page-variant</v-icon>-->
+<!--          </v-btn>-->
+<!--          <v-btn width="200px" @click="goDocs">-->
+<!--            <span style="font-size: 15px; font-weight: bold">文件中心</span>-->
+<!--            <v-icon>mdi-folder-multiple</v-icon>-->
+<!--          </v-btn>-->
+<!--          <v-btn width="200px" @click="goGrade">-->
+<!--            <span style="font-size: 15px; font-weight: bold">作业详情</span>-->
+<!--            <v-icon>mdi-chart-areaspline</v-icon>-->
+<!--          </v-btn>-->
+<!--        </v-bottom-navigation>-->
+<!--        <router-view></router-view>-->
+<!--      </v-card>-->
+<!--    </v-dialog>-->
 
     <!-- 第二个dialog -->
     <v-dialog
@@ -386,7 +386,6 @@ export default {
         this.experimentList = response.data
         console.log(this.experimentList.names)
       })
-    console.log(this.maxId)
   },
   methods: {
     clickmethod2 (id, name) {

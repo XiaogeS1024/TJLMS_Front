@@ -230,15 +230,19 @@ export default {
     },
 
     async releaseGrade () {
-      const url =
-        '/post/release/individual?labId=' +
-        sessionStorage.getItem('labId') +
-        '&stuId=' +
-        sessionStorage.getItem('stuId')
+      const url = '/post/release/individual'
       await axios
-        .post(url)
+        .post(url, {
+          classId: sessionStorage.getItem('classId'),
+          labId: sessionStorage.getItem('labId_to_getlist'), // need to be modified
+          note: this.gradeForm.note,
+          score: this.gradeForm.score,
+          stuId: sessionStorage.getItem('stuId_to_checkExp'),
+          teacherId: JSON.parse(sessionStorage.getItem('detail')).id
+        })
         .then((res) => {
           this.$message.success('成绩发布成功')
+          this.$router.push('/teacherAssignmentList')
         })
         .catch((err) => {
           this.$message.error('成绩发布失败')

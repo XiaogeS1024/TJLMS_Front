@@ -136,8 +136,16 @@
       <span>&copy; TJLMS 2021</span>
     </v-footer>
     <el-drawer title="个人资料" :visible.sync="drawer1" :direction="direction" size="25%">
-      <span>这是一些个人资料</span>
-    <v-btn rounded color="primary" dark class="text-center" style="top:500px" @click="changePwd">修改密码</v-btn>
+      <div class="personalInfo">
+
+        <el-descriptions title="" direction="vertical" :column="1" border>
+          <el-descriptions-item label="工号：">{{information.teacherId}}</el-descriptions-item>
+          <el-descriptions-item label="姓名：">{{information.teacherName}}</el-descriptions-item>
+          <el-descriptions-item label="邮箱：" :span="2">{{information.email}}</el-descriptions-item>
+          <el-descriptions-item label="院系：" :span="2">软件学院</el-descriptions-item>
+        </el-descriptions>
+      </div>
+      <v-btn rounded color="primary" dark class="text-center" style="top:200px;margin-left:140px" @click="changePwd">修改密码</v-btn>
     </el-drawer>
   </v-main>
 </template>
@@ -145,6 +153,11 @@
 <script>
 export default {
   data: () => ({
+    information: {
+      teacherId: JSON.parse(sessionStorage.getItem('detail')).id,
+      teacherName: JSON.parse(sessionStorage.getItem('detail')).name,
+      email: JSON.parse(sessionStorage.getItem('detail')).emailAddr
+    },
     drawer: true,
     drawer1: false,
     direction: 'rtl',
@@ -153,7 +166,7 @@ export default {
       { title: '控制面板', icon: 'mdi-view-dashboard', route: '/teacherDashboard' },
       { title: '实验管理', icon: 'mdi-school', route: '/teacherLab' },
       { title: '文件中心', icon: 'mdi-clipboard-check-multiple-outline', route: '/teacherDocument' },
-      { title: '签到发布', icon: 'mdi-map-marker-outline', route: '/assignment' },
+      { title: '签到管理', icon: 'mdi-map-marker-outline', route: '/assignment' },
       { title: '班级管理', icon: 'mdi-account-multiple', route: '/teacherClass' },
       { title: '消息中心', icon: 'mdi-bell-ring', route: '/teacherNotice' }
     ],
@@ -236,6 +249,12 @@ export default {
 </script>
 
 <style scoped>
+.personalInfo{
+  margin-left: 20px;
+  margin-right: 20px;
+  font-size:18px;
+  color:#464545;
+}
 .border {
   background: #fff;
   border-top-left-radius: 30px;
