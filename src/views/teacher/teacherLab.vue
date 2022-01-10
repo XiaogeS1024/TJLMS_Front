@@ -57,7 +57,7 @@
                   dark
                   style="margin-left: 300px"
                   @click="clickmethod2(experiment.id, experiment.name)"
-                  disabled="canGrade"
+                  :disabled="!canGrade"
                   >批改实验</v-btn
                 >
               </template>

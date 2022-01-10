@@ -50,7 +50,7 @@
         成绩管理
       </v-tab>
       <v-tab
-        disabled="isResp"
+        :disabled="!isResp"
       >
         班级管理
       </v-tab>
@@ -143,7 +143,7 @@
       style="margin-right:400px;"
         outlined
         @click="changeWeight"
-      disabled="isResp"
+      :disabled="!isResp"
       >
       <v-icon left dark>mdi-pencil</v-icon> 修改成绩权重
       </v-btn>
@@ -780,6 +780,7 @@ export default {
       await axios.get(url)
         .then((res) => {
           this.isResp = true
+          console.log(this.isResp)
         })
     }
   },
