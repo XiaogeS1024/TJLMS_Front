@@ -45,7 +45,7 @@
         <el-table-column prop="checked" label="批改情况" width="100px">
           <template slot-scope="scope">
             <div v-if="scope.row.checked === true">
-              <div v-if="scope.row.visible === false">
+              <div v-if="scope.row.visible === true">
                 <el-tag size="medium" type="warning" disable-transitions plain>
                   已暂存
                 </el-tag>
@@ -66,26 +66,60 @@
           </template>
         </el-table-column>
 
-        <el-table-column prop="labGrade" label="实验成绩" width="auto">
+        <!-- //////////////////////////////////////// -->
+        <!-- //////////////////////////////////////// -->
+        <!-- //////////////////////////////////////// -->
+        <!-- //////////////////////////////////////// -->
+        <!-- //////////////////////////////////////// -->
+        <!-- /////////////////第一个起始，共2个/////////////////// -->
+        <!-- //////////////////////////////////////// -->
+        <!-- //////////////////////////////////////// -->
+        <!-- //////////////////////////////////////// -->
+        <!-- //////////////////////////////////////// -->
+        <!-- //////////////////////////////////////// -->
+
+        <el-table-column label=" 实验成绩" width="auto">
           <template slot-scope="scope">
-            <div v-if="scope.row.checked === true">
-              &nbsp;&nbsp;{{ getonegrade(scope.row.stuId) }}
+            <!-- <div v-if="scope.row.checked === true">
+              &nbsp;&nbsp;{{ getonegrade(scope.row.stuId,scope.row.checked) }}
+            </div> -->
+            <div>
+              &nbsp;&nbsp;{{ getonegrade(scope.row.stuId, scope.$index) }}
             </div>
-            <div v-else>&nbsp;&nbsp;</div>
           </template>
         </el-table-column>
-
+        <!-- //////////////////////////////////////// -->
+        <!-- //////////////////////////////////////// -->
+        <!-- //////////////////////////////////////// -->
+        <!-- //////////////////第一个结束////////////////// -->
+        <!-- //////////////////////////////////////// -->
+        <!-- //////////////////////////////////////// -->
+        <!-- //////////////////////////////////////// -->
         <el-table-column label="操作" width="130px">
           <template slot-scope="scope">
-            <el-button
-              type="primary"
-              size="small"
-              style="color: #fff"
-              @click="
-                goCheck(scope.row.stuId, scope.row.classId, scope.row.stuName)
-              "
-              >进入批改</el-button
-            >
+            <div v-if="scope.row.checked === true">
+              <el-button
+                type="success"
+                size="small"
+                style="color: #fff"
+                @click="
+                  goCheck(scope.row.stuId, scope.row.classId, scope.row.stuName)
+                "
+                >进入查看</el-button
+              >
+            </div>
+
+            <div v-else>
+              <el-button
+                type="primary"
+                size="small"
+                style="color: #fff"
+                @click="
+                  goCheck(scope.row.stuId, scope.row.classId, scope.row.stuName)
+                "
+                >进入批改</el-button
+              >
+            </div>
           </template>
         </el-table-column>
       </el-table>
@@ -102,7 +136,6 @@ export default {
       counter: 0,
       labId: '',
       tab: null,
-      score: null,
       labName: sessionStorage.getItem('labname'),
 
       studentList: [
@@ -140,7 +173,14 @@ export default {
     }
   },
   methods: {
-    async getgrade (stuId) {
+    /// //////////////////////////////////////////////
+    /// //////////////////////////////////////////////
+    /// //////////////////////////////////////////////
+    /// ///////////第二个起始，共2个////////////////
+    /// //////////////////////////////////////////////
+    /// //////////////////////////////////////////////
+    /// //////////////////////////////////////////////
+    async getgrade (stuId, i) {
       const url =
         'get/grade/individual?labId=' +
         sessionStorage.getItem('labId_to_getlist') +
@@ -149,18 +189,29 @@ export default {
       await axios
         .get(url)
         .then((res) => {
-          this.score = res.data.score
+          this.studentList[i].teacherId = res.data.score
         })
         .catch((err) => {
-          this.$message.error('获取失败')
+          // this.$message.error("获取失败");
           console.log(err)
         })
     },
-    getonegrade (stuId) {
-      this.getgrade(stuId)
+
+    getonegrade (stuId, i) {
+      this.getgrade(stuId, i)
       console.log(this.score)
-      return this.score
+
+      if (this.studentList[i].teacherId !== this.teacherId) {
+        return this.studentList[i].teacherId
+      } else {
+        return ''
+      }
     },
+    /// //////////////////////////////////////////////
+    /// //////////////////////////////////////////////
+    /// ///////////第二个结束////////////////////////
+    /// //////////////////////////////////////////////
+    /// //////////////////////////////////////////////
 
     async getReportList () {
       const url =
@@ -203,6 +254,7 @@ export default {
         this.$router.push('/teacherAssignmentCheck')
       }
     }
+
   },
   mounted () {
     if (sessionStorage.getItem('labId_to_getlist') === '1') {

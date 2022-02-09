@@ -159,25 +159,60 @@ export default {
         }
       })
     },
+
+    /// /////////////////////////////////////////////////////////////
+    /// /////////////////////////////////////////////////////////////
+    /// ///////////////////////////起始//////////////////////////////
+    /// ///////////////////////////开始//////////////////////////////
+    /// /////////////////////////////////////////////////////////////
+    /// /////////////////////////////////////////////////////////////
     async handleSubmit () {
       const url = '/post/submit/report'
-      await axios.post(url, {
-        stuId: this.stuId,
-        labId: this.labId
-      })
-        .then(
-          (res) => {
-            this.$message.success('提交成功')
-            console.log(res)
-          }
-        )
-        .catch(
-          (err) => {
-            this.$message.error('提交失败')
-            console.log(err)
-          }
-        )
+      await axios
+        .post(url, {
+          aim: this.formData.aim,
+          principle: this.formData.principle,
+          result: this.formData.result,
+          step: this.formData.step,
+          stuId: this.stuId,
+          labId: this.labId
+        })
+        .then((response) => {
+          this.$message.success('提交成功！')
+          console.log(response)
+          location.reload()
+        })
+        .catch((err) => {
+          this.$message.error('提交失败！')
+          console.log(err)
+        })
     },
+
+    /// /////////////////////////////////////////////////////////////
+    /// /////////////////////////////////////////////////////////////
+    /// ///////////////////////////结束//////////////////////////////
+    /// /////////////////////////////////////////////////////////////
+    /// /////////////////////////////////////////////////////////////
+
+    // async handleSubmit () {
+    //   const url = '/post/submit/report'
+    //   await axios.post(url, {
+    //     stuId: this.stuId,
+    //     labId: this.labId
+    //   })
+    //     .then(
+    //       (res) => {
+    //         this.$message.success('提交成功')
+    //         console.log(res)
+    //       }
+    //     )
+    //     .catch(
+    //       (err) => {
+    //         this.$message.error('提交失败')
+    //         console.log(err)
+    //       }
+    //     )
+    // },
     handleRemove (file, fileList) {
       console.log(file, fileList)
     },

@@ -1,8 +1,7 @@
 <template>
   <el-container direction="vertical">
     <el-breadcrumb separator="/">
-      <el-breadcrumb-item :to="{ path: '/adminHome' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item :to="{ path: '/adminHome' }">用户管理</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/students' }">用户管理</el-breadcrumb-item>
       <el-breadcrumb-item>学生列表</el-breadcrumb-item>
     </el-breadcrumb>
     <el-card>

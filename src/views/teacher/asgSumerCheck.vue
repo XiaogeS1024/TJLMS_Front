@@ -13,19 +13,20 @@
             { type: 'number', message: '分数必须为数字值' },
           ]"
         >
-          <el-input v-model.number="gradeForm.score"></el-input>
+          <el-input v-model.number="gradeForm.score" :disabled="checked"></el-input>
         </el-form-item>
         <el-form-item label="评语：" prop="note">
           <el-input
             v-model="gradeForm.note"
             type="textarea"
             :autosize="{ minRows: 4, maxRows: 10 }"
+            :disabled="checked"
           ></el-input>
         </el-form-item>
       </el-form>
       <!-- 这里需要后面加一下暂存和提交调用的方法 -->
-      <el-button type="warning" @click="saveGrade">暂存</el-button>
-      <el-button type="warning" @click="releaseGrade">提交</el-button>
+      <el-button type="warning" @click="saveGrade" :disabled="checked">暂存</el-button>
+      <el-button type="warning" @click="releaseGrade" :disabled="checked">提交</el-button>
     </el-card>
 
     <el-descriptions class="margin-top" title="报告信息：" :size="size" border>
@@ -214,7 +215,7 @@
         body-style="padding:5px 15px;  font-size: 14px ; color: rgb(96, 98, 102);"
         shadow="hover"
       >
-        &nbsp;{{ formData.result }}
+        &nbsp;{{ formData.conclusion }}
       </el-card>
     </div>
 
@@ -272,7 +273,6 @@ export default {
         score: ''
       },
       stuName: sessionStorage.getItem('stuName'),
-
       labname: sessionStorage.getItem('labname'),
       formData: {
         // aim: "fgfg",
@@ -286,7 +286,8 @@ export default {
 
       readonly: false,
       newFile: new FormData(),
-      fileInfo: {}
+      fileInfo: {},
+      checked: false
     }
   },
   methods: {
@@ -367,6 +368,16 @@ export default {
           this.$message.error('成绩发布失败')
           console.log(err)
         })
+    },
+    async getGrade () {
+      const url = '/get/grade/individual?labId=' + this.labId + '&stuId=' + this.stuId
+      await axios.get(url).then(
+        (res) => {
+          this.gradeForm.score = res.data.score
+          this.gradeForm.note = res.data.note
+          this.checked = res.data.visible
+        }
+      )
     }
   },
 
@@ -374,6 +385,7 @@ export default {
     this.stuId = sessionStorage.getItem('stuId_to_checkExp')
     this.labId = sessionStorage.getItem('labId_to_getlist')
     this.stuName = sessionStorage.getItem('stuName')
+    this.getGrade()
     this.getReport()
   }
 }

@@ -13,11 +13,13 @@
   >
     <!-- active-text-color="#ffd04b" -->
     <!-- <h3 >用户管理系统</h3> -->
-    <span class="t">用户管理系统</span>
-    <div class="toggle-button" @click="toggleCollapse">| | |</div>
+
+    <!-- <span class="t">用户管理系统</span> -->
+    <!-- <div class="toggle-button" >| | |</div> -->
+
     <!-- 这里是整理好的菜单 -->
     <!-- 注意这里的index，要修改！！！！！！！！！ -->
-    <el-submenu >
+    <el-submenu style="margin-top:10px">
       <template slot="title">
         <i class="el-icon-menu"></i>
         <span slot="title">用户管理</span>
@@ -72,7 +74,7 @@
 
   padding-top: 20px;
   padding-bottom: 10px;
-  padding-left: 30px;
+  padding-left: 40px;
   align-items: center;
   color: #fff;
   font-size: 20px;
@@ -104,6 +106,7 @@
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 200px;
   min-height: 400px;
+  padding-left:0px;
 }
 h3 {
   text-align: center;

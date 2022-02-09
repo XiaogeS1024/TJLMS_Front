@@ -8,19 +8,20 @@
       { required: true, message: '分数不能为空'},
       { type: 'number', message: '分数必须为数字值'}
     ]">
-          <el-input v-model.number="gradeForm.score"></el-input>
+          <el-input v-model.number="gradeForm.score" :disabled="checked"></el-input>
         </el-form-item>
         <el-form-item label="评语：" prop="note">
           <el-input
             v-model="gradeForm.note"
             type="textarea"
             :autosize="{ minRows: 4, maxRows: 10 }"
+            :disabled="checked"
           ></el-input>
         </el-form-item>
       </el-form>
       <!-- 这里需要后面加一下暂存和提交调用的方法 -->
-      <el-button type="warning" @click="saveGrade">暂存</el-button>
-      <el-button type="warning" @click="releaseGrade">提交</el-button>
+      <el-button type="warning" @click="saveGrade" :disabled="checked">暂存</el-button>
+      <el-button type="warning" @click="releaseGrade" :disabled="checked">提交</el-button>
     </el-card>
 
     <el-descriptions class="margin-top" title="报告信息：" :size="size" border>
@@ -183,7 +184,8 @@ export default {
       },
       readonly: false,
       newFile: new FormData(),
-      fileInfo: null
+      fileInfo: null,
+      checked: false
     }
   },
   methods: {
@@ -248,6 +250,19 @@ export default {
           this.$message.error('成绩发布失败')
           console.log(err)
         })
+    },
+    async getGrade () {
+      const url = '/get/grade/individual?labId=' + this.labId + '&stuId=' + this.stuId
+      await axios.get(url).then(
+        (res) => {
+          this.gradeForm.score = res.data.score
+          this.gradeForm.note = res.data.note
+          this.checked = res.data.visible
+          if (res.data.visible === true) {
+            this.$message.info('已提交成绩，不可修改')
+          }
+        }
+      )
     }
   },
 
@@ -255,6 +270,7 @@ export default {
     this.stuId = sessionStorage.getItem('stuId_to_checkExp')
     this.labId = sessionStorage.getItem('labId_to_getlist')
     this.stuName = sessionStorage.getItem('stuName')
+    this.getGrade()
     this.getReport()
   }
 }

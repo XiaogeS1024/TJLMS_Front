@@ -1,13 +1,18 @@
 <template>
 <el-container>
+      <el-header><header1></header1></el-header>
+
+  <el-container>
+
   <el-aside width="auto">
 
    <aside1></aside1>
   </el-aside>
-  <el-container>
-    <el-header><header1></header1></el-header>
+  <el-main>
 
-    <el-main><router-view></router-view></el-main>
+    <router-view></router-view>
+    </el-main>
+
     <!-- <el-main><main1></main1></el-main>
     <el-main><main2></main2></el-main> -->
   </el-container>
@@ -25,7 +30,6 @@ height: 100vh;
 display: block;
 position: relative;
 background-color: #545c64;
-
 }
 .el-header{
   background-color: #373f41;
@@ -39,10 +43,10 @@ background-color: #545c64;
 .el-main{
   padding-top: 0;
   background-color: #E9EEF3;
-  height: 80vh;
+  height: auto;
 }
-.el-menu-vertical-demo:not(.el-menu--collapse) {
-  width: 200px;
+.el-menu-vertical-demo {
+  width: auto;
   min-height: 400px;
 }
 h3{
@@ -84,6 +88,9 @@ export default {
     // 去除背景色
     document.querySelector('body').setAttribute('style', '')
     next()
+  },
+  created () {
+    this.$router.push('/students')
   }
 }
 </script>

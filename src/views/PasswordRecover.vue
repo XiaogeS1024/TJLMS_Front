@@ -34,13 +34,14 @@
     <el-radio v-model="pwdRecoverForm.userType" :label=2>我是教师</el-radio>
   <el-form-item label="学号/工号" prop="account" required>
     <el-input v-model="pwdRecoverForm.account"  prefix-icon="el-icon-user"></el-input>
+      <div class="btn">
+    <p style="color:rgb(65, 65, 65);font-size:12px;margin-top:50px;">还未身份认证？请先点击</p>
+    <el-link type="danger" href="#/reg" style="margin-left:10px;font-size:20px;font-weight: bold;color:rgb(238, 73, 114);margin-top:30px">注册&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</el-link>
+  </div>
   </el-form-item>
 </el-form>
 <button class="btn1" @click="accountCheck">下一步</button>
-  <div class="btn">
-    <p style="color:rgb(65, 65, 65);font-size:12px;">还未身份认证？请先点击</p>
-    <el-link type="danger" href="#/reg" style="margin-left:10px;font-size:20px;font-weight: bold;color:rgb(238, 73, 114)">注册</el-link>
-  </div>
+
 </div>
 <div v-if="active===2">
 <el-form :model="pwdRecoverForm" ref="pwdRecoverForm" label-width="100px" key class="mainForm">
@@ -177,7 +178,7 @@ export default {
         this.$message.error('请输入正确的邮件格式')
       } else {
         this.emailCheck()
-        if (this.flag === true) {
+        if (this.flag === false) {
           console.log(this.flag)
           this.send()
         } else {
@@ -248,6 +249,7 @@ export default {
               (res) => {
                 this.active++
                 this.$message.success('密码重置成功')
+                this.$router.push('/login')
                 console.log(res)
               }
             )

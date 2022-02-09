@@ -104,14 +104,34 @@ export default {
         })
     },
 
-    async releaseSignIn () {
-      var str0 = this.value0.toISOString().slice(0, 10)
+    /// /////////////////////////////////
+    /// /////////////起始///////////////
+    /// /////////////开始////////////////
+    /// /////////////////////////////////
 
+    async releaseSignIn () {
+      // var str0 = this.value0.toISOString().slice(0, 10);
+      // 2022/1/11
+      // 012345678
+      var str5 = this.value0.toLocaleDateString().slice(0, 4)
+      var str6 = this.value0.toLocaleDateString().slice(5, 6)
+      var str7 = this.value0.toLocaleDateString().slice(7, 9)
+      var str9 = str5 + '-0' + str6 + '-' + str7
+      console.log(str9)
+      console.log(str9)
+      console.log(str9)
+      console.log(str9)
+      console.log(str9)
+      console.log(str9)
+      console.log(str9)
+      console.log(str9)
+      console.log(str9)
       var str1 = this.value1[0].toTimeString().slice(0, 8)
       var str2 = this.value1[1].toTimeString().slice(0, 8)
-      console.log(str0, str1, str2)
-      var startTime = str0 + ' ' + str1
-      var endTime = str0 + ' ' + str2
+      // console.log(str0, str1, str2);
+
+      var startTime = str9 + ' ' + str1
+      var endTime = str9 + ' ' + str2
 
       const url = '/post/check'
       await axios
@@ -124,12 +144,19 @@ export default {
         .then((response) => {
           this.$message.success('考勤发布成功！')
           this.dialogVisible = false
-          this.reload()
+          location.reload()
         })
         .catch((err) => {
           console.log(err)
         })
     }
+
+    /// /////////////////////////////////
+    /// /////////////////////////////////
+    /// /////////////结束////////////////
+    /// /////////////////////////////////
+    /// /////////////////////////////////
+
   },
   mounted () {
     this.getclass()

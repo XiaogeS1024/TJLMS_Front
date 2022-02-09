@@ -1,5 +1,5 @@
 <template>
-  <div class="abc">
+  <el-card >
     <div class="biaoti">批量导入学生列表：</div>
   <el-form ref="form" :model="form" >
     <el-form-item label="文件" required>
@@ -20,7 +20,7 @@
       </el-upload>
     </el-form-item>
   </el-form>
-  </div>
+  </el-card >
 </template>
 
 <style scoped>
@@ -35,6 +35,19 @@
   left: 50%;
   top: 30%;
   transform: translate(-50%,-50%);
+}
+.el-card {
+  padding: 1%;
+  width: 50%;
+  margin-left: 20%;
+
+  /* position: absolute;
+   left: 50%;
+   transform: translateX(-50%); */
+  background-color: rgba(255, 255, 255, 0.562);
+  border-radius: 20px;
+  box-shadow: 10px 10px 20px #a0a0a0;
+  border-radius: 20px;
 }
 </style>
 

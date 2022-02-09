@@ -1,8 +1,7 @@
 <template>
   <el-container direction="vertical">
     <el-breadcrumb separator="/">
-      <el-breadcrumb-item :to="{ path: '/adminHome' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item :to="{ path: '/adminHome' }">用户管理</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/teachers' }">用户管理</el-breadcrumb-item>
       <el-breadcrumb-item>教师列表</el-breadcrumb-item>
     </el-breadcrumb>
     <el-card>
@@ -84,7 +83,7 @@
         </el-table-column>
 
         <!-- 权限 -->
-        <el-table-column prop="verified" label="权限" width="300">
+        <el-table-column prop="verified" label="权限" width="240">
           <template slot-scope="scope">
             <el-tag
               v-if="scope.row.grade === true"
@@ -103,7 +102,7 @@
           </template>
         </el-table-column>
 
-        <el-table-column prop="edit" label="操作" width="240">
+        <el-table-column prop="edit" label="操作" width="auto">
           <template slot-scope="scope">
             <el-button
               size="mini"
